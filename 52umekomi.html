@@ -1,27 +1,42 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
+    <meta charset="UTF-8">
 <head>
-  <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <title>Un Mundo Ideal - ハイライト付き</title>
   <style>
-    body {
-      background: linear-gradient(to bottom, #4b0082, #603F8B, #db7093);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
+* {
+    -webkit-appearance: none;
+}
+   body {
+  background: linear-gradient(to bottom, #4b0082, #603F8B, #db7093);
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;}
 
-    .highlight {
-      color: white;
+.lyrics-line {
+  margin: 15px auto;
+  font-size: 1.5rem;
+  text-align: center; }
+
+ .highlight {
+      background-color: #fff3c2;
+      color: #333;
       font-weight: bold;
-      background-color:#FFC300;
-      padding: 2px 4px;
-      border-radius: 4px;
+      border-left: 6px solid #f5c542;
+      padding: 0.5em;
+      border-radius: 6px;
+      animation: pulse 1s ease-in-out infinite;
+      display: inline-block;
     }
-
-    h1 {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }}    h1 {
       color: #FFC300;
       margin: 20px 0;
     }
@@ -34,14 +49,34 @@
       margin: 15px auto;
       font-size: 1.5rem;
     }
+.video-container {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 900;
+}
+#bottomBtn {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 999;
+}
+.main-button {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+
   </style>
 </head>
 <body>
-  <h1>Un Mundo Ideal</h1>
-
   <!-- YouTube埋め込み -->
-  <div id="player"></div>
+    <div class="video-container">
+        <div id="player"></div>
+    </div>
 
+  <h1>Un Mundo Ideal</h1>
   <div class="lyrics">
     <div class="lyrics-line" id="line1">
       <button onclick="seekTo(32)">♪</button>
@@ -50,13 +85,13 @@
       </span>
     </div>
     <div class="lyrics-line" id="line2">
-      <button onclick="seekTo(35)">♪</button>
+      <button onclick="seekTo(36)">♪</button>
       <span class="lyric-text">
         <ruby>Será<rt>セラ</rt></ruby> <ruby>fantástico<rt>ファンタスティコ</rt></ruby> <ruby>encontrar<rt>エンコントラール</rt></ruby>
       </span>
     </div>
     <div class="lyrics-line" id="line3">
-      <button onclick="seekTo(39)">♪</button>
+      <button onclick="seekTo(40)">♪</button>
       <span class="lyric-text">
         <ruby>Nadie<rt>ナディエ</rt></ruby> <ruby>que<rt>ケ</rt></ruby> <ruby>diga<rt>ディガ</rt></ruby> <ruby>no<rt>ノ</rt></ruby>
         <ruby>o<rt>オ</rt></ruby> <ruby>a<rt>ア</rt></ruby> <ruby>dónde<rt>ドンデ</rt></ruby> <ruby>ir<rt>イール</rt></ruby>
@@ -79,6 +114,9 @@
       <li><strong>ir</strong> (行く) - ラテン語の「ire」から派生。</li>
       <li><strong>amar</strong> (愛する) - ラテン語の「amare」から派生。</li>
   </ul>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="bottomBtn">
+</div>
 
   <script>
     const lyrics = [
@@ -93,11 +131,11 @@
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        height: '315',
-        width: '560',
+        height: '120',
+        width: '200',
         videoId: '_aAOTfOU4lA',
         playerVars: {
-          autoplay: 0,
+          autoplay: 1,
           controls: 1,
           start: 30
         },
@@ -135,6 +173,9 @@
           text.classList.remove('highlight');
         });
 
+    checkRep(currentTime);
+
+
         if (currentLine) {
           const el = document.getElementById(currentLine);
           const lyricSpan = el.querySelector('.lyric-text');
@@ -152,6 +193,42 @@
         player.playVideo();
       }
     }
+
+ function checkRep(currentTime){
+     if (currentTime > 50){
+         seekTo(31);
+     }
+ }
+
+function togglePlayback() {
+    if (player.getPlayerState() != 1){
+        player.playVideo();
+    } else {
+        player.pauseVideo();
+        clearTimeout(_tm4hiLite);
+    }
+}
+  function go2html(self){
+      window.open(self.value, "_self");
+}
+
+
+
+let buttonX = `
+<select id="selectX" class="main-button" onChange=go2html(this)>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/00/13haruka/52umekomi.html">🇲🇽</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/index.html")>🇺🇸</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/16russian.html">🇷🇺</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/14ita.html">🇮🇹</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/17thai.html">🇹🇭</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/18viet.html">🇻🇳</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/19ara.html">🕌</option>
+<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/21kor.html">🇰🇷</option>
+</select>
+<button onclick="togglePlayback()" id="playPauseButton" class="main-button">&nbsp;⏯&nbsp;</button>
+`;
+bottomBtn.innerHTML = buttonX.replace(/\n/g, "");
+
   </script>
 
   <!-- YouTube IFrame API 読み込み -->
