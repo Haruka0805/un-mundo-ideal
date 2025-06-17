@@ -5,8 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Un Mundo Ideal - 音声解説</title>
     <style>
+      .glow-text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #ffd900a9,
+    0 0 20px #ff8c0094,
+    0 0 30px #ff44007e;
+  
+}
+.line-box {
+  border: 2px dashed #ccc; /* ← 点線枠に変更OK */
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.05); /* ほんのり背景 */
+}
+@keyframes flicker {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+
+    
+  .highlight {
+    background-color: #ffeb3b;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 6px;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
     body {
-      background: #f0f0f0;
+      background: #8c70b1;
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 50px;
@@ -34,45 +75,71 @@
   <h1>🎧 スペイン語音声解説</h1>
   <p>ネイティブのトーンで話されるスペイン語版アラジンの歌詞を聞いてみよう！</p>
   <p>
-    この音声は、歌詞の各行に合わせて解説を行います。
+    このページでは、アラジンの「Un Mundo Ideal」の歌詞をネイティブの発音で聞くことができます。各行をクリックすると、音声が再生されます。</p>
   </p>
-
-  <audio controls>
+  <div class="line-box">
+  <audio id="audio1" controls>
     <source src="explanation/unmundoideal.wav" type="audio/wav">
     お使いのブラウザでは音声再生に対応していません。
   </audio>
-<p><strong>Un mundo ideal</strong>（理想の世界）</p>
-<p style="font-size: 0.9em; color: #555;">
+  <p id="line1"> <span>Un mundo ideal</span>（理想の世界）</p>
+<p style="font-size: 0.9em; color: #ffffff;">
   「ideal」は “イデアル” と語尾を軽く伸ばして柔らかく締めることが多い。
 </p>
-
- <audio id="audio2" controls>
+</div>
+  <div class="line-box">
+  <audio id="audio2" controls>
     <source src="explanation/Seráfantásticoencontrar.wav" type="audio/wav">
     お使いのブラウザでは音声再生に対応していません。
   </audio>
-  <p><strong>Será fantástico encontrar</strong>（素晴らしい発見になるだろう）</p>
-<p style="font-size: 0.9em; color: #555;">
-  「「fantástico」は “ファンタスティコ” と “-tás-” の部分に強くアクセント。
+ <p id="line2"> <span>Será fantástico encontrar</span>（素晴らしい発見になるだろう）</p>
+<p style="font-size: 0.9em; color: #ffffff;">
+  「fantástico」は “ファンタスティコ” と “-tás-” の部分に強くアクセント。
 </p>
-
+</div>
+  <div class="line-box">
     <audio id="audio3" controls>
         <source src="explanation/nadie.wav" type="audio/wav">
         お使いのブラウザでは音声再生に対応していません。
     </audio>
-  <p><strong>Nadie que diga no o a dónde ir</strong>（“ダメだ”とか“どこへ行け”とか言う人なんて誰もいない）</p>
-  <p style="font-size: 0.9em; color: #555;">
-  「「Nadie」は “ナディエ”、ただの「誰もいない」じゃなくて**“誰一人として！”っていう孤独感・自由感を込めて発音することがある。
+  <p id="line3"><span>Nadie que diga no o a dónde ir</span>（“ダメだ”とか“どこへ行け”とか言う人なんて誰もいない）</p>
+  <p style="font-size: 0.9em; color: #ffffff;">
+  「Nadie」は “ナディエ”、ただの「誰もいない」じゃなくて**“誰一人として！”っていう孤独感・自由感を込めて発音することがある。
   </p>
+</div>
+  <div class="line-box">
     <audio id="audio4" controls>
         <source src="explanation/aquellos.wav" type="audio/wav">
         お使いのブラウザでは音声再生に対応していません。
     </audio>
-  <p><strong>A aquellos que se aman</strong>（愛し合う人々に）</p>
-  <p style="font-size: 0.9em; color: #555;">
+  <p id="line4"><span>A aquellos que se aman</span>（愛し合う人々に）</p>
+  <p style="font-size: 0.9em; color: #ffffff;">
   「Aquellos」は “アケジョス”、響きがやわらかくて、**ちょっと距離をとった感じの“あの人たち”**を指す言い方。
   </p>
-
+</div>
   <br><br>
   <a href="52umekomi.html">← 元のページに戻る</a>  
+  <script>
+  function setupGlow(audioId, lineId) {
+    const audio = document.getElementById(audioId);
+    const line = document.getElementById(lineId).querySelector('span');
+
+    audio.addEventListener('play', () => {
+      line.classList.add('glow-text');
+    });
+
+    audio.addEventListener('ended', () => {
+      line.classList.remove('glow-text');
+    });
+  }
+
+  setupGlow('audio1', 'line1');
+  setupGlow('audio2', 'line2');
+  setupGlow('audio3', 'line3');
+  setupGlow('audio4', 'line4');
+</script>
+
+</body>
+
 </body>
 </html>
