@@ -1,0 +1,64 @@
+ .glow-text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #ffd900a9,
+    0 0 20px #ff8c0094,
+    0 0 30px #ff44007e;
+  
+}
+.line-box {
+  border: 2px dashed #ccc; /* ← 点線枠に変更OK */
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.05); /* ほんのり背景 */
+}
+@keyframes flicker {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+
+    
+  .highlight {
+    background-color: #ffeb3b;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 6px;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+    body {
+      background: #8c70b1;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #663399;
+    }
+    audio {
+      margin-top: 30px;
+      width: 80%;
+      max-width: 500px;
+    }
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      text-decoration: none;
+      background: #663399;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }

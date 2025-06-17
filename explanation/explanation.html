@@ -1,75 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Un Mundo Ideal - 音声解説</title>
-    <style>
-      .glow-text {
-  color: #fff;
-  font-weight: bold;
-  font-size: 2rem;
-  text-shadow:
-    0 0 5px #fff,
-    0 0 10px #ffd900a9,
-    0 0 20px #ff8c0094,
-    0 0 30px #ff44007e;
-  
-}
-.line-box {
-  border: 2px dashed #ccc; /* ← 点線枠に変更OK */
-  border-radius: 12px;
-  padding: 20px;
-  margin: 20px auto;
-  width: 80%;
-  background-color: rgba(255, 255, 255, 0.05); /* ほんのり背景 */
-}
-@keyframes flicker {
-  0%   { opacity: 1; }
-  50%  { opacity: 0.6; }
-  100% { opacity: 1; }
-}
-
-
-    
-  .highlight {
-    background-color: #ffeb3b;
-    color: #ffffff;
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 6px;
-    animation: pulse 1s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
-    body {
-      background: #8c70b1;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
-    h1 {
-      color: #663399;
-    }
-    audio {
-      margin-top: 30px;
-      width: 80%;
-      max-width: 500px;
-    }
-    a {
-      display: inline-block;
-      margin-top: 40px;
-      text-decoration: none;
-      background: #663399;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
  </head>
 <body>
   <h1>🎧 スペイン語音声解説</h1>
@@ -79,7 +15,7 @@
   </p>
   <div class="line-box">
   <audio id="audio1" controls>
-    <source src="explanation/unmundoideal.wav" type="audio/wav">
+    <source src="unmundoideal.wav" type="audio/wav">
     お使いのブラウザでは音声再生に対応していません。
   </audio>
   <p id="line1"> <span>Un mundo ideal</span>（理想の世界）</p>
@@ -89,7 +25,7 @@
 </div>
   <div class="line-box">
   <audio id="audio2" controls>
-    <source src="explanation/Seráfantásticoencontrar.wav" type="audio/wav">
+    <source src="Seráfantásticoencontrar.wav" type="audio/wav">
     お使いのブラウザでは音声再生に対応していません。
   </audio>
  <p id="line2"> <span>Será fantástico encontrar</span>（素晴らしい発見になるだろう）</p>
@@ -99,7 +35,7 @@
 </div>
   <div class="line-box">
     <audio id="audio3" controls>
-        <source src="explanation/nadie.wav" type="audio/wav">
+        <source src="nadie.wav" type="audio/wav">
         お使いのブラウザでは音声再生に対応していません。
     </audio>
   <p id="line3"><span>Nadie que diga no o a dónde ir</span>（“ダメだ”とか“どこへ行け”とか言う人なんて誰もいない）</p>
@@ -109,7 +45,7 @@
 </div>
   <div class="line-box">
     <audio id="audio4" controls>
-        <source src="explanation/aquellos.wav" type="audio/wav">
+        <source src="aquellos.wav" type="audio/wav">
         お使いのブラウザでは音声再生に対応していません。
     </audio>
   <p id="line4"><span>A aquellos que se aman</span>（愛し合う人々に）</p>
@@ -119,26 +55,8 @@
 </div>
   <br><br>
   <a href="52umekomi.html">← 元のページに戻る</a>  
-  <script>
-  function setupGlow(audioId, lineId) {
-    const audio = document.getElementById(audioId);
-    const line = document.getElementById(lineId).querySelector('span');
 
-    audio.addEventListener('play', () => {
-      line.classList.add('glow-text');
-    });
-
-    audio.addEventListener('ended', () => {
-      line.classList.remove('glow-text');
-    });
-  }
-
-  setupGlow('audio1', 'line1');
-  setupGlow('audio2', 'line2');
-  setupGlow('audio3', 'line3');
-  setupGlow('audio4', 'line4');
-</script>
-
+<script src="script.js"></script>
 </body>
 
 </body>
