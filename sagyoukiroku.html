@@ -1,0 +1,172 @@
+<style>
+  summary {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .section {
+    background-color: #f9f9f9;
+    border-left: 6px solid #FFC300;
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+
+  h4 {
+    margin-top: 15px;
+    color: #444;
+  }
+
+  h5 {
+    margin-top: 10px;
+    color: #666;
+    font-size: 1.1em;
+  }
+
+  ul {
+    margin-bottom: 15px;
+  }
+</style>
+
+<h1>作業記録</h1>
+
+<div class="section">
+  <details>
+    <summary>第1回｜YouTube動画を埋め込み、歌詞を追加</summary>
+
+    <h4>目的</h4>
+    <p>YouTube動画をHTMLに埋め込み、歌詞と一緒に表示することで視覚的に楽しいページを作る。</p>
+
+    <h4>作業内容</h4>
+    <ol>
+      <li>YouTube動画（動画ID: aAOTfOU4lA）を埋め込んだHTMLを作成</li>
+      <li>LyricsTranslateから取得した歌詞を表示</li>
+      <li>ページ内に画像やリンクも追加</li>
+    </ol>
+
+    <h4>工夫したポイント</h4>
+    <ul>
+      <li>歌詞の表示と動画の組み合わせで、学習＋視聴の両方を満たす構成</li>
+      <li>画像・リンクも入れて、情報がまとまるように工夫</li>
+    </ul>
+
+    <h4>使用した技術・ツール</h4>
+    <ul>
+      <li>HTML</li>
+      <li>YouTube</li>
+      <li>LyricsTranslate（歌詞取得元）</li>
+    </ul>
+
+    <img src="第一回.png" alt="第1回の画像"><br><br>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/_aAOTfOU4lA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <br><br>
+    <a href="https://lyricstranslate.com/en/whole-new-world-un-mundo-completamente-nuevo.html" target="_blank">使用した歌詞サイト（Lyrics Translate）</a>
+  </details>
+</div>
+
+<div class="section">
+  <details>
+    <summary>第2回｜歌詞中の単語に意味・発音・語源を追加</summary>
+
+    <h4>目的</h4>
+    <p>表示された歌詞に発音や意味、語源情報を追加して、スペイン語学習に役立つページにする。</p>
+
+    <h4>作業内容</h4>
+    <ol>
+      <li>歌詞の中の単語にふりがな（発音）を追加</li>
+      <li>単語の意味や語源を調べて一覧にまとめる</li>
+    </ol>
+
+    <h4>工夫したポイント</h4>
+    <ul>
+      <li>ラテン語起源の単語を中心に調べて、学術的な情報も補強</li>
+      <li>ルビ付き表示で読みやすさにも配慮</li>
+    </ul>
+
+    <h4>使用した技術・ツール</h4>
+    <ul>
+      <li>HTML（ルビタグ）</li>
+      <li>辞書サイト・語源辞典</li>
+      <li>LyricsTranslate</li>
+    </ul>
+
+    <img src="作業記録.png" alt="第2回の画像1"><br><br>
+    <img src="第二回.png" alt="第2回の画像2"><br><br>
+    <a href="https://lyricstranslate.com/en/whole-new-world-un-mundo-completamente-nuevo.html" target="_blank">使用した歌詞サイト（Lyrics Translate）</a>
+  </details>
+</div>
+
+<div class="section">
+  <details>
+    <summary>第3回｜単語リストをページに追加し、語彙力を強化</summary>
+
+    <h4>目的</h4>
+    <p>歌詞内に出てくる単語をリスト化し、意味や使い方を明確にして語彙力アップにつなげる。</p>
+
+    <h4>作業内容</h4>
+    <ol>
+      <li>歌詞中の重要単語をリスト化</li>
+      <li>意味・品詞・用例などを記載</li>
+      <li>リストを歌詞の下に表示</li>
+    </ol>
+
+    <h4>工夫したポイント</h4>
+    <ul>
+      <li>頻出単語を優先的に抽出し、実用性を高めた</li>
+      <li>辞書的な情報だけでなく、印象に残るように見せ方も工夫</li>
+    </ul>
+
+    <h4>使用した技術・ツール</h4>
+    <ul>
+      <li>HTML / CSS</li>
+      <li>語彙辞典・スペイン語教材</li>
+    </ul>
+  </details>
+</div>
+
+<div class="section">
+  <details>
+    <summary>第4回｜タイムスタンプを追加して動画を再生可能にする、動画に合わせて歌詞をハイライト</summary>
+
+    <h4>目的</h4>
+    <p>アラジンの挿入歌「Un Mundo Ideal」の歌詞を視覚的・機能的に表示し、語学学習ツールとしての完成度を高める。</p>
+
+    <h4>作業内容</h4>
+    <ol>
+      <li>「Un Mundo Ideal」の歌詞を表示し、クリックで該当箇所へジャンプできるようにした。（▶️4, 19, 25, 33,46, 58, 68, 76, 87。▶️ボタンのクリックで、該当タイムスタンプにシークして再生する。タイムスタンプに合わせて、セリフをハイライト。各セリフのハイライトは、1秒前に開始し、次のタイムスタンプに到達するまで継続する。</li>
+      <li>再生中のタイミングに合わせて歌詞のハイライトが切り替わるようにJavaScriptを使用。
+        <h5>処理の流れ</h5>
+        <ul>
+          <li>各行に <code>id="line1"</code> などの識別子を付与</li>
+          <li>ハイライト対象を <code>&lt;span class="lyric-text"&gt;</code> で囲む</li>
+          <li>歌詞と再生時間の対応をJavaScriptの配列で定義 <br><img src="再生時間.png" alt="再生時間" style="width:60%;"></li>
+          <li>YouTube IFrame APIを使って現在の再生時間を取得 <br><img src="IFrameAPI.png" alt="IFrame API" style="width:60%;"></li>
+          <li><code>Math.floor()</code> で再生秒数を整数化し、対応する歌詞行を判断 <br><img src="0.3.png" alt="Math.floor" style="width:60%;"></li>
+          <li>該当行の <code>.lyric-text</code> に <code>.highlight</code> クラスを追加 <br><img src="はいらいと.png" alt="ハイライト" style="width:60%;"></li>
+        </ul>
+      </li>
+      <li>背景やフォントカラー、スタイルを整え、アラジンらしい幻想的な雰囲気にした</li>
+    </ol>
+
+    <img src="ハイライト.png" alt="ハイライトの画像1" style="width:60%;"><br><br>
+
+    <h4>工夫したポイント</h4>
+    <ul>
+      <li>動画と同期して歌詞が自動でハイライトされる仕組みを導入</li>
+      <li>色使いやタイミングで「物語性」を演出し、楽しく学べるようにした</li>
+    </ul>
+
+    <h4>使用した技術・ツール</h4>
+    <ul>
+      <li>HTML / CSS / JavaScript</li>
+      <li>YouTube IFrame API</li>
+      <li>LyricsTranslate（歌詞参照サイト）</li>
+      <li>生成AI（ChatGPT）</li>
+    </ul>
+
+    <h4>作業前 → 作業後</h4>
+    <img src="作業記録.png" alt="作業前の画面" style="width:45%; margin-right:5%;">
+    <img src="第四回.png" alt="作業後の画面" style="width:45%;"><br><br>
+
+    <iframe src="43749daa-9ba7-4334-b12f-66a10637d301.html" width="100%" height="600px" style="border:1px solid #ccc;"></iframe>
+  </details>
+</div>
