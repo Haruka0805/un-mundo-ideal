@@ -1,0 +1,492 @@
+/* _answeredMondaiNumbは，回答済みの問題番号を登録する配列，
+  同じ設問を1回しか解答させないために使う
+*/
+let _answeredMondaiNumb = new Array();
+//得点を記録する変数
+let _score;
+//解答回数を記録する変数，10問解答した時に，画面を黄色に表示して，試験の終了を知らせるために使う
+let _answeredNumb;
+
+//試験が終了しているか否かを確認する変数
+let _isQuizOver;
+//設問数を定数に入れる変数，この数だけループ作業で設問を作成する
+let _maxQuestion = 10;
+const _timeSec = 40;
+
+//1行毎に分割lexLinesされた語彙リストをget
+let _lineList, _prevSpanCnt = 0;
+let _bgColorX = "darkgrey";
+let _prevClickedButton, _origButtonColor;
+let _prevAudioButton, _origAudioColor;
+let _errorLines4disp, _lang4dic, _lexLines;
+let _shikenName;
+
+//復習のために，間違った語句を表示するために，間違った単語を記録する変数
+let _errorLines = localStorage.getItem("errorList");
+if (_errorLines == null){
+    _errorLines = ";;";
+}
+let _nickName;
+let _testKekkaAll = localStorage.getItem("testKekkaAll");
+if (_testKekkaAll == null){
+    _testKekkaAll = "";
+    localStorage.setItem("testKekkaAll", _testKekkaAll);
+}
+
+function getNickName(){
+    let numX =  Math.floor(Math.random() * 100);
+    let nickName = "SatoHiro" + numX;
+    nickName = prompt("2桁授業番号 3桁ID 大文字頭文字2文字(例：54721SH)", nickName);
+    const result = nickName.match(/^[a-zA-Z0-9]+$/);
+    if (!result){
+        alert("111 error: " + nickName);
+        const numX =  Math.floor(Math.random() * 100);
+        nickName = "SatoHiro" + numX;
+    }
+    _errorLines = ";;";
+    _testKekkaAll = "";
+    localStorage.clear();
+    return(nickName);
+}
+
+let _startTime, _ansClickCnt, _audiClickCnt, _quizTypeNumb, _shortFolder;
+function initX(){
+    let name2valueArray = new Array();
+    const param = document.location.search.replace("?", "");
+    if (param.length > 10){
+        const items = param.split("&");
+        for (let nameValue of items){
+            const items2 = nameValue.split('=');
+            name2valueArray[items2[0]] = decodeURIComponent(items2[1]);
+        }
+        _lang4dic = name2valueArray["langX"]
+        _shortFolder = name2valueArray["shortFolder"]
+        _shikenName = name2valueArray["shikenName"]
+        document.getElementById("textX").value = name2valueArray["lex"];
+    }else{
+        const langAndName = document.title;
+        const items = langAndName.split(":");
+        _lang4dic = "1eng";
+
+        if(location.pathname.includes("6cn")){
+            _lang4dic = "6cn";
+        }else if(location.pathname.includes("spa")){
+            _lang4dic = "2spa";
+        }else if(location.pathname.includes("kor")){
+            _lang4dic = "7kor";
+        }else if(location.pathname.includes("ger")){
+            _lang4dic = "5ger";
+        }else if(location.pathname.includes("fre")){
+            _lang4dic = "4fre";
+        }else if(location.pathname.includes("ita")){
+            _lang4dic = "3ita";
+        }else if(location.pathname.includes("por")){
+            _lang4dic = "6por";
+        }else if(location.pathname.includes("dan")){
+            _lang4dic = "7dan";
+        }else if(location.pathname.includes("nor")){
+            _lang4dic = "9nor";
+        }else if(location.pathname.includes("rus")){
+            _lang4dic = "4rus";
+        }else if(location.pathname.includes("swe")){
+            _lang4dic = "9swe";
+        }else if(location.pathname.includes("jap")){
+            _lang4dic = "8jap";
+        }
+        _shortFolder = document.getElementsByTagName("title")[0].innerText;
+        _lexList = _lexList.replace(/\n\d*音/g, '\n');
+        _lexList = _lexList.replace(/\n映/g, '\n');
+        document.getElementById("textX").value = _lexList;
+    }
+    const self = document.getElementById("dispListX");
+    dispList(self);
+}
+
+function getLexLines(){
+    let tangoData = document.getElementById("textX").value.trim();
+    tangoData = tangoData.replace(/\t/g, ": ");
+//    const addLangLine = ": " + _lang4dic + ": : \n";
+    const addLangLine = ": : : \n";
+    tangoData = tangoData.replace(/\n/g, addLangLine);
+    tangoData = tangoData + addLangLine;
+    const wordLines = tangoData.split(/\n+/);
+    return(wordLines);
+}
+
+function enlargeEditList(self){
+    setColorButtons(self);
+    document.getElementById("textX").style.height = "40%";
+    document.getElementById("textX").style.width = "80%";
+}
+function setWordList(){
+    let _temp = getLexLines().sort();
+    _lexLines = _temp.filter(function (x, i, self) {
+            return self.indexOf(x) === i;
+        });
+}
+
+let _tm4exeCgi;
+function startQuiz(mode, self, reviewMode){
+    if (sessionStorage.getItem("nickName") != null){
+        _nickName = sessionStorage.getItem("nickName");
+    }else{
+        _nickName = getNickName();
+        sessionStorage.setItem("nickName", _nickName);
+    }
+    document.getElementById("textX").style.height = "50px";
+    document.getElementById("textX").style.width = "50px";
+
+    clearTimeout(_tm4exeCgi);
+    _tm4exeCgi = setTimeout("exeCgi()", _timeSec * 1000);
+    if (mode == "oto"){
+        _quizTypeNumb = 12;
+    }else if (mode == "moji"){
+        _quizTypeNumb = 11;
+    }else{
+        _quizTypeNumb = 19;
+    }
+
+    _ansClickCnt = 0;
+    _audiClickCnt = 0;
+    const dateStart = new Date();
+    _startTime = dateStart.getTime();
+    const startHour = dateStart.getHours();
+    const startMin = dateStart.getMinutes();
+    _strStartTime = recTime();
+
+
+    _errorLines4disp = "";
+    setColorButtons(self);
+//quizXの場所を教える
+    let quizX = document.getElementById("quizX2");
+//quizXには問題と選択肢を表示する場所，body内である<div id="quizX">のid
+//    quizX.innerHTML = makeLangMenu("startQuiz", mode, selectedLangAbc);
+    quizX.innerHTML = "";
+
+    //問題と選択肢を表示するquizXを初期化する（前回の試験を消す）
+    //messageXには採点結果などを表示，body内である<mark id="messageX">のid
+    messageX.innerHTML = "";
+    //新しく試験を行うために，前回の記録をリセット（削除）する
+    _answeredMondaiNumb = [];
+    _score = 0;
+    _isQuizOver = false;
+    _answeredNumb = 1;
+    document.body.style.backgroundColor = _bgColorX;
+    //ループ作業で作成する選択肢の数を入れる定数
+    let maxOption = 3;
+    if (_lang4dic == "1eng"){
+        maxOption = 4;
+    }
+    //askedEnWordNumbは出題済みの単語番号を記録する配列，同じ単語は1回しか出題しないために必要
+//    let askedEnWordNumb = new Array();
+    let askedEnWordNumb = new Array();
+    /* 設問と選択肢を入れる変数，すべての設問と選択肢をprintLineに入れて，一度だけ
+       quizX.innerHTML = printLineで書き出す */
+    let printLine = "";
+    let newLexLines = new Array();
+    setWordList();
+    if (reviewMode) {
+        newLexLines =  getNewLexLines();
+    }else{
+        for (let cntX = 0; cntX < _lexLines.length; cntX++){
+            let origLexLine = _lexLines[cntX];
+            origLexLine = origLexLine.replace(/: .*?<b>/, ': ').replace(/<\/b>.+/, '');
+            const zeroPudded = getZeroPudded(cntX);
+            const [words, sense, langJap] = origLexLine.split(": ");
+
+
+
+            newLexLines.push(zeroPudded + ": " + origLexLine);
+        }
+    }
+    //サイコロは200回まで，無限ループを避ける
+    const saikoroMax = 10;
+    let saikoroCnt = 0;
+    if (_lexLines.length < 11) {
+        _maxQuestion = 5;
+    }
+    //問の設問と選択肢を作成するループ
+
+    for (let mondaiNumb = 1; mondaiNumb <= _maxQuestion; mondaiNumb += 1){
+        //乱数で出題する単語を決める
+        let seikaiSaikoro = parseInt(Math.random() * newLexLines.length);
+        let [zeroPudded, words, sense, langJap]
+            = newLexLines[seikaiSaikoro].split(": ");
+
+        if (sense == undefined){
+            mondaiNumb -= 1;
+            continue;
+        }
+        saikoroCnt = 0;
+        while ((askedEnWordNumb.includes(seikaiSaikoro)
+                || sense.length < 1
+                || sense.includes("*"))
+               && saikoroCnt < saikoroMax
+              ){
+        /*   既に同じ単語を出題している場合には，whileループ
+             但し，無限ループは避ける！*/
+
+            saikoroCnt++;
+            seikaiSaikoro = parseInt(Math.random() * newLexLines.length);
+            [zeroPudded, words, sense, langJap]
+                = newLexLines[seikaiSaikoro].split(": ");
+            if (sense == undefined){
+                sense = "";
+                continue;
+            }
+        }
+
+
+
+
+        //出題する単語をaskedEnWordNumbに登録する, push()で配列の最後に追加
+        askedEnWordNumb.push(seikaiSaikoro);
+        [zeroPudded, words, sense, langJap]
+            = newLexLines[seikaiSaikoro].split(": ");
+
+        printLine += mondaiNumb;
+        if(mode == "oto"){
+            const wordArray = words.split('/');
+            printLine += getAudioButton(wordArray[0], mondaiNumb);
+            if (_lang4dic == "6cn"){
+                printLine += words.split("/")[1];
+            }else if (_lang4dic == "7kor"){
+                printLine +=  words;
+            }
+            printLine += "\n";
+        }else{
+            if (_lang4dic == "7kor"){
+                printLine +=  words.split("/")[0];
+            }else{
+                printLine +=  words;
+            }
+        }
+        printLine += "\n";
+        let seikaiEngAndJpSense;
+        if (_lang4dic == "6cn" && mode == "oto"){
+            seikaiEngAndJpSense = '<b class="largeX4">【' + words.split("/")[0]
+                + ":"  + sense + "】</b>";
+        }else if (_lang4dic == "7ko"){
+            seikaiEngAndJpSense = '<b class="largeX4">【' + sense + "】</b>";
+        }else if(mode != "oto"){
+            seikaiEngAndJpSense = '<b class="largeX4">【' +  sense + "】</b>";
+        }else{
+            seikaiEngAndJpSense = '<b class="largeX4">【' + words
+                + ":"  + sense + "】</b>";
+
+        }
+        seikaiEngAndJpSense =  seikaiEngAndJpSense.replace(/ /g, "_").replace(/'/g, "’");
+        //japは差別用語なのでjpを使う
+        let jpSeikai = sense.split("/")[0];
+//12345678
+//        printLine +=  '<span class="largeX4" id="z'+ mondaiNumb + '"></span>';
+        printLine +=  '<span id="z'+ mondaiNumb + '"></span>';
+//        printLine += '<span class="lineX largeX4">';
+        printLine += '<span>';
+        let jpOptionArray = new Array();
+        jpOptionArray.push(jpSeikai);
+        let usedJpOption = new Array();
+        //正解の選択肢を，まず入れる
+        usedJpOption.push(jpSeikai);
+        //乱数で残りの選択肢を決める
+        for (let optionNumb = 1; optionNumb < maxOption; optionNumb += 1){
+            let optionSaikoro = parseInt(Math.random() * newLexLines.length);
+            [zeroPudded, words, sense, langJap]
+                = newLexLines[optionSaikoro].split(": ");
+            //まだ選択してない選択肢を選ぶ，無限ループを避ける
+            saikoroCnt = 0;
+            if (sense == undefined){
+                optionNumb -= 1;
+                continue;
+            }
+
+            let sense2 = sense.split("/")[0];
+            while ((usedJpOption.includes(sense2)
+                    || sense2.length < 1)
+                   && saikoroCnt < saikoroMax
+                  ){
+                saikoroCnt++;
+                optionSaikoro = parseInt(Math.random() * newLexLines.length);
+                [zeroPudded, words, sense, langJap]
+                    = newLexLines[optionSaikoro].split(": ");
+                if (sense == undefined){
+                    continue;
+                }
+                sense2 = sense.split("/")[0];
+            }
+            usedJpOption.push(sense2);
+            jpOptionArray.push(sense2);
+        }
+        //選択肢をソートする
+        jpOptionArray.sort();
+        const messageSeikai = newLexLines[seikaiSaikoro];
+        //選択肢を作成するループ
+        for (let jpOptionNumb = 0; jpOptionNumb < maxOption; jpOptionNumb += 1){
+//delete "/lemma"
+            if (jpOptionArray[jpOptionNumb] == undefined){
+                continue;
+            }
+            let sense2 = jpOptionArray[jpOptionNumb].split("/")[0];
+            //選択肢がクリックした時に，id=messageXに表示するメッセージをあらかじめ作成する
+            let maruBatsu;
+            if (sense2 == jpSeikai){
+                maruBatsu = 1;
+            }else{
+                maruBatsu = 0;
+            }
+            /* messageYには英文字以外の複雑な文字が含まれる可能性があるため
+               念のためにencodeしておく，Google翻訳にJavaScriptで翻訳する
+               文を送る時にもencodeする！ */
+            const messageSeikaiEncoded = encodeURI(messageSeikai);
+            let functionY = 'showMessage(' + maruBatsu + ',"'
+                + messageSeikaiEncoded + '",'
+                + mondaiNumb + ',"' + mode  + '","'
+                + encodeURI(seikaiEngAndJpSense)  + '",this)';
+            let optionButton = '<button class="largeX4" onClick=' + functionY + '>'
+                + sense2 + "</button>";
+            printLine += optionButton + '\n';
+        }
+//12345678
+        printLine += "</span><br><br>";
+    }
+    quizX.innerHTML += printLine;
+    if (mode != "moji"){
+        document.getElementById("y1").click();
+    }
+    _lineList = document.getElementsByClassName("lineX");
+    procSpan(1);
+}
+
+
+function showMessage(maruBatsu, messageSeikaiEncoded, mondaiNumb, mode, seikaiEngAndJpSense, self){
+
+    if (_isQuizOver){
+        alert("試験は終了しました");
+    }else if (_answeredMondaiNumb.includes(mondaiNumb)){
+        messageX.innerHTML = mondaiNumb + "は解答済み";
+    }else{
+        _ansClickCnt += 1;
+        const messageSeikai = decodeURI(messageSeikaiEncoded);
+
+        if (maruBatsu){
+            messageX.innerHTML = "<b>[⚪]</b>";
+            _score += (100 / _maxQuestion);
+            self.style.backgroundColor = "fuchsia";
+            _errorLines = _errorLines.replace(";;" + messageSeikai + ";;", ";;");
+        }else{
+            messageX.innerHTML = "<b>[X]</b>";
+            self.style.backgroundColor = "red";
+            if (!_errorLines.includes(messageSeikai + ";;")) {
+                _errorLines += messageSeikai + ";;";
+            }
+            _errorLines4disp += messageSeikai + ";;";
+        }
+        seikaiEngAndJpSense = decodeURI(seikaiEngAndJpSense);
+        seikaiEngAndJpSense = seikaiEngAndJpSense.replace('<b_class', '<b class');
+        document.getElementById("z" + mondaiNumb).innerHTML
+            = seikaiEngAndJpSense
+
+//alert(document.getElementById("z" + mondaiNumb).parentNode.innerHTML);
+        _answeredMondaiNumb.push(mondaiNumb);
+        messageX.innerHTML += + _score + "点 " + messageSeikai;
+        _answeredNumb += 1;
+        if (_answeredNumb > _maxQuestion){
+            if (_errorLines.length > 0){
+                messageX.innerHTML += 
+                    "<br><br>" +
+                    _errorLines4disp.replace(/;;/g, "<br>") + "<hr>";
+            }
+            const weekMonthDayTime = new Date();
+            const testKekka = weekMonthDayTime.toLocaleString() + " " + _nickName
+                  + " " + _lang4dic + ":" + _score + "<br>\n";
+            _testKekkaAll = testKekka + _testKekkaAll;
+            localStorage.setItem("testKekkaAll", _testKekkaAll);
+            messageX.innerHTML += _testKekkaAll;
+            if(!_isQuizOver){
+                exeCgi();
+            }
+            localStorage.setItem("errorList", _errorLines);
+        }else{
+
+        }
+        if (mode == "oto"){
+            if(!_isQuizOver){
+                document.getElementById("y" + (mondaiNumb+1)).click();
+            }
+        }
+        if(!_isQuizOver){
+            procSpan(mondaiNumb+1);
+        }
+    }
+}
+
+//「多言語語彙リスト」を表示する
+function dispList(self){
+    setColorButtons(self);
+    setWordList();
+    document.getElementById("textX").style.height = "20px";
+    document.getElementById("textX").style.width = "20px";
+
+    let quizX = document.getElementById("quizX2");
+
+    quizX.innerHTML = "";
+    messageX.innerHTML = "";
+    let lineCnt = 0;
+    let newLexLines = new Array();
+    newLexLines =  _lexLines;
+    let words, sense, langJap, others;
+    for (let cntX = 0; cntX < newLexLines.length; cntX++){
+        if (newLexLines[cntX].length < 7){
+            continue;
+        }
+        [words, sense, langJap, others] = newLexLines[cntX].split(": ");
+        if (others ==undefined){
+            others = "x";
+        }
+        if (sense.includes("*")){
+            continue;
+        }
+
+        const wordArray = words.split('/');
+        const zeroPudded = getZeroPudded(lineCnt).substr(-2);
+        const pron = wordArray[0].replace(/\(.+\)/g, '').replace(/（.+）/g, '');
+
+        let buff = zeroPudded + getAudioButton(wordArray[0], cntX)
+        const buttonX2 = getYouGlish(pron);
+        buff += buttonX2 + wordArray[0];
+        if(_lang4dic == "6cn" || _lang4dic == "7kor"){
+            if (wordArray[1] != undefined){
+                buff += wordArray[1] + " ";
+            }
+        }
+         buff +=  " " + sense + "</span><br>\n";
+        quizX.innerHTML += buff;
+        lineCnt++;
+    }
+}
+
+function getYouGlish(word){
+    word = word.replace(/'/g, "%27");
+    if (word.includes("_")){
+        word = word.replace(/_/g, "%20");
+        word = "%22" + word + "%22";
+    }
+    const buttonX2 = '<button class="largeX2" onClick=youGlishX("' + 
+          word + '")>映</button>';
+    return(buttonX2);
+}
+
+
+function youGlishX(word){
+    let buff = "https://youglish.com/pronounce/" + word;
+    if(_lang4dic == "6cn"){
+        buff += "/chinese/";
+    }else if(_lang4dic == "2spa"){
+        buff += "/spanish/";
+    }else if(_lang4dic == "7kor"){
+        buff += "/korean/";
+    }else{
+        buff += "/english/";
+    }
+    window.open(buff, "n234");
+}

@@ -1,0 +1,117 @@
+
+<!-- saved from url=(0061)http://sato.fm.senshu-u.ac.jp/zkiku/2025/0507/60quiz.eng.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="http://localhost/zkiku/11ytbDb/01js/21.css">
+<script src="./佐藤クイズ_files/12main.js.ダウンロード">
+</script>
+<script src="./佐藤クイズ_files/13others.js.ダウンロード">
+</script>
+
+<title>60quiz</title>
+<script>
+/*
+23行目の変数 _lexList = `...`に単語リストを入れる
+単語リストは、「単語: .... <b>意味</b> ....; 言語名1文字; カタカナ」という形式となる
+単語は、活用形・変化形ではなく、辞書の見出し語（基本形）とする
+試験問題の選択肢として表示する「意味」を<b>...</b>でくくる
+34行目の_shikenName = "..."に「1文字言語名:文字:歌（タイトル）」を入れる
+*/
+
+let _lexList = `
+acquire：習得する
+advantage：利点
+affect：影響を与える
+aspect：側面、観点
+balance：バランスを取る
+benefit：利益、恩恵
+challenge：挑戦、課題
+classify：分類する
+concept：概念
+context：文脈、状況
+critical：重大な、批判的な
+degree：程度、学位
+develop：発達する、開発する
+distinguish：区別する
+function：機能、役割
+measure：測る、評価する
+proficient：熟達した、堪能な
+pronunciation：発音
+proportion：割合、比率
+reaction：反応
+regardless：～に関係なく
+remarkable：注目すべき、驚くべき
+specific：特定の、明確な
+theory：理論
+visible：目に見える、明白な
+`;
+
+_shikenName = "英:字:TEDed1";
+
+</script>
+
+</head>
+<body onload="initX()">
+<button class="largeX4" id="dispListX" onclick="dispList(this)" style="background-color: fuchsia;">リスト</button>
+<button class="largeX4" onclick="startQuiz(&quot;moji&quot;,this,0)">文字試</button>
+<button class="largeX4" onclick="startQuiz(&quot;oto&quot;,this,0)">音試験</button>
+<button class="largeX4" id="dlbtn" title="ファイルをダウンロード" onclick="downloadX()">ダ↓</button>
+<button class="largeX4" onclick="window.open(&quot;55umekomi.html&quot;,&quot;_blank&quot;)">歌</button>
+<br>
+<div id="quizX2">01<button class="largeX2" id="y1" onclick="playAudio(&quot;amount&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;amount&quot;)">映</button>amount 量<br>
+02<button class="largeX2" id="y2" onclick="playAudio(&quot;analyze&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;analyze&quot;)">映</button>analyze 分析する<br>
+03<button class="largeX2" id="y3" onclick="playAudio(&quot;challenge&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;challenge&quot;)">映</button>challenge 挑戦する<br>
+04<button class="largeX2" id="y4" onclick="playAudio(&quot;concept&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;concept&quot;)">映</button>concept 概念<br>
+05<button class="largeX2" id="y5" onclick="playAudio(&quot;decade&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;decade&quot;)">映</button>decade 数十年<br>
+06<button class="largeX2" id="y6" onclick="playAudio(&quot;elusive&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;elusive&quot;)">映</button>elusive 難解な<br>
+07<button class="largeX2" id="y7" onclick="playAudio(&quot;overwhelm&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;overwhelm&quot;)">映</button>overwhelm 圧倒する<br>
+08<button class="largeX2" id="y8" onclick="playAudio(&quot;physicist&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;physicist&quot;)">映</button>physicist 物理学者<br>
+09<button class="largeX2" id="y9" onclick="playAudio(&quot;represent&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;represent&quot;)">映</button>represent 表す<br>
+10<button class="largeX2" id="y10" onclick="playAudio(&quot;storage&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;storage&quot;)">映</button>storage 保存<br>
+11<button class="largeX2" id="y11" onclick="playAudio(&quot;technique&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;technique&quot;)">映</button>technique 技術<br>
+12<button class="largeX2" id="y12" onclick="playAudio(&quot;transport&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;transport&quot;)">映</button>transport 輸送する<br>
+13<button class="largeX2" id="y13" onclick="playAudio(&quot;uncomfortable&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;uncomfortable&quot;)">映</button>uncomfortable 不快な<br>
+14<button class="largeX2" id="y14" onclick="playAudio(&quot;voluminous&quot;,this)">音</button><button class="largeX2" onclick="youGlishX(&quot;voluminous&quot;)">映</button>voluminous 大量の<br>
+</div>
+<iframe src="./佐藤クイズ_files/saved_resource.html" id="kekkaX" name="kekka" height="200" width="600">
+</iframe>
+
+<audio autoplay="" id="audioX" controls="">
+<source src="" type="audio/mp4">
+</audio>
+<br><br><br><br>
+<textarea id="textX" name="comment" cols="10%" rows="2" style="height: 20px; width: 20px;"></textarea><br>
+
+
+<mark id="messageX"></mark>
+<br>
+
+<form name="kikuScore" action="http://sato.fm.senshu-u.ac.jp/cgi-bin/public/04kikuScore.py" method="post">
+<input type="hidden" name="petName" value="">
+<input type="hidden" name="quizTypeNumb" value="">
+<input type="hidden" name="quizName" value="">
+<input type="hidden" name="score" value="">
+<input type="hidden" name="cntTry" value="">
+<input type="hidden" name="startQuizTime" value="">
+<input type="hidden" name="timeSpent" value="">
+<input type="hidden" name="sndPlayCnt" value="">
+<input type="hidden" name="jugyoCode" value="99">
+<input type="hidden" name="sebango" value="88">
+<input type="hidden" name="startSection" value="">
+<input type="hidden" name="cntWrong" value="999">
+<input type="hidden" name="cheatCheck" value="moo">
+<input type="hidden" name="fakeIdCheck" value="hey">
+<input type="hidden" name="nausicaa" value="hoge">
+</form>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<button class="largeX4" onclick="startQuiz(&quot;review&quot;,this,1)">復習</button>
+<button class="largeX4" onclick="resetAll(this)">履歴削除</button>
+<button class="largeX4" onclick="enlargeEditList(this)">単語編集</button>
+
+
+
+
+</body></html>

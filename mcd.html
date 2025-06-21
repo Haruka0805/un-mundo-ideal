@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>マクドナルドで注文する - Virtual Study Trip</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .dialogue {
+      background-color: #fff;
+      color: #333;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .input-area {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background-color: #f5c542;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e6b800;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>🍔 マクドナルドで注文する</h1>
+
+    <div id="chat-box">
+      <div class="dialogue">店員: Hi! Welcome to McDonald's. May I take your order?</div>
+    </div>
+
+    <div class="input-area">
+      <input id="userInput" type="text" placeholder="例: I'd like a cheeseburger and a coke, please.">
+      <br>
+      <button onclick="nextDialogue()">送信する</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chat-box");
+    const userInput = document.getElementById("userInput");
+    const dialogues = [
+      "店員: Would you like a drink with that?",
+      "店員: For here or to go?",
+      "店員: That'll be $6. Thank you!"
+    ];
+    let step = 0;
+
+    function nextDialogue() {
+      const userText = userInput.value;
+      if (userText.trim() !== "") {
+        const userDiv = document.createElement("div");
+        userDiv.className = "dialogue";
+        userDiv.textContent = "あなた: " + userText;
+        chatBox.appendChild(userDiv);
+        userInput.value = "";
+
+        if (step < dialogues.length) {
+          const staffDiv = document.createElement("div");
+          staffDiv.className = "dialogue";
+          staffDiv.textContent = dialogues[step];
+          chatBox.appendChild(staffDiv);
+          step++;
+        }
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+  </script>
+</body>
+</html>

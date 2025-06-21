@@ -1,0 +1,155 @@
+function downloadX(){
+    const a = document.createElement('a')
+    a.href = '';
+    a.download = _shortFolder + ".html";
+alert(_shortFolder);
+    a.click()
+}
+
+function playAudio(word, self){
+    setAudioColorButtons(self);
+    let root = "http://sato.fm.senshu-u.ac.jp/zkiku/12langText/98m4a/" + _lang4dic + "/"
+    const audioX = document.getElementById("audioX");
+    if(_lang4dic == "1eng"){
+        root += word.substr(0,1) + "/";
+    }
+    word = word.replace(/\(.+\)/g, '').replace(/（.+）/g, '');
+    root += word + ".m4a";
+    audioX.src = root;
+
+    _audiClickCnt += 1;
+    audioX.play();
+}
+
+function recTime(){
+    dd = new Date();
+    var month = dd.getMonth() + 1;
+    var day = dd.getDate();
+    var hour = dd.getHours();
+    var min = dd.getMinutes();
+    if (month < 10) { month = "0" + month; }
+    if (day < 10) { day = "0" + day; }
+    if (hour < 10) { hour = "0" + hour; }
+    if (min < 10) { min = "0" + min; }
+    strTime = month + "/" + day + " " + hour + ":" + min;
+    return(strTime);
+}
+
+function exeCgi(self){
+    clearTimeout(_tm4exeCgi);
+    _isQuizOver = true;
+    document.body.style.backgroundColor = "white";
+    const nowTime = new Date();
+    const gengo = _lang4dic.replace("2spa", "🇪🇸").replace("3ita", "🇮🇹").replace("4fre", "🇫🇷").replace("5ger", "🇩🇪").replace("6cn", "🇹🇼").replace("7kor", "🇰🇷").replace("6por2", "🇧🇷").replace("1eng", "🇺🇸").replace("7dut", "🇳🇱").replace("6tur","🇹🇷").replace("5ara","🇪🇬").replace("9nor","🇳🇴").replace("4rus","🇷🇺");
+
+    document.kikuScore.startSection.value = gengo;
+    const spentTimeSec = parseInt((nowTime.getTime() - _startTime) / 1000);
+    document.kikuScore.quizTypeNumb.value = _quizTypeNumb;
+//    document.kikuScore.quizName.value = _shortFolder;
+//debug
+    document.kikuScore.quizName.value = _shikenName;
+    document.kikuScore.score.value = _score;
+    document.kikuScore.cntTry.value = _ansClickCnt;
+    document.kikuScore.startQuizTime.value = _strStartTime;
+    document.kikuScore.timeSpent.value = spentTimeSec;
+    document.kikuScore.petName.value = _nickName;
+    document.kikuScore.sndPlayCnt.value = _audiClickCnt;
+    document.kikuScore.cntWrong.value = _errorLines;
+    const frameName = "kekka";
+    document.kikuScore.setAttribute("target", frameName);
+    document.kikuScore.submit();
+}
+
+function resetAll(self){
+    setColorButtons(self);
+    _errorLines = ";;";
+    _testKekkaAll = "";
+    localStorage.clear();
+}
+
+function getAudioButton(word, mondaiNumb){
+    word = word.replace('{自}', '').replace('{ジ}', '').replace(/ /g, '_').replace("'", '_');
+    let onseiValue = "音";
+    word = word.replace(/-/g, "");
+    const buttonX = '<button class="largeX2" id="y'+ mondaiNumb +
+          '" onClick=playAudio("' + word + '",this)>' + onseiValue + "</button>";
+    return(buttonX)
+}
+
+function getZeroPudded(numb){
+    const zeroPudded = ("00" + (numb+1)).substr(-3);
+    return(zeroPudded);
+}
+
+
+function getNewLexLines(){
+    newLexLinesTemp = _errorLines.split(";;");
+alert(newLexLinesTemp);
+    let maxLen = newLexLinesTemp.length;
+    newLexLines = new Array();
+    for (let line3 of newLexLinesTemp){
+//空行を削除する
+        if (line3.length > 5){
+            if (!newLexLines.includes(line3)){
+                newLexLines.push(line3);
+            }else{
+                alert("111: " + line3 + ":: " + newLexLines);
+            }
+        }
+    }
+    return(newLexLines);
+}
+
+function setColorButtons(self){
+        if (_prevClickedButton != undefined){
+            _prevClickedButton.style.backgroundColor =
+                _origButtonColor;
+        }else{
+            _origButtonColor = self.style.backgroundColor;
+        }
+//        self.style.backgroundColor="yellow";
+            self.style.backgroundColor = "fuchsia";
+        _prevClickedButton = self;
+
+}
+
+function setAudioColorButtons(self){
+    if (_prevAudioButton != undefined){
+        _prevAudioButton.style.backgroundColor =
+            _origAudioColor;
+    }else{
+        _origAudioColor = self.style.backgroundColor;
+    }
+    self.style.backgroundColor="yellow";
+//            self.style.backgroundColor = "fuchsia";
+    _prevAudioButton = self;
+}
+
+function procSpanOld(mondaiCnt){
+   if(mondaiCnt != _prevSpanCnt){
+       let exec3 = '_lineList[' + _prevSpanCnt + '].style.backgroundColor="'
+           + _bgColorX + '";';
+       setTimeout(exec3, 500);
+       setTimeout(exec3, 1000*3);
+   }
+    mondaiCnt--;
+    let exec = "_lineList[" + mondaiCnt + "].style.backgroundColor='grey';";
+    let exec2 = "_lineList[" + mondaiCnt + "].style.backgroundColor='white';"; 
+    for (let cntX=0; cntX<5; cntX++){
+        setTimeout(exec, cntX*500);
+        setTimeout(exec2, cntX*500+250);
+    }
+    _prevSpanCnt = mondaiCnt;
+}
+
+function procSpan(mondaiNumb){
+//alert(mondaiNumb);
+    let exec = 'document.getElementById("y' + mondaiNumb + '").style.backgroundColor="yellow"';
+    let exec2 = 'document.getElementById("y' + mondaiNumb + '").style.backgroundColor="white"';
+    for (let cntX=0; cntX<4; cntX++){
+        setTimeout(exec, cntX*500);
+        setTimeout(exec2, cntX*500+250);
+    }
+}
+
+

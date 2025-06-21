@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<!-- saved from url=(0105)http://sato.fm.senshu-u.ac.jp/zkiku/2025/00/22asano/A%20Dream%20is%20a%20Wish%20Your%20Heart%20Makes.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>A Dream is a Wish Your Heart Makes</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    h1 {
+     color: pink;
+     margin-bottom: 30px;
+    }
+
+    #videoContainer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      height: 180px;
+      z-index: 1000;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+.lyrics-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.lyrics-line button {
+  font-size: 1.6rem;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.lyric-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}    
+    .lyric-text {
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .highlight .lyric-text {
+      background-color: lightblue;
+      color: white;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+
+    .main-button {
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      margin-bottom: 40px;
+    }
+
+    .translation {
+      font-size: 1.2rem;
+      color: #888;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+.lyric-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* ⭐ 中央揃え */
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lyric-text {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.explanation-inline {
+  font-size: 0.85rem;
+  color: #999;
+  opacity: 0.8;
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+
+    @media (max-width: 600px) {
+      #videoContainer {
+        width: 100%;
+        height: auto;
+        bottom: 0;
+        right: 0;
+        position: static;
+        margin-top: 20px;
+      }
+
+      .lyrics-line {
+        font-size: 1.2rem;
+        align-items: flex-start;
+      }
+    }
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%; /* 上に表示 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+  </style>
+<script type="text/javascript" id="www-widgetapi-script" src="./A Dream is a Wish Your Heart Makes_files/www-widgetapi.js.ダウンロード" async=""></script><script src="./A Dream is a Wish Your Heart Makes_files/compromise"></script>
+
+</head>
+<body>
+
+  <h1>A Dream is a Wish Your Heart Makes <br>- from Cinderella -</h1>
+  <button class="main-button" onclick="togglePlayback()">▶</button>
+  <br>
+
+  <div class="lyrics-line" id="line1">
+    <button onclick="jumpTo(4)">♪</button>
+<div class="lyric-block">
+    <span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/a" target="_blank" style="text-decoration: none; color: inherit;">A</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/dream" target="_blank" style="text-decoration: none; color: inherit;">dream</a><span class="tooltip-text">夢</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/be" target="_blank" style="text-decoration: none; color: inherit;">is</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/a" target="_blank" style="text-decoration: none; color: inherit;">a</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/wish" target="_blank" style="text-decoration: none; color: inherit;">wish</a><span class="tooltip-text">願い</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/your" target="_blank" style="text-decoration: none; color: inherit;">your</a><span class="tooltip-text">あなたの</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/heart" target="_blank" style="text-decoration: none; color: inherit;">heart</a><span class="tooltip-text">心</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/make" target="_blank" style="text-decoration: none; color: inherit;">makes</a><span class="tooltip-text">作り出す</span></span></span>
+    <div class="translation">夢は心が描く願い</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line2">
+    <button onclick="jumpTo(13)">♪</button>
+    <div class="lyric-block">
+    <div class="lyric-row">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/when" target="_blank" style="text-decoration: none; color: inherit;">When</a><span class="tooltip-text">∼の時</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/be" target="_blank" style="text-decoration: none; color: inherit;">you're</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/fast" target="_blank" style="text-decoration: none; color: inherit;">fast</a><span class="tooltip-text">安定した</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/asleep" target="_blank" style="text-decoration: none; color: inherit;">asleep</a><span class="tooltip-text">眠っている</span></span></span>
+<span class="explanation-inline">★ be fast asleep ぐっすり眠っている</span>
+</div>
+<div class="translation">ぐっすり眠っているときに</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line3">
+    <button onclick="jumpTo(19)">♪</button>
+    <div class="lyric-block">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/in" target="_blank" style="text-decoration: none; color: inherit;">In</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/dream" target="_blank" style="text-decoration: none; color: inherit;">dreams</a><span class="tooltip-text">夢</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/you" target="_blank" style="text-decoration: none; color: inherit;">you</a><span class="tooltip-text">あなた</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/lose" target="_blank" style="text-decoration: none; color: inherit;">lose</a><span class="tooltip-text">なくす</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/your" target="_blank" style="text-decoration: none; color: inherit;">your</a><span class="tooltip-text">あなたの</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/heartach" target="_blank" style="text-decoration: none; color: inherit;">heartaches</a></span></span>
+    <div class="translation">夢の中で、あなたは悲しみを忘れる</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line4">
+    <button onclick="jumpTo(27)">♪</button>
+    <div class="lyric-block">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/whatever" target="_blank" style="text-decoration: none; color: inherit;">Whatever</a><span class="tooltip-text">∼のものは何でも</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/you" target="_blank" style="text-decoration: none; color: inherit;">you</a><span class="tooltip-text">あなた</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/wish" target="_blank" style="text-decoration: none; color: inherit;">wish</a><span class="tooltip-text">願い</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/for" target="_blank" style="text-decoration: none; color: inherit;">for,</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/you" target="_blank" style="text-decoration: none; color: inherit;">you</a><span class="tooltip-text">あなた</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/keep" target="_blank" style="text-decoration: none; color: inherit;">keep</a><span class="tooltip-text">続ける</span></span></span>
+    <div class="translation">望んだものはきっと手に入る</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line5">
+    <button onclick="jumpTo(35)">♪</button>
+    <div class="lyric-block">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/have" target="_blank" style="text-decoration: none; color: inherit;">Have</a><span class="tooltip-text">持つ</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/faith" target="_blank" style="text-decoration: none; color: inherit;">faith</a><span class="tooltip-text">信念</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/in" target="_blank" style="text-decoration: none; color: inherit;">in</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/your" target="_blank" style="text-decoration: none; color: inherit;">your</a><span class="tooltip-text">あなたの</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/dream" target="_blank" style="text-decoration: none; color: inherit;">dreams</a><span class="tooltip-text">夢</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/and" target="_blank" style="text-decoration: none; color: inherit;">and</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/someday" target="_blank" style="text-decoration: none; color: inherit;">someday</a><span class="tooltip-text">いつか</span></span></span>
+    <div class="translation">夢を信じていれば いつの日か</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line6">
+    <button onclick="jumpTo(43)">♪</button>
+    <div class="lyric-block">
+    <div class="lyric-row">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/your" target="_blank" style="text-decoration: none; color: inherit;">Your</a><span class="tooltip-text">あなたの</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/rainbow" target="_blank" style="text-decoration: none; color: inherit;">rainbow</a><span class="tooltip-text">虹</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/will" target="_blank" style="text-decoration: none; color: inherit;">will</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/come" target="_blank" style="text-decoration: none; color: inherit;">come</a><span class="tooltip-text">来る</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/smiling" target="_blank" style="text-decoration: none; color: inherit;">smiling</a><span class="tooltip-text">笑顔で</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/through" target="_blank" style="text-decoration: none; color: inherit;">through</a><span class="tooltip-text">通り抜ける</span></span></span>
+<span class="explanation-inline">★ come through やって来る</span>
+</div>
+    <div class="translation">虹が笑顔であなたに訪れる</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line7">
+    <button onclick="jumpTo(51)">♪</button>
+    <div class="lyric-block">
+    <div class="lyric-row">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/no" target="_blank" style="text-decoration: none; color: inherit;">No</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/matter" target="_blank" style="text-decoration: none; color: inherit;">matter</a><span class="tooltip-text">問題</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/how" target="_blank" style="text-decoration: none; color: inherit;">how</a><span class="tooltip-text">どんなに</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/your" target="_blank" style="text-decoration: none; color: inherit;">your</a><span class="tooltip-text">あなたの</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/heart" target="_blank" style="text-decoration: none; color: inherit;">heart</a><span class="tooltip-text">心</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/be" target="_blank" style="text-decoration: none; color: inherit;">is</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/grieve" target="_blank" style="text-decoration: none; color: inherit;">grieving</a><span class="tooltip-text">深く悲しむ</span></span></span>
+<span class="explanation-inline">★ no matter how どんなに∼でも</span>
+</div>
+　　<div class="translation">たとえ心がどんなに悲しんでいても</div>
+  </div></div>
+
+  <div class="lyrics-line highlight" id="line8">
+    <button onclick="jumpTo(58)">♪</button>
+    <div class="lyric-block">
+    <div class="lyric-row">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/if" target="_blank" style="text-decoration: none; color: inherit;">If</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/you" target="_blank" style="text-decoration: none; color: inherit;">you</a><span class="tooltip-text">あなた</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/keep" target="_blank" style="text-decoration: none; color: inherit;">keep</a><span class="tooltip-text">続ける</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/on" target="_blank" style="text-decoration: none; color: inherit;">on</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/believe" target="_blank" style="text-decoration: none; color: inherit;">believing</a><span class="tooltip-text">信じる</span></span></span>
+<span class="explanation-inline">★ keep on doing ∼し続ける</span>
+</div>
+    <div class="translation">信じ続けていれば</div>
+  </div></div>
+
+  <div class="lyrics-line" id="line9">
+    <button onclick="jumpTo(63)">♪</button>
+    <div class="lyric-block">
+    <div class="lyric-row">
+<span class="lyric-text"><span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/the" target="_blank" style="text-decoration: none; color: inherit;">the</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/dream" target="_blank" style="text-decoration: none; color: inherit;">dream</a><span class="tooltip-text">夢</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/that" target="_blank" style="text-decoration: none; color: inherit;">that</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/you" target="_blank" style="text-decoration: none; color: inherit;">you</a><span class="tooltip-text">あなた</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/wish" target="_blank" style="text-decoration: none; color: inherit;">wish</a><span class="tooltip-text">願い</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/will" target="_blank" style="text-decoration: none; color: inherit;">will</a></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/come" target="_blank" style="text-decoration: none; color: inherit;">come</a><span class="tooltip-text">来る</span></span> <span class="tooltip"><a href="https://dictionary.goo.ne.jp/word/en/true" target="_blank" style="text-decoration: none; color: inherit;">true</a><span class="tooltip-text">本当の</span></span></span>
+<span class="explanation-inline">★ come true 実現する</span>
+</div>
+    <div class="translation">願いはきっと叶う</div>
+  </div></div>
+
+  <div id="videoContainer">
+    <iframe id="player" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="A Dream Is a Wish Your Heart Makes (from Cinderella)" width="320" height="180" src="./A Dream is a Wish Your Heart Makes_files/cyOLHOcLdr4.html"></iframe>
+  </div>
+
+<br><br><button onclick="showQuiz()" class="main-button">Word Quiz</button>
+
+  <!-- YouTube API -->
+  <script src="./A Dream is a Wish Your Heart Makes_files/iframe_api"></script>
+  <script>
+    let player;
+    let isPlaying = false;
+    let checkInterval;
+
+    const lyrics = [
+      { id: 'line1', time: 4 },
+      { id: 'line2', time: 13 },
+      { id: 'line3', time: 19 },
+      { id: 'line4', time: 27 },
+      { id: 'line5', time: 35 },
+      { id: 'line6', time: 43 },
+      { id: 'line7', time: 51 },
+      { id: 'line8', time: 58 },
+      { id: 'line9', time: 63 }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '180',
+        width: '320',
+        videoId: 'cyOLHOcLdr4',
+        playerVars: {
+          start: 4,
+          controls: 1,
+          rel: 0
+        },
+        events: {
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        syncLyrics();
+      } else {
+        clearInterval(checkInterval);
+      }
+    }
+
+    function togglePlayback() {
+      if (!player) return;
+
+      if (!isPlaying) {
+        player.seekTo(4);
+        player.playVideo();
+        syncLyrics();
+      } else {
+        player.pauseVideo();
+        clearInterval(checkInterval);
+      }
+
+      isPlaying = !isPlaying;
+    }
+
+    function jumpTo(time) {
+      if (player) {
+        player.seekTo(time, true);
+        player.playVideo();
+        syncLyrics();
+        isPlaying = true;
+      }
+    }
+
+    function syncLyrics() {
+      clearInterval(checkInterval);
+      checkInterval = setInterval(() => {
+        const currentTime = Math.floor(player.getCurrentTime());
+
+        let currentLine = null;
+        for (let i = 0; i < lyrics.length; i++) {
+          if (
+            currentTime >= lyrics[i].time &&
+            (i === lyrics.length - 1 || currentTime < lyrics[i + 1].time)
+          ) {
+            currentLine = lyrics[i].id;
+            break;
+          }
+        }
+
+        document.querySelectorAll('.lyrics-line').forEach((line) => {
+          line.classList.remove('highlight');
+        });
+
+        if (currentLine) {
+          const el = document.getElementById(currentLine);
+          el.classList.add('highlight');
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 300);
+    }
+
+ const dictionary = {
+   'your': 'あなたの',
+  'heart': '心',
+  'make': '作り出す',
+  'when': '∼の時',
+  'fast': '安定した',
+  'you': 'あなた',
+  'lose': 'なくす',
+  'whatever': '∼のものは何でも',
+  'keep': '続ける',
+  'have': '持つ',
+  'come': '来る',
+  'smiling': '笑顔で',
+  'through': '通り抜ける',
+  'matter': '問題',
+  'how': 'どんなに',
+  'grieve': '深く悲しむ',
+  'true': '本当の',
+
+  'faith': '信念',
+  'heartaches': '心の痛み',
+  'believe': '信じる',
+  'wish': '願い',
+  'dream': '夢',
+  'rainbow': '虹',
+  'asleep': '眠っている',
+  'someday': 'いつか'
+};
+
+document.querySelectorAll('.lyric-text').forEach(span => {
+  const originalText = span.textContent;
+  span.innerHTML = '';
+
+  const words = originalText.split(/(\s+)/);
+  words.forEach(word => {
+    if (word.trim().length === 0) {
+      span.appendChild(document.createTextNode(word));
+      return;
+    }
+
+    const cleaned = word.replace(/[^a-zA-Z\-']/g, '');
+    const doc = nlp(cleaned);
+    const baseForm = doc.verbs().toInfinitive().out('text') ||
+                     doc.nouns().toSingular().out('text') ||
+                     cleaned;
+    const baseLower = baseForm.toLowerCase();
+
+    const tooltipWrapper = document.createElement('span');
+    tooltipWrapper.className = 'tooltip';
+
+    const link = document.createElement('a');
+    link.href = `https://dictionary.goo.ne.jp/word/en/${encodeURIComponent(baseLower)}`;
+    link.target = '_blank';
+    link.textContent = word;
+    link.style.textDecoration = 'none';
+    link.style.color = 'inherit';
+
+    tooltipWrapper.appendChild(link);
+
+    if (dictionary[baseLower]) {
+      const tooltipText = document.createElement('span');
+      tooltipText.className = 'tooltip-text';
+      tooltipText.textContent = dictionary[baseLower];
+      tooltipWrapper.appendChild(tooltipText);
+    }
+
+    span.appendChild(tooltipWrapper);
+  });
+});
+
+                               
+</script>
+<section id="quiz-section" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: white;">
+  <h2 style="text-align: center;">Word Quiz</h2>
+  <form id="quiz-form"><div class="question-block"><p><strong>1. rainbow</strong></p><label style="display: block;"><input type="radio" name="q1" value="虹"> 虹</label><label style="display: block;"><input type="radio" name="q1" value="雷"> 雷</label><label style="display: block;"><input type="radio" name="q1" value="流星"> 流星</label></div><div class="question-block"><p><strong>2. grieve</strong></p><label style="display: block;"><input type="radio" name="q2" value="深く悲しむ"> 深く悲しむ</label><label style="display: block;"><input type="radio" name="q2" value="忘れる"> 忘れる</label><label style="display: block;"><input type="radio" name="q2" value="喜ぶ"> 喜ぶ</label></div><div class="question-block"><p><strong>3. heartache</strong></p><label style="display: block;"><input type="radio" name="q3" value="頭痛"> 頭痛</label><label style="display: block;"><input type="radio" name="q3" value="心の痛み"> 心の痛み</label><label style="display: block;"><input type="radio" name="q3" value="腰痛"> 腰痛</label></div><div class="question-block"><p><strong>4. someday</strong></p><label style="display: block;"><input type="radio" name="q4" value="いつか"> いつか</label><label style="display: block;"><input type="radio" name="q4" value="明日"> 明日</label><label style="display: block;"><input type="radio" name="q4" value="昨日"> 昨日</label></div><div class="question-block"><p><strong>5. faith</strong></p><label style="display: block;"><input type="radio" name="q5" value="疑い"> 疑い</label><label style="display: block;"><input type="radio" name="q5" value="信念"> 信念</label><label style="display: block;"><input type="radio" name="q5" value="祈り"> 祈り</label></div></form>
+  <button type="button" onclick="gradeQuiz()" style="margin-top: 20px; padding: 10px 20px; font-size: 1rem;">check</button>
+  <div id="quiz-result" style="margin-top: 20px; font-weight: bold;"></div>
+</section>
+
+<script>
+  function showQuiz() {
+    document.getElementById('quiz-section').style.display = 'block';
+    renderQuiz();
+  }
+</script>
+
+<script>
+  const quizData = [
+    {
+      word: "heartache",
+      choices: ["頭痛", "心の痛み", "腰痛"],
+      answer: "心の痛み"
+    },
+    {
+      word: "grieve",
+      choices: ["喜ぶ", "忘れる", "深く悲しむ"],
+      answer: "深く悲しむ"
+    },
+    {
+      word: "faith",
+      choices: ["信念", "疑い", "祈り"],
+      answer: "信念"
+    },
+    {
+      word: "rainbow",
+      choices: ["流星", "虹", "雷"],
+      answer: "虹"
+    },
+    {
+      word: "someday",
+      choices: ["昨日", "明日", "いつか"],
+      answer: "いつか"
+    }
+  ];
+
+  // シャッフル関数
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  function renderQuiz() {
+    const form = document.getElementById("quiz-form");
+    form.innerHTML = "";
+    shuffleArray(quizData);
+    quizData.forEach((q, index) => {
+      const qId = `q${index + 1}`;
+      const block = document.createElement("div");
+      block.className = "question-block";
+      const question = document.createElement("p");
+      question.innerHTML = `<strong>${index + 1}. ${q.word}</strong>`;
+      block.appendChild(question);
+
+      const shuffledChoices = [...q.choices];
+      shuffleArray(shuffledChoices);
+      shuffledChoices.forEach(choice => {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        label.innerHTML = `<input type="radio" name="${qId}" value="${choice}"> ${choice}`;
+        block.appendChild(label);
+      });
+
+      form.appendChild(block);
+    });
+  }
+
+  function gradeQuiz() {
+    let score = 0;
+    const total = quizData.length;
+    const form = document.getElementById("quiz-form");
+
+    quizData.forEach((q, index) => {
+      const qId = `q${index + 1}`;
+      const selected = form.querySelector(`input[name="${qId}"]:checked`);
+      const isCorrect = selected && selected.value === q.answer;
+
+      if (isCorrect) score++;
+
+      // 正解ハイライト
+      const labels = form.querySelectorAll(`input[name="${qId}"]`);
+      labels.forEach(input => {
+        if (input.value === q.answer) {
+          input.parentNode.style.color = "green";
+          input.parentNode.style.fontWeight = "bold";
+        } else {
+          input.parentNode.style.opacity = "0.6";
+        }
+      });
+    });
+
+    document.getElementById("quiz-result").textContent = `正解数: ${score} / ${total}`;
+  }
+
+  // 初期描画
+  renderQuiz();
+</script>
+
+<style>
+  .question-block {
+    margin: 20px 0;
+  }
+
+  @media (max-width: 600px) {
+    #quiz-section {
+      padding: 15px;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+
+
+</body></html>

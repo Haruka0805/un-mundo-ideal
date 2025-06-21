@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Study Trip</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #fdfdfd;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #f5c542;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .container {
+      padding: 2rem 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .sub-title {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+
+    .section-label {
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .scene-card {
+      border: 2px solid #f5c542;
+      border-radius: 10px;
+      padding: 1.5rem 1rem;
+      background-color: #fff3c2;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .scene-card:hover {
+      background-color: #f5c542;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    🌍 Virtual Study Trip
+  </header>
+  <div class="container">
+    <h2>✈️ 今日の行き先は？</h2>
+    <p class="sub-title">Today’s trip destination is...</p>
+
+    <p class="section-label">📍 Choose your scene</p>
+
+    <div class="scene-grid">
+      <div class="scene-card">🍔 <br>マクドナルドで注文する</div>
+      <div class="scene-card">🛫 <br>空港でチェックインする</div>
+      <div class="scene-card">🏠 <br>家でルームメイトにあいさつする</div>
+      <div class="scene-card">📞 <br>予約の電話をしてみる</div>
+    </div>
+
+    <p style="text-align:center; margin-top: 2rem;">📝 学びたいシーンをタップして、会話をはじめよう！</p>
+  </div>
+  <footer>
+    (c) Haru's Portfolio App ©︎2025
+  </footer>
+</body>
+</html>

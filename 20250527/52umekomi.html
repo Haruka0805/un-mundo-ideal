@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Un Mundo Ideal - ハイライト付き</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #4b0082, #603F8B, #db7093);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .highlight {
+      color: white;
+      font-weight: bold;
+      background-color:#FFC300;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    h1 {
+      color: #FFC300;
+      margin: 20px 0;
+    }
+    h2 {
+      color: #FFC300;
+      margin: 20px 0;
+    }
+
+    .lyrics-line {
+      margin: 15px auto;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Un Mundo Ideal</h1>
+
+  <!-- YouTube埋め込み -->
+  <div id="player"></div>
+
+  <div class="lyrics">
+    <div class="lyrics-line" id="line1">
+      <button onclick="seekTo(32)">♪</button>
+      <span class="lyric-text">
+        <ruby>Un<rt>ウン</rt></ruby> <ruby>mundo<rt>ムンド</rt></ruby> <ruby>ideal<rt>イデアル</rt></ruby>
+      </span>
+    </div>
+    <div class="lyrics-line" id="line2">
+      <button onclick="seekTo(35)">♪</button>
+      <span class="lyric-text">
+        <ruby>Será<rt>セラ</rt></ruby> <ruby>fantástico<rt>ファンタスティコ</rt></ruby> <ruby>encontrar<rt>エンコントラール</rt></ruby>
+      </span>
+    </div>
+    <div class="lyrics-line" id="line3">
+      <button onclick="seekTo(39)">♪</button>
+      <span class="lyric-text">
+        <ruby>Nadie<rt>ナディエ</rt></ruby> <ruby>que<rt>ケ</rt></ruby> <ruby>diga<rt>ディガ</rt></ruby> <ruby>no<rt>ノ</rt></ruby>
+        <ruby>o<rt>オ</rt></ruby> <ruby>a<rt>ア</rt></ruby> <ruby>dónde<rt>ドンデ</rt></ruby> <ruby>ir<rt>イール</rt></ruby>
+      </span>
+    </div>
+    <div class="lyrics-line" id="line4">
+      <button onclick="seekTo(44)">♪</button>
+      <span class="lyric-text">
+        <ruby>A<rt>ア</rt></ruby> <ruby>aquellos<rt>アケジョス</rt></ruby> <ruby>que<rt>ケ</rt></ruby>
+        <ruby>se<rt>セ</rt></ruby> <ruby>aman<rt>アマン</rt></ruby>
+      </span>
+    </div>
+  </div>
+
+  <h2>動詞の基本形と語源</h2>
+  <ul>
+      <li><strong>será</strong> (〜だろう) - ラテン語の「esse」から派生。</li>
+      <li><strong>encontrar</strong> (見つける) - ラテン語の「incontrare」から派生。</li>
+      <li><strong>decir</strong> (言う) - ラテン語の「dicere」から派生。</li>
+      <li><strong>ir</strong> (行く) - ラテン語の「ire」から派生。</li>
+      <li><strong>amar</strong> (愛する) - ラテン語の「amare」から派生。</li>
+  </ul>
+
+  <script>
+    const lyrics = [
+      { id: 'line1', time: 32 },
+      { id: 'line2', time: 35 },
+      { id: 'line3', time: 39 },
+      { id: 'line4', time: 44 }
+    ];
+
+    let player;
+    let checkInterval;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '315',
+        width: '560',
+        videoId: '_aAOTfOU4lA',
+        playerVars: {
+          autoplay: 0,
+          controls: 1,
+          start: 30
+        },
+        events: {
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        syncLyrics();
+      } else {
+        clearInterval(checkInterval);
+      }
+    }
+
+    function syncLyrics() {
+      clearInterval(checkInterval);
+      checkInterval = setInterval(() => {
+        const currentTime = Math.floor(player.getCurrentTime());
+
+        let currentLine = null;
+        for (let i = 0; i < lyrics.length; i++) {
+          if (
+            currentTime >= lyrics[i].time &&
+            (i === lyrics.length - 1 || currentTime < lyrics[i + 1].time)
+          ) {
+            currentLine = lyrics[i].id;
+            break;
+          }
+        }
+
+        document.querySelectorAll('.lyric-text').forEach((text) => {
+          text.classList.remove('highlight');
+        });
+
+        if (currentLine) {
+          const el = document.getElementById(currentLine);
+          const lyricSpan = el.querySelector('.lyric-text');
+          if (lyricSpan) {
+            lyricSpan.classList.add('highlight');
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      }, 300);
+    }
+
+    function seekTo(time) {
+      if (player) {
+        player.seekTo(time, true);
+        player.playVideo();
+      }
+    }
+  </script>
+
+  <!-- YouTube IFrame API 読み込み -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

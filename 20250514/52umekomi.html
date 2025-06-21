@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Mundo Ideal</title>
+    <style>
+        /* 背景を上下のグラデーションに変更 */
+        body {
+            background: linear-gradient(to bottom,#4b0082,#603F8B,#db7093);
+            color: white; /* 白い文字で視認性を高める */
+            font-family: Arial, sans-serif; /* フォントを指定 */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            background-color: yellow;
+        }
+
+        .video-container {
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #FFC300;
+            margin: 20px 0;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #FFC300;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #603F8B;
+        }
+
+        button:hover {
+            background-color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <h1>Un Mundo Ideal</h1>
+
+    <!-- YouTube埋め込み -->
+    <iframe id="videoPlayer" width="560" height="315" src="https://www.youtube.com/watch?v=_aAOTfOU4lA" frameborder="0" allowfullscreen="">
+    </iframe>
+    
+    <div class="lyrics">
+        <button onclick="seekTo(32)">♪</button>
+        <ruby>Un<rt>ウン</rt> 一つ</ruby>
+        <ruby>mundo<rt>ムンド</rt> 世界</ruby>
+        <ruby>ideal<rt>イデアル</rt> 理想的な</ruby><br>
+
+        <button onclick="seekTo(35)">♪</button>
+        <ruby>Será<rt>セラ</rt> 〜だろう</ruby>
+        <ruby>fantástico<rt>ファンタスティコ</rt> 素晴らしい</ruby>
+        <ruby>encontrar<rt>エンコントラール</rt> 出会う</ruby><br>
+
+        <button onclick="seekTo(39)">♪</button>
+        <ruby>Nadie<rt>ナディエ</rt> 誰も〜ない</ruby>
+        <ruby>que<rt>ケ</rt> 〜する</ruby>
+        <ruby>diga<rt>ディガ</rt> 言う</ruby>
+        <ruby>no<rt>ノ</rt> いいえ</ruby>, 
+        <ruby>o<rt>オ</rt> または</ruby>
+        <ruby>a<rt>ア</rt> 〜に</ruby>
+        <ruby>dónde<rt>ドンデ</rt> どこ</ruby>
+        <ruby>ir<rt>イール</rt> 行く</ruby><br>
+
+        <button onclick="seekTo(44)">♪</button>
+        <ruby>A<rt>ア</rt> 〜に</ruby>
+        <ruby>aquellos<rt>アケジョス</rt> それらの</ruby>
+        <ruby>que<rt>ケ</rt> 〜する</ruby>
+        <ruby>se<rt>セ</rt> 互いに</ruby>
+        <ruby>aman<rt>アマン</rt> 愛する</ruby>
+    </div>
+
+    <h2>動詞の基本形と語源</h2>
+    <ul>
+        <li><strong>será</strong> (〜だろう) - ラテン語の「esse」から派生。</li>
+        <li><strong>encontrar</strong> (見つける) - ラテン語の「incontrare」から派生。</li>
+        <li><strong>decir</strong> (言う) - ラテン語の「dicere」から派生。</li>
+        <li><strong>ir</strong> (行く) - ラテン語の「ire」から派生。</li>
+        <li><strong>amar</strong> (愛する) - ラテン語の「amare」から派生。</li>
+    </ul>
+
+  <input type="button" id="pushButton" value="ダウンロード">
+<br>
+教科書p.163にbutton, pushButton, onclick, function解説あり。要素をクリックした時に、関数(function)を呼び出す。外国語学習ページでは、単語をクリックした時に、辞書を調べるられるが、これも関数を呼び出して実行している。外国語学習ページでは、Google翻訳で単語や文の意味を調べられるが、これも関数を呼び出して実行している。
+
+<script>
+pushButton.onclick=function (){
+    const a = document.createElement('a');
+    a.href = '';
+    a.download =  "52umekomi.html";
+    a.click();
+};
+        function seekTo(seconds) {
+            const player = document.getElementById("videoPlayer");
+            const baseUrl = "https://www.youtube.com/embed/_aAOTfOU4lA";
+            const playlist = "PLNYThtE5EmP9Qi6pWXfBahB-oPdf1p_ei";
+            player.src = `${baseUrl}?list=${playlist}&start=${seconds}&autoplay=1`;
+        }
+    </script>
+
+
+</body></html>

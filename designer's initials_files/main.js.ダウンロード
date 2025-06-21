@@ -1,0 +1,163 @@
+const ham = document.querySelector('#js-hamburger'); //js-hamburgerの要素を取得し、変数hamに格納
+const nav = document.querySelector('#js-nav'); //js-navの要素を取得し、変数navに格納
+
+$(document).ready(function() {
+  //今日
+  var now = new Date();
+  var y = now.getFullYear();
+  var m = now.getMonth()+1;
+  var d = now.getDate();
+  $('#js_card_item_time_1').text(y + '/' + m + '/' + d);
+
+  //5日前
+  now.setDate(now.getDate()-5);
+  y = now.getFullYear();
+  m = now.getMonth()+1;
+  d = now.getDate();
+  $('#js_card_item_time_2').text(y + '/' + m + '/' + d);
+
+  //10日前
+  now.setDate(now.getDate()-5);
+  y = now.getFullYear();
+  m = now.getMonth()+1;
+  d = now.getDate();
+  $('#js_card_item_time_3').text(y + '/' + m + '/' + d);
+});
+
+ham.addEventListener('click', function () { //ハンバーガーメニューをクリックしたら
+  ham.classList.toggle('active'); // ハンバーガーメニューにactiveクラスを付け外し
+  nav.classList.toggle('active'); // ナビゲーションメニューにactiveクラスを付け外し
+});
+
+$('.slider_2').slick({
+        autoplay: false,//自動的に動き出すか。初期値はfalse。
+        infinite: true,//スライドをループさせるかどうか。初期値はtrue。
+        slidesToShow: 3,//スライドを画面に3枚見せる
+        slidesToScroll: 3,//1回のスクロールで3枚の写真を移動して見せる
+        prevArrow: '<div class="slick-prev"></div>',//矢印部分PreviewのHTMLを変更
+        nextArrow: '<div class="slick-next"></div>',//矢印部分NextのHTMLを変更
+        dots: true,//下部ドットナビゲーションの表示
+        responsive: [
+            {
+            breakpoint: 769,//モニターの横幅が769px以下の見せ方
+            settings: {
+                slidesToShow: 2,//スライドを画面に2枚見せる
+                slidesToScroll: 2,//1回のスクロールで2枚の写真を移動して見せる
+            }
+        },
+        {
+            breakpoint: 426,//モニターの横幅が426px以下の見せ方
+            settings: {
+                slidesToShow: 1,//スライドを画面に1枚見せる
+                slidesToScroll: 1,//1回のスクロールで1枚の写真を移動して見せる
+            }
+        }
+    ]
+});
+
+function count(obid, calc,item_code){
+  var thisCount = $("#qty_"+obid).html();
+  thisCount = Number(thisCount);
+  thisCount = thisCount + calc;
+
+  if (thisCount < 0) {
+    thisCount = 0;
+  }
+  
+  $("#qty_"+obid).html(thisCount);
+
+  //save_sessionstrage(item_code,thisCount);
+}
+
+function add_cart(big_item_code){
+
+  if(big_item_code == '001') {
+
+    for(var i=1; i <= 3; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+    }
+
+  } else if (big_item_code == '002') {
+    
+    for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+    }
+  
+  } else if (big_item_code == '003') {
+
+    for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+    }
+
+  } else if (big_item_code == '004') {
+
+    for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+    }
+
+  } else if (big_item_code == '005') {
+
+    for(var i=1; i <= 4; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+    }
+
+  } else if (big_item_code == '006') {
+
+   for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+   }
+
+  } else if (big_item_code == '007') {
+
+   for(var i=1; i <= 2; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+   }
+
+  } else if (big_item_code == '008') {
+
+   for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+   }
+
+  } else if (big_item_code == '009') {
+
+   for(var i=1; i <= 1; i++) {
+      var thisCount = $("#qty_" + i).html();
+      thisCount = Number(thisCount);
+      var item_code = big_item_code + "_" + i
+      save_sessionstrage(item_code,thisCount);
+   }
+
+  }
+  console.log(sessionStorage);
+}
+
+function save_sessionstrage(item_code, count){
+  sessionStorage.setItem(item_code, count);
+  //console.log(sessionStorage);
+}
+

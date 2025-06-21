@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2025 mokuji</title>
+</head>
+<body bgcolor="grey">
+
+GC23 A.H.
+<br>
+
+<a href="Tedtalk.html">TED-ed</a><br>
+<a href="52umekomi.html">スペイン語の曲</a><br>
+<a href="Anne-Marie2002.html">英語の曲</a><br>
+<a href="60quiz.spa.html">単語試験(西)</a><br><br>
+<a href="tedtalkquiz.eng.html">単語試験(TedTalk)</a><br><br>
+<a href="10challengeplan.html"> 前期授業チャレンジ計画</a><br><br>
+<a href="sagyoukiroku.html">作業記録</a><br>
+
+
+</a>
+<br>
+<br>
+
+
+<input type="button" id="pushButton" value="ダウンロード">
+<br>
+教科書p.163にbutton, pushButton, onclick, function解説あり。要素をクリックした時に、関数(function)を呼び出す。外国語学習ページでは、単語をクリックした時に、辞書を調べるられるが、これも関数を呼び出して実行している。外国語学習ページでは、Google翻訳で単語や文の意味を調べられるが、これも関数を呼び出して実行している。
+
+<script>
+pushButton.onclick=function (){
+    const a = document.createElement('a');
+    a.href = '';
+    a.download =  "11mokujiSample.html";
+    a.click();
+};
+</script>
+
+</body>
+</html>

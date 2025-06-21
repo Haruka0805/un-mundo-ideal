@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>60quiz</title>
+<style>
+.largeX4 { font-size: 1.5em; margin: 5px; }
+.largeX2 { font-size: 1.2em; margin: 3px; }
+</style>
+<script>
+/*
+23行目の変数 _lexList = `...`に単語リストを入れる
+単語リストは、「単語: .... <b>意味</b> ....; 言語名1文字; カタカナ」という形式となる
+単語は、活用形・変化形ではなく、辞書の見出し語（基本形）とする
+試験問題の選択肢として表示する「意味」を<b>...</b>でくくる
+34行目の_shikenName = "..."に「1文字言語名:文字:歌（タイトル）」を入れる
+*/
+
+let _lexList = `
+ac<b>quire</b>：習得する
+ad<b>van</b>tage：利点
+af<b>fect</b>：影響を与える
+<b>as</b>pect：側面、観点
+<b>bal</b>ance：バランスを取る
+<b>ben</b>efit：利益、恩恵
+<b>chal</b>lenge：挑戦、課題
+<b>clas</b>sify：分類する
+<b>con</b>cept：概念
+<b>con</b>text：文脈、状況
+<b>crit</b>ical：重大な、批判的な
+de<b>gree</b>：程度、学位
+de<b>vel</b>op：発達する、開発する
+dis<b>tin</b>guish：区別する
+<b>func</b>tion：機能、役割
+<b>mea</b>sure：測る、評価する
+pro<b>fi</b>cient：熟達した、堪能な
+pro<b>nun</b>ciation：発音
+pro<b>por</b>tion：割合、比率
+re<b>ac</b>tion：反応
+re<b>gard</b>less：～に関係なく
+re<b>mark</b>able：注目すべき、驚くべき
+spe<b>cif</b>ic：特定の、明確な
+<b>the</b>ory：理論
+<b>vis</b>ible：目に見える、明白な
+`
+
+let _shikenName = "英:字:TEDed1";
+
+function dispList(btn) {
+  // _lexListの改行を <br> に変換して、太字を反映して表示
+  document.getElementById("quizX2").innerHTML = _lexList.trim().replace(/\n/g, "<br>");
+}
+
+function startQuiz(type, btn, num) {
+  alert("ここにstartQuizの処理を入れてください");
+}
+
+function resetAll(btn) {
+  alert("履歴削除しました");
+}
+
+function enlargeEditList(btn) {
+  alert("単語編集を開きます");
+}
+
+function playAudio(word, btn) {
+  alert("音声再生:" + word);
+}
+
+function youGlishX(word) {
+  alert("映像検索:" + word);
+}
+
+function initX() {
+  // ページ読み込み時の初期処理があればここに
+}
+</script>
+</head>
+<body onload="initX()">
+
+<button class="largeX4" id="dispListX" onclick="dispList(this)" style="background-color: fuchsia;">リスト</button>
+<button class="largeX4" onclick="startQuiz('moji', this, 0)">文字試</button>
+<button class="largeX4" onclick="startQuiz('oto', this, 0)">音試験</button>
+<button class="largeX4" id="dlbtn" title="ファイルをダウンロード" onclick="alert('ダウンロード機能')">ダ↓</button>
+<button class="largeX4" onclick="window.open('55umekomi.html', '_blank')">歌</button>
+
+<br>
+
+<div id="quizX2" style="margin-top: 15px;">
+  <!-- ここに単語リストが表示されます -->
+</div>
+
+<br><br>
+
+<button class="largeX4" onclick="startQuiz('review', this, 1)">復習</button>
+<button class="largeX4" onclick="resetAll(this)">履歴削除</button>
+<button class="largeX4" onclick="enlargeEditList(this)">単語編集</button>
+
+</body>
+</html>
