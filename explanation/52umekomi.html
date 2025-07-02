@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 <head>
     <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <title>Un Mundo Ideal - ハイライト付き</title>
+
   <style>
     
 * {
@@ -15,7 +15,7 @@
   background-attachment: fixed;
 
   color: white;
-  font-family: Arial, sans-serif;
+  font-family:'Papyrus', 'Fantasy', serif;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -29,20 +29,19 @@
   font-size: 2rem;
   text-align: center; }
 
- .highlight {
-      background-color: #FFD700;
-      color: #333;
-      font-weight: bold;
-    
-      padding: 0.5em;
-      border-radius: 6px;
-      animation: pulse 1s ease-in-out infinite;
-      display: inline-block;
+.highlight {
+  background-color: #ffe066; 
+  color: #000;               
+  font-weight: bold;
+  border-radius: 8px;
+  animation: glow 1.5s ease-in-out infinite; 
+}
+    @keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
     }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }}    h1 {
+    h1 {
       color: #FFD700;
       margin: 20px 0;
     }
@@ -51,10 +50,6 @@
       margin: 20px 0;
     }
 
-    .lyrics-line {
-      margin: 15px auto;
-      font-size: 1.5rem;
-    }
 .video-container {
     position: fixed;
     bottom: 5px;
@@ -86,12 +81,12 @@
   </style>
 </head>
 <body>
+    <h1>Un Mundo Ideal </h1>
   <!-- YouTube埋め込み -->
     <div class="video-container">
         <div id="player"></div>
     </div>
 
-  <h1>Un Mundo Ideal</h1>
   <div class="lyrics">
     <div class="lyrics-line" id="line1">
       <button onclick="seekTo(32)">♪</button>
@@ -240,6 +235,7 @@ let buttonX = `
 <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/18viet.html">🇻🇳</option>
 <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/19ara.html">🕌</option>
 <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/21kor.html">🇰🇷</option>
+<option value="explanation.html">🎵</option>
 </select>
 <button onclick="togglePlayback()" id="playPauseButton" class="main-button">&nbsp;⏯&nbsp;</button>
 `;
