@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let buttonX = `
   <select id="selectX" class="mainButton" onChange="go2html(this)">
     <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/00/13haruka/52umekomi.html">🇲🇽</option>
-    <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/index.html">🇺🇸</option>
+    <option value="11eng.html">🇺🇸</option>
     <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/16russian.html">🇷🇺</option>
     <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/14ita.html">🇮🇹</option>
     <option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/17thai.html">🇹🇭</option>
