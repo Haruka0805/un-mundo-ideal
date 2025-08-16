@@ -4,94 +4,16 @@
     <meta charset="UTF-8">
 <head>
     <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <title>Un Mundo Ideal - ハイライト付き</title>
-  <style>
-    
-* {
-    -webkit-appearance: none;
-}
-   body {
-  background: linear-gradient(to bottom, #4e0082, #6f3f8b, #db7093);
-  background-attachment: fixed;
-
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-  
-  
-
-
-.lyrics-line {
-  margin: 15px auto;
-  font-size: 2rem;
-  text-align: center; }
-
- .highlight {
-      background-color: #FFD700;
-      color: #333;
-      font-weight: bold;
-    
-      padding: 0.5em;
-      border-radius: 6px;
-      animation: pulse 1s ease-in-out infinite;
-      display: inline-block;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-      100% { transform: scale(1); }}    h1 {
-      color: #FFD700;
-      margin: 20px 0;
-    }
-    h2 {
-      color: #FFD700;
-      margin: 20px 0;
-    }
-
-    .lyrics-line {
-      margin: 15px auto;
-      font-size: 1.5rem;
-    }
-.video-container {
-    position: fixed;
-    bottom: 5px;
-    right: 5px;
-    z-index: 900;
-}
-#bottomBtn {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    z-index: 999;
-}
-.main-button {
-    padding: 0px 0px;
-    font-size: 28pt;
-    cursor: pointer;
-    background-color: darkgray;
-}
- a {
-      display: inline-block;
-      margin-top: 40px;
-      text-decoration: none;
-      background: #663399;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
- }
-
-  </style>
+<link rel="stylesheet" href="aladdin.css">
+ 
 </head>
 <body>
-  <!-- YouTube埋め込み -->
+    <h1>Un Mundo Ideal </h1>
+
     <div class="video-container">
         <div id="player"></div>
     </div>
 
-  <h1>Un Mundo Ideal</h1>
   <div class="lyrics">
     <div class="lyrics-line" id="line1">
       <button onclick="seekTo(32)">♪</button>
@@ -133,121 +55,12 @@
 <a href="explanation.html"> 音声解説ページ</a>  
 <div id="bottomBtn">
 </div>
+<a href="flashcards.html" > 単語カード</a>
 
-  <script>
-    const lyrics = [
-      { id: 'line1', time: 32 },
-      { id: 'line2', time: 35 },
-      { id: 'line3', time: 39 },
-      { id: 'line4', time: 44 }
-    ];
-
-    let player;
-    let checkInterval;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '120',
-        width: '200',
-        videoId: '_aAOTfOU4lA',
-        playerVars: {
-          autoplay: 1,
-          controls: 1,
-          start: 30
-        },
-        events: {
-          onStateChange: onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        syncLyrics();
-      } else {
-        clearInterval(checkInterval);
-      }
-    }
-
-    function syncLyrics() {
-      clearInterval(checkInterval);
-      checkInterval = setInterval(() => {
-        const currentTime = Math.floor(player.getCurrentTime());
-
-        let currentLine = null;
-        for (let i = 0; i < lyrics.length; i++) {
-          if (
-            currentTime >= lyrics[i].time &&
-            (i === lyrics.length - 1 || currentTime < lyrics[i + 1].time)
-          ) {
-            currentLine = lyrics[i].id;
-            break;
-          }
-        }
-
-        document.querySelectorAll('.lyric-text').forEach((text) => {
-          text.classList.remove('highlight');
-        });
-
-    checkRep(currentTime);
-
-
-        if (currentLine) {
-          const el = document.getElementById(currentLine);
-          const lyricSpan = el.querySelector('.lyric-text');
-          if (lyricSpan) {
-            lyricSpan.classList.add('highlight');
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        }
-      }, 300);
-    }
-
-    function seekTo(time) {
-      if (player) {
-        player.seekTo(time, true);
-        player.playVideo();
-      }
-    }
-
- function checkRep(currentTime){
-     if (currentTime > 50){
-         seekTo(31);
-     }
- }
-
-function togglePlayback() {
-    if (player.getPlayerState() != 1){
-        player.playVideo();
-    } else {
-        player.pauseVideo();
-        clearTimeout(_tm4hiLite);
-    }
-}
-  function go2html(self){
-      window.open(self.value, "_self");
-}
-
-
-
-let buttonX = `
-<select id="selectX" class="main-button" onChange=go2html(this)>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/00/13haruka/52umekomi.html">🇲🇽</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/index.html")>🇺🇸</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/16russian.html">🇷🇺</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/14ita.html">🇮🇹</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/17thai.html">🇹🇭</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/18viet.html">🇻🇳</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/19ara.html">🕌</option>
-<option value="http://sato.fm.senshu-u.ac.jp/zkiku/2025/31wholeNW/21kor.html">🇰🇷</option>
-</select>
-<button onclick="togglePlayback()" id="playPauseButton" class="main-button">&nbsp;⏯&nbsp;</button>
-`;
-bottomBtn.innerHTML = buttonX.replace(/\n/g, "");
-
-  </script>
-
-  <!-- YouTube IFrame API 読み込み -->
-  <script src="https://www.youtube.com/iframe_api"></script>
+  
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="52umekomi.js"></script>
 </body>
 </html>
+
+  

@@ -1,4 +1,4 @@
- .glow-text {
+.glow-text {
   color: #fff;
   font-weight: bold;
   font-size: 2rem;
@@ -10,12 +10,14 @@
   
 }
 .line-box {
-  border: 2px dashed #ccc; /* ← 点線枠に変更OK */
+  border: 2px dashed #ccc; 
   border-radius: 12px;
   padding: 20px;
   margin: 20px auto;
-  width: 80%;
-  background-color: rgba(255, 255, 255, 0.05); /* ほんのり背景 */
+  background-color: rgba(255, 255, 255, 0.05); 
+}
+.line-box:hover {
+  transform: scale(1.02); 
 }
 @keyframes flicker {
   0%   { opacity: 1; }
@@ -39,14 +41,19 @@
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
   }
-    body {
-      background: #8c70b1;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
+     body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #0a0a2a, #1a1a3d);
+      color: #fff;
+      padding: 20px;
     }
-    h1 {
-      color: #663399;
+     h1 {
+      font-family: 'Papyrus', 'Fantasy', serif;
+      font-size: 2.2em;
+      color: #ffe066;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 0.05em;
     }
     audio {
       margin-top: 30px;
@@ -57,8 +64,75 @@
       display: inline-block;
       margin-top: 40px;
       text-decoration: none;
-      background: #663399;
+      background: #0a0a2a;
       color: white;
       padding: 10px 20px;
       border-radius: 8px;
+    
     }
+    .line-box {
+  cursor: pointer;
+}
+.idiom-box {
+  border: 2px solid #ccc;             
+  border-radius: 12px;                
+  padding: 16px;                      
+  margin: 20px 0;                      
+  background-color: rgba(255, 255, 255, 0.05);            
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s ease-in-out;
+}
+
+.idiom-box:hover {
+  transform: scale(1.02); 
+}
+a[href$="11eng.html"] {
+  display: block;
+  width: fit-content;
+  margin: 40px auto 0 auto;
+  background: #663399;
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+}
+a[href$="11eng.html"]:hover {
+  background: #8a4be5;
+}
+.idiom-box p {
+  margin: 10px 0;
+  font-size: 1.08em;
+  line-height: 1.7;
+}
+.idiom-box strong {
+  color: #ffe066;
+}
+.idiom-box audio {
+  width: 100%;
+  margin: 12px 0 18px 0;
+}
+.idiom-box h3 {
+  color: #ffd700;
+  margin-bottom: 12px;
+  font-size: 1.25em;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+.idiom-box {
+  background: rgba(255,255,255,0.10);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  padding: 28px 22px;
+  margin: 36px auto;
+  max-width: 480px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+}
+.idiom-box:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+}
