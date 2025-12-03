@@ -1,0 +1,89 @@
+<!DOCTYPE>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/21.css">
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/12main.js">
+</script>
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/13others.js">
+</script>
+
+<title>60quiz</title>
+<script>
+/*
+23行目の変数 _lexList = `...`に単語リストを入れる
+単語リストは、「単語: .... <b>意味</b> ....; 言語名1文字; カタカナ」という形式となる
+単語は、活用形・変化形ではなく、辞書の見出し語（基本形）とする
+試験問題の選択肢として表示する「意味」を<b>...</b>でくくる
+34行目の_shikenName = "..."に「1文字言語名:文字:歌（タイトル）」を入れる
+*/
+
+let _lexList = `
+un: <b>1つの</b>, 一個の: 西: ウン
+mundo: <b>世界</b>: 西: ムンド
+ideal: <b>理想的な</b>: 西: イデアル
+fantástico: <b>素晴らしい</b>: 西: ファンタスティコ
+encontrar: <b>見つける</b>: 西: エンコントラール
+
+`;
+
+_shikenName = "西:文字:アラジン";
+
+</script>
+
+</head>
+<body onLoad="initX()">
+<button class="largeX4" id="dispListX" onClick=dispList(this)>リスト</button>
+<button class="largeX4" onClick=startQuiz("moji",this,0)>文字試</button>
+<button class="largeX4" onClick=startQuiz("oto",this,0)>音試験</button>
+<button class="largeX4" id="dlbtn" title="ファイルをダウンロード" onClick="downloadX()">ダ↓</button>
+<button class="largeX4" onClick=window.open("55umekomi.html","_blank")>歌</button>
+<br>
+<div id="quizX2"></div>
+<iframe src="" id="kekkaX" name="kekka" height="200" width="600">
+</iframe>
+
+<audio autoplay id="audioX" controls>
+<source src="" type="audio/mp4">
+</audio>
+<br><br><br><br>
+<textarea id="textX" name="comment" cols="10%" rows="2">
+</textarea><br>
+
+
+<mark id="messageX">
+[リスト表示]をクリックすると登録した「多言語語彙リスト」を表示する。<br>
+[単語試験]または[聞取り試験]をクリックすると「多言語語彙リスト」から毎回異なる順番で語句が10問出題される<br>
+毎回異なる選択肢が表示されるので，正解を[ 0 ] ~[ 4 ]をクリックして解答する<br>
+「毎回異なる」点を確認するには，[開始]をゆっくりと数回クリックする<br>
+</mark>
+<br>
+
+<form name='kikuScore' action='/cgi-bin/public/04kikuScore.py' method='post'>
+<input type=hidden  name='petName' value=''>
+<input type=hidden  name='quizTypeNumb' value=''>
+<input type=hidden  name='quizName' value=''>
+<input type=hidden  name='score' value=''>
+<input type=hidden  name='cntTry' value=''>
+<input type=hidden  name='startQuizTime' value=''>
+<input type=hidden  name='timeSpent' value=''>
+<input type=hidden  name='sndPlayCnt' value=''>
+<input type=hidden  name='jugyoCode' value='99'>
+<input type=hidden  name='sebango' value='88'>
+<input type=hidden  name='startSection' value=''>
+<input type=hidden  name='cntWrong' value='999'>
+<input type=hidden  name='cheatCheck' value='moo'>
+<input type=hidden  name='fakeIdCheck' value='hey'>
+<input type=hidden  name='nausicaa' value='hoge'>
+</form>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<button class="largeX4" onClick=startQuiz("review",this,1)>復習</button>
+<button class="largeX4" onClick=resetAll(this)>履歴削除</button>
+<button class="largeX4"  onClick=enlargeEditList(this)>単語編集</button>
+
+
+</body>
+</html>

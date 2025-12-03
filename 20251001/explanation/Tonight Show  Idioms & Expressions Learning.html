@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)file:///C:/Users/81906/Downloads/aladdin_idioms_learning_page_standalone.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aladdin / Tonight Show — Idioms &amp; Expressions Learning</title>
+  <style>
+    :root{--fg:#0f172a;--muted:#64748b;--line:#e5e7eb;--bg:#ffffff}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans JP,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg);margin:0}
+    header{max-width:980px;margin:20px auto;padding:0 16px}
+    h1{font-size:28px;margin:8px 0}
+    p.lead{color:var(--muted)}
+
+    main{max-width:980px;margin:0 auto;padding:0 16px 60px}
+    #tabs{display:flex;gap:8px;margin:12px 0 16px}
+    .tab{padding:8px 12px;border:1px solid var(--line);border-radius:999px;cursor:pointer;user-select:none}
+    .tab.active{background:#111;color:#fff;border-color:#111}
+    section.panel{display:none}
+    section.panel.active{display:block}
+
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .toolbar .btn, .btn{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .btn:hover{background:#f8fafc}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:780px){.grid{grid-template-columns:1fr 1fr}}
+
+    .card{border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .phrase{font-weight:700;font-size:18px}
+    .meta{font-size:12px;color:var(--muted)}
+    .ex{margin-top:8px;font-size:14px;line-height:1.7}
+    .jp{color:#1f2937}
+    .note{margin-top:6px;font-size:12px;color:var(--muted)}
+    .badge{font-size:11px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#334155}
+
+    /* Shadow modal */
+    #shadow-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.35);z-index:50}
+    #shadow-modal .box{background:#fff;border-radius:16px;padding:16px;max-width:520px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+    #shadow-modal .row{display:flex;align-items:center;gap:8px;margin:8px 0}
+    #shadow-modal .meter{height:8px;background:#eee;border-radius:999px;overflow:hidden}
+    #shadow-modal .bar{height:100%;width:0%;background:#60a5fa}
+
+    footer{max-width:980px;margin:24px auto;padding:0 16px;color:var(--muted);font-size:12px}
+    textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:12px;padding:10px}
+    .hl{background:#fff7ed;border:1px dashed #fdba74;padding:10px;border-radius:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tonight Show × Aladdin — Idioms &amp; Expressions</h1>
+    <p class="lead">ウィル・スミスの出演回（アラジン談義）の字幕から、英語学習に役立つ表現だけを抽出。<br>音声（TTS）とシャドーイング、そして自動クイズでインプット→アウトプットを一気通貫！</p>
+    <div class="toolbar">
+      <button class="btn" id="btn-new-quiz">クイズを作る</button>
+      <button class="btn" id="btn-export">JSONエクスポート</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="tabs">
+      <div class="tab" data-target="#p-idioms">Idioms &amp; Phrases</div>
+      <div class="tab" data-target="#p-quiz">Quiz</div>
+      <div class="tab active" data-target="#p-ai">生成AIヘルパー（設計）</div>
+    </div>
+
+    <section id="p-idioms" class="panel">
+      <div class="grid" id="cards"><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">big shoes to fill <span class="badge">idiom</span></div>
+            <div class="meta">@ 11s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> you left some big shoes to fill.</div>
+        <div class="ex jp">意味：（前任者が偉大すぎて）後任は荷が重い</div>
+        <div class="note">メモ：謙遜にも称賛にも使える定番の言い回し。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">Hell no. <span class="badge">slang</span></div>
+            <div class="meta">@ 28s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> the first thing is, “Hell no.”</div>
+        <div class="ex jp">意味：絶対ムリ／ありえない（強い否定）</div>
+        <div class="note">メモ：かなりカジュアル。フォーマル場面は Absolutely not. / No way.</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">old school <span class="badge">vibe</span></div>
+            <div class="meta">@ 76s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> Yeah, standard old school.</div>
+        <div class="ex jp">意味：昔ながらの／クラシックな</div>
+        <div class="note">メモ：ヒップホップ文脈で「オールドスクール」。良い意味のレトロ感。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">No spoilers. <span class="badge">set phrase</span></div>
+            <div class="meta">@ 145s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> No spoilers.</div>
+        <div class="ex jp">意味：ネタバレ禁止ね</div>
+        <div class="note">メモ：作品トーク前の決まり文句。SNSでも頻出（#NoSpoilers）。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">y'all <span class="badge">dialect</span></div>
+            <div class="meta">@ 164s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> Yo, y'all see my palace?</div>
+        <div class="ex jp">意味：（米南部・黒人英語で）あなたたち／みんな</div>
+        <div class="note">メモ：you all の短縮。親しげ・くだけたトーン。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">Be specific with your words. <span class="badge">useful line</span></div>
+            <div class="meta">@ 167s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> Be specific with your words.</div>
+        <div class="ex jp">意味：言葉は具体的にしろ</div>
+        <div class="note">メモ：授業・会議でそのまま使える指示文。具体例や数値が “specific”。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">The deal is in the detail. <span class="badge">wordplay</span></div>
+            <div class="meta">@ 170s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> The deal is in the detail. Got it.</div>
+        <div class="ex jp">意味：取引は細部に宿る（＝細部が肝心）</div>
+        <div class="note">メモ：本来の慣用句 The devil is in the details を “deal” にもじった言葉遊び。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">snuggle up (with ~) <span class="badge">verb phrase</span></div>
+            <div class="meta">@ 163s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> you'd be snuggled up with that dude</div>
+        <div class="ex jp">意味：（～と）ぴったり寄り添う／くっつく</div>
+        <div class="note">メモ：snuggle up to/with 〜。比喩で「ベッタリ」。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">fan art <span class="badge">noun</span></div>
+            <div class="meta">@ 18s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> That must have been fan art.</div>
+        <div class="ex jp">意味：ファンが描いた作品</div>
+        <div class="note">メモ：番組・映画ファンダムで一般的な表現。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">smash (a role) <span class="badge">slang</span></div>
+            <div class="meta">@ 31s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> Robin Williams smashed that role.</div>
+        <div class="ex jp">意味：（役を）完璧に演じる／大成功する</div>
+        <div class="note">メモ：口語で「打ち砕く」→「圧勝／大成功」の比喩。</div>
+      </div><div class="card">
+        <div class="head">
+          <div>
+            <div class="phrase">live action <span class="badge">film</span></div>
+            <div class="meta">@ 124s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> It is — Live action.</div>
+        <div class="ex jp">意味：実写（版）</div>
+        <div class="note">メモ：アニメの実写化に絡む頻出語。</div>
+      </div></div>
+    </section>
+
+    <section id="p-quiz" class="panel">
+      <div id="quiz-area"><div class="card" data-type="cloze" data-answer="The deal is in the detail."><div class="head"><div class="meta">Q1</div></div>
+          <div style="margin-top:6px;">空所補充：_____ Got it.</div>
+          <input class="btn" style="width:100%; margin-top:8px;" placeholder="英語で入力"></div><div class="card" data-type="cloze" data-answer="smash (a role)"><div class="head"><div class="meta">Q2</div></div>
+          <div style="margin-top:6px;">空所補充：Robin Williams smashed that role.</div>
+          <input class="btn" style="width:100%; margin-top:8px;" placeholder="英語で入力"></div><div class="card" data-type="def" data-correct="0"><div class="head"><div class="meta">Q3</div></div>
+          <div style="margin-top:6px;">「snuggle up (with ~)」の意味は？</div>
+          <div style="margin-top:8px; display:grid; gap:6px;">
+            <label class="btn" style="display:block"><input type="radio" name="q2" value="0"> （～と）ぴったり寄り添う／くっつく</label><label class="btn" style="display:block"><input type="radio" name="q2" value="1"> 昔ながらの／クラシックな</label><label class="btn" style="display:block"><input type="radio" name="q2" value="2"> （前任者が偉大すぎて）後任は荷が重い</label><label class="btn" style="display:block"><input type="radio" name="q2" value="3"> 絶対ムリ／ありえない（強い否定）</label>
+          </div></div><div class="card" data-type="cloze" data-answer="Be specific with your words."><div class="head"><div class="meta">Q4</div></div>
+          <div style="margin-top:6px;">空所補充：_____</div>
+          <input class="btn" style="width:100%; margin-top:8px;" placeholder="英語で入力"></div><div class="card" data-type="def" data-correct="0"><div class="head"><div class="meta">Q5</div></div>
+          <div style="margin-top:6px;">「y'all」の意味は？</div>
+          <div style="margin-top:8px; display:grid; gap:6px;">
+            <label class="btn" style="display:block"><input type="radio" name="q4" value="0"> （米南部・黒人英語で）あなたたち／みんな</label><label class="btn" style="display:block"><input type="radio" name="q4" value="1"> （前任者が偉大すぎて）後任は荷が重い</label><label class="btn" style="display:block"><input type="radio" name="q4" value="2"> 絶対ムリ／ありえない（強い否定）</label><label class="btn" style="display:block"><input type="radio" name="q4" value="3"> 昔ながらの／クラシックな</label>
+          </div></div></div>
+      <div style="margin-top:10px; display:flex; gap:8px;">
+        <button class="btn" id="btn-check-quiz">採点</button>
+        <button class="btn" id="btn-new-quiz-2">新しい問題</button>
+      </div>
+    </section>
+
+    <section id="p-ai" class="panel active">
+      <div class="card">
+        <div class="head"><div class="phrase">生成AIヘルパー構想</div><div class="meta">バックエンド実装の雛形付き</div></div>
+        <div class="ex">※ このページはフロントのみ。APIキーは一切不要・送信しません。以下は「こう作る」ためのUIと<span class="hl">プロンプト雛形</span>です。</div>
+        <h3>1) 行単位の解説を生成</h3>
+        <textarea id="ai-prompt-explain">You are an English tutor for Japanese learners (CEFR B1–B2). Explain the phrase: "big shoes to fill". Include: meaning in Japanese, nuance/register, 2 example sentences (one formal, one casual), and 2 similar expressions. Keep it under 120 words.</textarea>
+        <div style="margin:8px 0;" class="meta">バックエンド例：<code>POST /ai/explain { prompt, phrase }</code> → JSON: <code>{ html }</code></div>
+        <div class="row" style="display:flex; gap:8px;">
+          <button class="btn" disabled="">（API未接続）解説を生成</button>
+          <button class="btn" id="btn-copy-prompt">プロンプトをコピー</button>
+        </div>
+        <h3>2) 文の言い換え（丁寧さ・フォーマル度の切替）</h3>
+        <textarea id="ai-prompt-rewrite">Rewrite the line "Hell no." into 3 variants: (1) neutral casual, (2) polite casual, (3) formal. Output English only.</textarea>
+        <div class="row" style="display:flex; gap:8px;">
+          <button class="btn" disabled="">（API未接続）言い換えを生成</button>
+          <button class="btn" id="btn-copy-prompt2">プロンプトをコピー</button>
+        </div>
+        <h3>3) 自動クイズ生成（同義・クロース・コロケーション）</h3>
+        <textarea id="ai-prompt-quiz">Create a 5-question quiz from these items: ["big shoes to fill", "snuggle up", "No spoilers"]. Mix multiple choice (JP meaning) and cloze (replace target with a blank). Return JSON with fields: type (def|cloze), question, choices?, answer.</textarea>
+        <div class="row" style="display:flex; gap:8px;">
+          <button class="btn" disabled="">（API未接続）クイズを生成</button>
+          <button class="btn" id="btn-copy-prompt3">プロンプトをコピー</button>
+        </div>
+        <p class="note">※ サーバ側はOpenAIやGemini等にリレーするだけでOK。返ってきたJSON/HTMLをこのページに差し込めば完成。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    出典：Jimmy Fallon × Will Smith 対談（Aladdin）より。教育目的の抜粋・解説。
+  </footer>
+
+  <!-- Shadow/Recording Modal Root -->
+  <div id="shadow-modal" style="display: none;"><div class="box">
+      <div class="head"><div class="phrase">Shadowing</div><button class="btn" id="sh-close">×</button></div>
+      <div class="ex" style="margin:6px 0 12px; color:#475569;">フレーズを聞いて→真似して→自分の声を再生</div>
+      <div class="row"><button class="btn" id="sh-play">🔊 再生</button><button class="btn" id="sh-rec">● 録音</button><button class="btn" id="sh-stop" disabled="">■ 停止</button><button class="btn" id="sh-pb" disabled="">▶ 録音再生</button></div>
+      <div class="meter"><div class="bar"></div></div>
+      <div class="note" style="margin-top:8px;">録音は端末内のみで保存されません（学習用途）。</div>
+    </div></div>
+
+  <script>
+  // =====================
+  // Data (from transcript)
+  // =====================
+  const items = [
+    {ts:11, phrase:'big shoes to fill', badge:'idiom',
+      ex:'you left some big shoes to fill.',
+      jp:'（前任者が偉大すぎて）後任は荷が重い',
+      note:'謙遜にも称賛にも使える定番の言い回し。'},
+    {ts:28, phrase:'Hell no.', badge:'slang',
+      ex:'the first thing is, “Hell no.”',
+      jp:'絶対ムリ／ありえない（強い否定）',
+      note:'かなりカジュアル。フォーマル場面は Absolutely not. / No way.'},
+    {ts:76, phrase:'old school', badge:'vibe',
+      ex:'Yeah, standard old school.',
+      jp:'昔ながらの／クラシックな',
+      note:'ヒップホップ文脈で「オールドスクール」。良い意味のレトロ感。'},
+    {ts:145, phrase:'No spoilers.', badge:'set phrase',
+      ex:'No spoilers.',
+      jp:'ネタバレ禁止ね',
+      note:'作品トーク前の決まり文句。SNSでも頻出（#NoSpoilers）。'},
+    {ts:164, phrase:"y'all", badge:'dialect',
+      ex:"Yo, y'all see my palace?",
+      jp:'（米南部・黒人英語で）あなたたち／みんな',
+      note:'you all の短縮。親しげ・くだけたトーン。'},
+    {ts:167, phrase:'Be specific with your words.', badge:'useful line',
+      ex:'Be specific with your words.',
+      jp:'言葉は具体的にしろ',
+      note:'授業・会議でそのまま使える指示文。具体例や数値が “specific”。'},
+    {ts:170, phrase:'The deal is in the detail.', badge:'wordplay',
+      ex:'The deal is in the detail. Got it.',
+      jp:'取引は細部に宿る（＝細部が肝心）',
+      note:'本来の慣用句 The devil is in the details を “deal” にもじった言葉遊び。'},
+    {ts:163, phrase:'snuggle up (with ~)', badge:'verb phrase',
+      ex:"you'd be snuggled up with that dude",
+      jp:'（～と）ぴったり寄り添う／くっつく',
+      note:'snuggle up to/with 〜。比喩で「ベッタリ」。'},
+    {ts:18, phrase:'fan art', badge:'noun',
+      ex:'That must have been fan art.',
+      jp:'ファンが描いた作品',
+      note:'番組・映画ファンダムで一般的な表現。'},
+    {ts:31, phrase:'smash (a role)', badge:'slang',
+      ex:'Robin Williams smashed that role.',
+      jp:'（役を）完璧に演じる／大成功する',
+      note:'口語で「打ち砕く」→「圧勝／大成功」の比喩。'},
+    {ts:124, phrase:'live action', badge:'film',
+      ex:'It is — Live action.',
+      jp:'実写（版）',
+      note:'アニメの実写化に絡む頻出語。'}
+  ];
+
+  // =====================
+  // Render cards
+  // =====================
+  const cardsHost = document.getElementById('cards');
+  function renderCards(list = items){
+    cardsHost.innerHTML = '';
+    list.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="head">
+          <div>
+            <div class="phrase">${it.phrase} <span class="badge">${it.badge}</span></div>
+            <div class="meta">@ ${it.ts}s</div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊 TTS</button>
+            <button class="btn act-shadow">🎤 シャドー</button>
+            <button class="btn act-copy">コピー</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> ${it.ex}</div>
+        <div class="ex jp">意味：${it.jp}</div>
+        <div class="note">メモ：${it.note}</div>
+      `;
+      card.querySelector('.act-say').onclick = () => speak(it.ex);
+      card.querySelector('.act-shadow').onclick = () => openShadow(it.ex);
+      card.querySelector('.act-copy').onclick = async () => {
+        await navigator.clipboard.writeText(`${it.phrase} — ${it.jp}\n${it.ex}`);
+        card.querySelector('.act-copy').textContent = '✓ コピー';
+        setTimeout(()=>card.querySelector('.act-copy').textContent='コピー', 1200);
+      };
+      cardsHost.appendChild(card);
+    });
+  }
+  renderCards();
+
+  // =====================
+  // TABS
+  // =====================
+  document.querySelectorAll('#tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      const tgt = document.querySelector(tab.dataset.target);
+      if(tgt) tgt.classList.add('active');
+    });
+  });
+
+  // =====================
+  // Web Speech API (TTS)
+  // =====================
+  function speak(text, lang='en-US'){
+    try{
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang; u.rate = 1.0; u.pitch = 1.0;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){ alert('TTSがこのブラウザで無効か、権限が必要です。'); }
+  }
+
+  // =====================
+  // Shadowing: record & playback (local only)
+  // =====================
+  const modalRoot = document.getElementById('shadow-modal');
+  async function openShadow(text){
+    modalRoot.style.display='grid';
+    const box = modalRoot.querySelector('.box');
+    box.innerHTML = `
+      <div class="head"><div class="phrase">Shadowing</div><button class="btn" id="sh-close">×</button></div>
+      <div class="ex" style="margin:6px 0 12px; color:#475569;">フレーズを聞いて→真似して→自分の声を再生</div>
+      <div class="row"><button class="btn" id="sh-play">🔊 再生</button><button class="btn" id="sh-rec">● 録音</button><button class="btn" id="sh-stop" disabled>■ 停止</button><button class="btn" id="sh-pb" disabled>▶ 録音再生</button></div>
+      <div class="meter"><div class="bar"></div></div>
+      <div class="note" style="margin-top:8px;">録音は端末内のみで保存されません（学習用途）。</div>
+    `;
+    box.querySelector('#sh-close').onclick = () => modalRoot.style.display='none';
+    box.querySelector('#sh-play').onclick = () => speak(text);
+
+    let mediaRecorder, audioChunks=[]; let raf, stream, analyser, data, ctx; const bar = box.querySelector('.bar');
+
+    box.querySelector('#sh-rec').onclick = async () => {
+      try{
+        stream = await navigator.mediaDevices.getUserMedia({audio:true});
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, {type:'audio/webm'});
+          const url = URL.createObjectURL(blob);
+          box.querySelector('#sh-pb').onclick = () => new Audio(url).play();
+          box.querySelector('#sh-pb').disabled = false;
+          box.querySelector('#sh-stop').disabled = true;
+          box.querySelector('#sh-rec').disabled = false;
+          if(stream) stream.getTracks().forEach(t=>t.stop());
+          cancelAnimationFrame(raf);
+        };
+        mediaRecorder.start();
+        box.querySelector('#sh-rec').disabled = true;
+        box.querySelector('#sh-stop').disabled = false;
+        box.querySelector('#sh-pb').disabled = true;
+
+        // level meter
+        ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const src = ctx.createMediaStreamSource(stream); analyser = ctx.createAnalyser();
+        analyser.fftSize = 256; src.connect(analyser); data = new Uint8Array(analyser.frequencyBinCount);
+        (function draw(){ analyser.getByteTimeDomainData(data); const max = Math.max(...data); const amp = Math.abs(max-128)/128; if(bar) bar.style.width = Math.min(100, Math.floor(amp*200))+'%'; raf=requestAnimationFrame(draw); })();
+
+        box.querySelector('#sh-stop').onclick = () => { mediaRecorder.stop(); };
+      }catch(err){ alert('マイクが使えませんでした: '+err.message); }
+    };
+  }
+  modalRoot.addEventListener('click', (e)=>{ if(e.target===modalRoot) modalRoot.style.display='none'; });
+
+  // =====================
+  // Quiz generator
+  // =====================
+  function choiceDef(item){
+    const correct = item.jp;
+    const wrong = items.filter(x=>x!==item).slice(0,3).map(x=>x.jp);
+    const choices = [correct, ...wrong].sort(()=>Math.random()-0.5);
+    return {type:'def', q:`「${item.phrase}」の意味は？`, choices, correctIndex: choices.indexOf(correct)};
+  }
+  function cloze(item){
+    const safe = item.phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const sentence = item.ex.replace(new RegExp(safe, 'i'), '_____');
+    return {type:'cloze', q:`空所補充：${sentence}`, answer:item.phrase};
+  }
+  function makeQuiz(){
+    const ks = [...items].sort(()=>Math.random()-0.5).slice(0,5);
+    return ks.map(k => Math.random()<0.5 ? choiceDef(k) : cloze(k));
+  }
+  function renderQuiz(){
+    const area = document.getElementById('quiz-area');
+    area.innerHTML = '';
+    const qs = makeQuiz();
+    qs.forEach((q, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'card';
+      if(q.type==='def'){
+        wrap.innerHTML = `<div class="head"><div class="meta">Q${idx+1}</div></div>
+          <div style="margin-top:6px;">${q.q}</div>
+          <div style="margin-top:8px; display:grid; gap:6px;">
+            ${q.choices.map((c,i)=>`<label class="btn" style="display:block"><input type="radio" name="q${idx}" value="${i}"> ${c}</label>`).join('')}
+          </div>`;
+        wrap.dataset.type = 'def';
+        wrap.dataset.correct = String(q.correctIndex);
+      } else {
+        wrap.innerHTML = `<div class="head"><div class="meta">Q${idx+1}</div></div>
+          <div style="margin-top:6px;">${q.q}</div>
+          <input class="btn" style="width:100%; margin-top:8px;" placeholder="英語で入力" />`;
+        wrap.dataset.type = 'cloze';
+        wrap.dataset.answer = q.answer;
+      }
+      area.appendChild(wrap);
+    });
+  }
+  function checkQuiz(){
+    const area = document.getElementById('quiz-area');
+    const cards = area.querySelectorAll('.card'); let score = 0;
+    cards.forEach(card => {
+      if(card.dataset.type==='def'){
+        const val = card.querySelector('input[type="radio"]:checked');
+        const ok = val && Number(val.value)===Number(card.dataset.correct);
+        if(ok) score++; card.style.borderColor = ok ? '#22c55e' : '#ef4444';
+      } else {
+        const val = card.querySelector('input').value.trim();
+        const ok = val.toLowerCase()===card.dataset.answer.toLowerCase();
+        if(ok) score++; card.style.borderColor = ok ? '#22c55e' : '#ef4444';
+      }
+    });
+    alert(`Score: ${score} / ${cards.length}`);
+  }
+  document.getElementById('btn-new-quiz').addEventListener('click', renderQuiz);
+  document.getElementById('btn-new-quiz-2').addEventListener('click', renderQuiz);
+  document.getElementById('btn-check-quiz').addEventListener('click', checkQuiz);
+  renderQuiz();
+
+  // =====================
+  // Export JSON
+  // =====================
+  document.getElementById('btn-export').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(items, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'aladdin_idioms.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // =====================
+  // Copy helper for prompts
+  // =====================
+  function copySel(id){
+    const el = document.getElementById(id);
+    navigator.clipboard.writeText(el.value).then(()=>{
+      alert('プロンプトをコピーしました');
+    });
+  }
+  document.getElementById('btn-copy-prompt').onclick = () => copySel('ai-prompt-explain');
+  document.getElementById('btn-copy-prompt2').onclick = () => copySel('ai-prompt-rewrite');
+  document.getElementById('btn-copy-prompt3').onclick = () => copySel('ai-prompt-quiz');
+  </script>
+
+
+</body></html>

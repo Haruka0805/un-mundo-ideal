@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>今日の編み物ミッション</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="app-header">
+    <h1>今日の編み物ミッション</h1>
+    <div class="controls">
+      <label for="toneSelect">色系:</label>
+      <select id="toneSelect">
+        <option value="pastel">パステル</option>
+        <option value="natural">ナチュラル</option>
+        <option value="vivid">ビビッド</option>
+      </select>
+      <button id="genBtn" class="primary">お題を決める</button>
+    </div>
+    <div class="meta">
+      <span id="streakView">Streak: 1</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel today">
+      <h2>今日のお題</h2>
+      <div id="todayMission" class="card empty">まだお題がありません。「お題を決める」を押してね。</div>
+    </section>
+
+    <section class="panel history">
+      <h2>履歴（最新10件）</h2>
+      <ul id="historyList" class="list"></ul>
+    </section>
+
+    <aside class="panel favorites">
+      <h2>お気に入り</h2>
+      <ul id="favList" class="list"></ul>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <small>※Cookieを使用して前回のお題やお気に入りを保存します。ローカルではVSCodeの「Live Server」で起動してください。</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

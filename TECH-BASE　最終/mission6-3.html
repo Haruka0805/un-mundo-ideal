@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>あみものーと</title>
+  <link rel="stylesheet" href="mission6-3.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>メニュー</h2>
+    <nav>
+      <a href="mission6-3.html">記録</a>
+      <a href="mission6-3color.html">色見本メーカー</a>
+      <a href="mission6-3picture.html">写真ギャラリー</a>
+    </nav>
+  </aside>
+  <header class="site-header">
+    <h1>編み物ログ</h1>
+    <div class="actions">
+      <button id="openDialogBtn" class="btn primary">＋ 記録を追加</button>
+      <button id="clearAllBtn" class="btn danger">全削除</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="log-section">
+      <h2>前回までの記録</h2>
+      <div id="emptyState" class="empty">「＋ 記録を追加」から記録を追加できます。</div>
+      <div class="table-wrap">
+        <table id="logTable" class="log-table" aria-describedby="tableCaption">
+          <caption id="tableCaption" class="sr-only">編み物の記録一覧</caption>
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>作品名</th>
+              <th>毛糸の種類</th>
+              <th>号数/サイズ</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  
+  <dialog id="entryDialog">
+    <form id="entryForm" method="dialog">
+      <h3>記録の追加</h3>
+
+      <label class="field">
+        <span>作品名 <span class="req">*</span></span>
+        <input type="text" name="entryName" id="entryName" required placeholder="例）斜めボーダーのネクタイ" />
+      </label>
+
+      <label class="field">
+        <span>日付選択 <span class="req">*</span></span>
+        <input 
+          type="date" 
+          name="entryDate" 
+          id="entryDate" 
+          class="w-[200px] rounded-md border border-gray-300 bg-white p-2" 
+          required
+        />
+      </label>
+
+      <label class="field">
+        <span>毛糸の種類 <span class="req">*</span></span>
+        <input type="text" name="yarnType" id="yarnType" required placeholder="例）中細コットン" />
+      </label>
+
+
+
+      <label class="field">
+        <span>  使用針/号数 <span class="req">*</span></span>
+        <input type="text" name="toolSize" id="toolSize" required placeholder="例）6/0号, US 8 など" />
+      </label>
+
+      <label class="field">
+        <span>メモ</span>
+        <textarea name="memo" id="memo" rows="3" placeholder="自由記入欄です"></textarea>
+      </label>
+
+      <menu class="dialog-actions">
+        <button type="reset" id="cancelBtn" class="btn">キャンセル</button>
+        <button type="submit" class="btn primary">保存</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="mission6-3.js" defer></script>
+</body>
+</html>

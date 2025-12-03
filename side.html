@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>サイドバー練習</title>
+  <style>
+    body {
+      margin: 0;              /* 余白を消す */
+      display: flex;          /* 横並び */
+    }
+    aside {
+      width: 200px;           /* サイドバーの幅 */
+      background: #333;       /* 背景色 */
+      color: white;           /* 文字色 */
+      min-height: 100vh;      /* 全画面の高さ */
+      padding: 1rem;
+    }
+    main {
+      flex: 1;                /* 残り全部を使う */
+      padding: 2rem;
+    }
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    nav a:hover {
+      background: #555;       /* ホバーで色変え */
+    }
+  </style>
+</head>
+<body>
+  <!-- サイドバー -->
+  <aside>
+    <h2>メニュー</h2>
+    <nav>
+      <a href="#">ホーム</a>
+      <a href="#">チーム</a>
+      <a href="#">スケジュール</a>
+      <a href="#">ミッション</a>
+    </nav>
+  </aside>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <h1>メインエリア</h1>
+    <p>ここに記事や内容が入ります。</p>
+  </main>
+</body>
+</html>

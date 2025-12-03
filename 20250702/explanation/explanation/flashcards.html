@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スペイン語 単語カード</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+   
+   
+</head>
+<body>
+  <h1>スペイン語 単語カード</h1>
+  <div class="add-word-container">
+    <button class="add-word" onclick="openModal()">
+      <span class="ri-add-line"></span>
+      <span>Add New Card</span>
+    </button>
+  </div>
+
+  <div id="word-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="modal-title">Add New Card</h2>
+      <form id="word-form" class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Front (Word)</label>
+          <input type="text" id="word-input" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Back (Meaning)</label>
+          <textarea id="meaning-input" class="form-input" required></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-word" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="save-word">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="flashcards-list" id="flashcards-list"></div>
+
+  <script>
+    const flashcards = [
+      { word: "será", meaning: "〜だろう (ラテン語 esse)" },
+      { word: "encontrar", meaning: "見つける (ラテン語 incontrare)" },
+      { word: "ir", meaning: "行く (ラテン語 ire)" },
+      { word: "amar", meaning: "愛する (ラテン語 amare)" }
+    ];
+
+    const flashcardList = document.getElementById("flashcards-list");
+    const modal = document.getElementById("word-modal");
+    const wordForm = document.getElementById("word-form");
+
+    function renderCards() {
+      flashcardList.innerHTML = "";
+      flashcards.forEach((card, index) => {
+        const div = document.createElement("div");
+        div.className = "flashcard";
+        div.innerHTML = `
+          <p class="flashcard-title">${card.word}</p>
+          <div class="flashcard-icons">
+            <button onclick="toggleMeaning(${index})"><span class="ri-eye-line"></span></button>
+          </div>
+          <div class="flashcard-toggle" id="meaning-${index}">
+            <p>${card.meaning}</p>
+          </div>
+        `;
+        flashcardList.appendChild(div);
+      });
+    }
+
+    function toggleMeaning(index) {
+      const el = document.getElementById(`meaning-${index}`);
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+
+    function openModal() {
+      modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      wordForm.reset();
+    }
+
+    wordForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const word = document.getElementById("word-input").value.trim();
+      const meaning = document.getElementById("meaning-input").value.trim();
+      if (word && meaning) {
+        flashcards.push({ word, meaning });
+        renderCards();
+        closeModal();
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", renderCards);
+  </script>
+  <script src="main.js"></script>
+  <a href="52umekomi.html">← 元のページに戻る</a>  
+</body>
+</html>

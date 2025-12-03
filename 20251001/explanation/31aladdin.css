@@ -1,0 +1,157 @@
+* {
+    -webkit-appearance: none;
+}
+body {
+  background: linear-gradient(to bottom, #4e0082, #6f3f8b, #db7093);
+  background-attachment: fixed;
+
+  color: white;
+  font-family:'Papyrus', 'Fantasy', serif;
+  margin: 0;
+  padding: 0;
+}
+  
+.lyrics-line {
+  margin: 15px auto;
+  font-size: 2rem;
+}
+
+.lyric-text {
+  font-size: 1.6rem;
+}
+
+.lyric-translation {
+  font-size: 1.3rem;
+}
+
+sub {
+   font-size: 60%;
+}
+
+.box {
+  background-color: rgb(250, 248, 149);
+    font-weight: bold;
+          color: #000;  
+        border-radius: 8px;
+    animation: glow 1.5s ease-in-out infinite; 
+}
+
+.highlight {
+  background-color: rgb(250, 248, 149); 
+    font-weight: bold;
+  color: #000;               
+  border-radius: 8px;
+  animation: glow 1.5s ease-in-out infinite; 
+}
+    @keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
+    }
+    h1 {
+      color: #FFD700;
+      margin: 20px 0;
+      text-align: center;
+    }
+    h2 {
+      color: #FFD700;
+      margin: 20px 0;
+    }
+
+.video-container {
+    position: fixed;
+    bottom: 110px;
+    right: 5px;
+    z-index: 900;
+}
+
+.mainButton {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+ a {
+    display: block;
+  margin: 0 auto 24px auto;
+  width: fit-content;
+  background: #663399;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+ }
+.subtitle {
+  font-size: 1em; 
+  line-height: 1.7;
+}
+
+button {
+    font-size: 22pt;
+      height: 40pt;
+    background-color: rgba(75, 48, 78, 0.336);
+    color: rgb(0, 0, 0);
+
+}
+
+.main-button {
+    padding: 0px 0px;
+    font-size: 22pt;
+    cursor: pointer;
+    background-color: rgb(254, 254, 255);
+}
+
+option {
+    font-size: 30pt;
+    background-color: rgb(255, 255, 255);
+}
+
+
+#selectX {
+  font-size: 1.8rem; 
+  width: 100%;
+  height: 100%;
+}
+
+
+#ctrDiv {
+    position: fixed;
+    bottom: 5px;
+    right: 0px;
+    width: 305px;
+    z-index: 801;
+}
+
+.ctrBtnX {
+     background-color: rgb(243, 241, 243);
+    font-size: 1.0rem;
+    width: 60px;
+    height: 52px;
+    
+}
+
+#playPauseButton{
+    background-color: rgb(243, 245, 243);
+    font-size: 1.0rem;
+    width: 60px;
+    height: 52px;
+}
+
+#bottomBtn {
+    position: fixed;
+    bottom: 5px;
+    height: 52px;
+    width: 60px;
+
+    right: 5px;
+    z-index: 999;
+  
+}
+
+.redX{
+    background-color: rgb(255, 255, 255);
+}

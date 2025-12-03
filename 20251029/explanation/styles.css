@@ -1,0 +1,368 @@
+ .glow-text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #ffd900a9,
+    0 0 20px #ff8c0094,
+    0 0 30px #ff44007e;
+}
+
+/* Modal (hidden 管理) */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: linear-gradient(135deg,#1e0b4f,#4a1578);
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,215,0,0.12);
+}
+.modal-form .form-group { margin-bottom: 12px; text-align: left; }
+.form-label { font-weight: bold; display:block; margin-bottom:6px; }
+.form-input { width:100%; padding:8px; box-sizing:border-box; border-radius:6px; border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); color: #fff; }
+.modal-actions { text-align: right; margin-top: 8px; }
+.cancel-word, .save-word { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+.cancel-word { background: rgba(255,255,255,0.08); color:#fff; margin-right:8px; }
+.save-word { background: linear-gradient(135deg,#ffd700,#ffb300); color:#000; }
+
+.line-box, .flashcard {
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 35px auto;
+  background: linear-gradient(135deg, 
+    rgba(30, 11, 79, 0.95), 
+    rgba(74, 21, 120, 0.95)
+  );
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 15px rgba(106, 27, 154, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 0 20px rgba(255, 215, 0, 0.1);
+  transition: all 0.4s ease;
+  max-width: 800px;
+  backdrop-filter: blur(5px);
+}
+
+/* アラビアン装飾パターン */
+.line-box::after, .flashcard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(45deg, transparent 48%, rgba(255,215,0,0.1) 50%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(255,215,0,0.1) 50%, transparent 52%);
+  background-size: 30px 30px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.line-box::before, .flashcard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(255, 215, 0, 0.12) 0%,
+      transparent 60%),
+    linear-gradient(45deg,
+      transparent 40%,
+      rgba(255,215,0,0.08) 45%,
+      rgba(255,215,0,0.12) 50%,
+      transparent 55%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.6s ease;
+  transform: translateY(0);
+}
+
+.line-box:hover, .flashcard:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(106, 27, 154, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.line-box:hover::before, .flashcard:hover::before {
+  opacity: 1;
+  transform: translateY(-3px) scale(1.02);
+}
+
+.line-box h3, .flashcard-title {
+  color: #ffd700;
+  font-family: 'Papyrus', 'Fantasy', serif;
+  font-size: 2rem;
+  text-shadow: 
+    0 2px 4px rgba(0,0,0,0.3),
+    0 0 15px rgba(255, 215, 0, 0.6);
+  margin-bottom: 25px;
+  letter-spacing: 3px;
+  position: relative;
+  display: inline-block;
+}
+
+.line-box p,   {
+  color: #ffffff;
+  margin: 15px 0;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border-left: 3px solid rgba(255, 215, 0, 0.3);
+}
+
+.line-box:hover h3, .flashcard:hover .flashcard-title {
+  animation: magicPulse 1.5s infinite;
+}
+
+@keyframes magicPulse {
+  0% {
+    transform: scale(1);
+    text-shadow: 
+      0 2px 4px rgba(0,0,0,0.3),
+      0 0 15px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 
+      0 2px 4px rgba(0,0,0,0.3),
+      0 0 25px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 
+      0 2px 4px rgba(0,0,0,0.3),
+      0 0 15px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes flicker {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.highlight {
+  background-color: #ffeb3b;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 6px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: 
+    linear-gradient(
+      135deg, 
+      #0a0a2a 0%,
+      #1a1a3d 100%
+    ),
+    url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M20 0L40 20L20 40L0 20L20 0z" fill="%23ffd700" fill-opacity="0.05"/%3E%3C/svg%3E');
+  background-attachment: fixed;
+  color: #fff;
+  padding: 20px;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+h1 {
+  font-family: 'Papyrus', 'Fantasy', serif;
+  font-size: 2.5em;
+  color: #ffe066;
+  text-align: center;
+}
+
+audio {
+  margin-top: 20px;
+  width: 90%;
+  max-width: 500px;
+  filter: sepia(20%) hue-rotate(180deg);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+audio:hover {
+  opacity: 1;
+}
+
+a {
+  display: inline-block;
+  margin-top: 40px;
+  text-decoration: none;
+  background: linear-gradient(135deg, #1e0b4f, #4a1578);
+  color: #ffd700;
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
+}
+
+.line-box strong {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  margin-right: 8px;
+}
+
+.flashcards-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.flashcard {
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  background: linear-gradient(135deg, 
+    rgba(30, 11, 79, 0.95), 
+    rgba(74, 21, 120, 0.95)
+  );
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 15px rgba(106, 27, 154, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 0 20px rgba(255, 215, 0, 0.1);
+  transition: all 0.4s ease;
+  max-width: 800px;
+  backdrop-filter: blur(5px);
+  /* サイズ統一 */
+  width: calc(100% - 40px);
+  max-width: 760px;
+  min-height: 140px; /* 初期の高さを揃える */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flashcard:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 6px 20px rgba(106, 27, 154, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+
+
+
+.flashcard-toggle {
+  margin-top: 15px;
+  display: none;
+  color: #ffffff;
+  background: linear-gradient(135deg, 
+    rgba(30, 11, 79, 0.8),
+    rgba(74, 21, 120, 0.8));
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(255,215,0,0.3);
+  box-shadow: 
+    inset 0 0 10px rgba(255, 215, 0, 0.1),
+    0 0 15px rgba(255, 215, 0, 0.1);
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.flashcard-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 0 15px rgba(255, 215, 0, 0.2),
+    0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.flashcard-icons button {
+  background: rgba(255,215,0,0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd700;
+  transition: all 0.3s ease;
+}
+
+.flashcard-icons button:hover {
+  background: rgba(255,215,0,0.3);
+  transform: scale(1.1);
+}
+
+/* 追加ボタンのスタイル */
+.add-word {
+  font-family: 'Papyrus', 'Fantasy', serif;
+ display: inline-block;
+  margin-top: 40px;
+  text-decoration: none;
+  background: linear-gradient(135deg, #1e0b4f, #4a1578);
+  color: #ffd700;
+  padding: 15px 30px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
+  transition: all 0.3s ease;
+}
+
+.add-word:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}

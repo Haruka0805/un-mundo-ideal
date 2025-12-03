@@ -1,0 +1,107 @@
+* {
+    -webkit-appearance: none;
+}
+   body {
+  background: linear-gradient(to bottom, #4e0082, #6f3f8b, #db7093);
+  background-attachment: fixed;
+
+  color: white;
+  font-family:'Papyrus', 'Fantasy', serif;
+  margin: 0;
+  padding: 0;
+}
+  
+  
+
+
+.lyrics-line {
+  margin: 15px auto;
+  font-size: 2rem;
+  }
+
+.highlight {
+  background-color: #ffe066; 
+  color: #000;               
+  font-weight: bold;
+  border-radius: 8px;
+  animation: glow 1.5s ease-in-out infinite; 
+}
+    @keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
+    }
+    h1 {
+      color: #FFD700;
+      margin: 20px 0;
+      text-align: center;
+    }
+    h2 {
+      color: #FFD700;
+      margin: 20px 0;
+    }
+
+.video-container {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 900;
+}
+#bottomBtn {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 999;
+}
+.mainButton {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+ a {
+    display: block;
+  margin: 0 auto 24px auto;
+  width: fit-content;
+  background: #663399;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+ }
+.subtitle {
+  font-size: 1.5em; 
+  line-height: 1.7;
+}
+
+button {
+    font-size: 14pt;
+    background-color: darkgray;
+}
+
+.play-button {
+    font-size: 18pt;
+}
+
+
+#bottomBtn {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 999;
+}
+.main-button {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+option {
+    font-size: 28pt;
+    background-color: darkgray;
+}

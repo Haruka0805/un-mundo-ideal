@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単語テスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+            display: none;
+        }
+        .question-container.active {
+            display: block;
+        }
+        .question-number {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .question-word {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .choice-btn {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            width: 100%;
+            text-align: left;
+        }
+        .choice-btn:hover {
+            background-color: #dcdfe3;
+        }
+        .choice-btn:active {
+            transform: scale(0.98);
+        }
+        .choice-btn.correct {
+            background-color: #28a745;
+            color: white;
+        }
+        .choice-btn.wrong {
+            background-color: #dc3545;
+            color: white;
+        }
+        .feedback {
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            color: #28a745;
+        }
+        .feedback.wrong {
+            color: #dc3545;
+        }
+        .next-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            display: none;
+        }
+        .next-btn:hover {
+            background-color: #0056b3;
+        }
+        .results-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .results-container h2 {
+            text-align: center;
+            color: #333;
+        }
+        .results-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .results-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .results-item:last-child {
+            border-bottom: none;
+        }
+        .results-word {
+            font-weight: bold;
+        }
+        .results-status {
+            font-weight: bold;
+        }
+        .results-status.correct {
+            color: #28a745;
+        }
+        .results-status.wrong {
+            color: #dc3545;
+        }
+        .start-btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+        }
+        .start-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>単語テスト</h1>
+        
+        <div id="start-screen">
+            <p>準備ができたら「テスト開始」ボタンをクリックしてください。</p>
+            <button id="start-btn" class="start-btn">テスト開始</button>
+        </div>
+
+        <div id="quiz-container" style="display: none;">
+            <div id="question-card" class="question-container active">
+                <div class="question-number"></div>
+                <div class="question-word"></div>
+                <div class="choices"></div>
+                <div class="feedback"></div>
+                <button id="next-btn" class="next-btn">次の問題へ</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="results-container">
+            <h2>テスト結果</h2>
+            <div id="score"></div>
+            <ul id="results-list" class="results-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { word: "commencement", correct: "卒業式", options: ["卒業式", "入学式", "休憩時間"] },
+            { word: "drop-in", correct: "聴講生", options: ["落ちこぼれ", "退学する", "聴講生"] },
+            { word: "unwed", correct: "未婚の", options: ["既婚の", "未婚の", "独身の"] },
+            { word: "relented", correct: "最終的に折れた", options: ["抵抗した", "最終的に折れた", "喜んで受け入れた"] },
+            { word: "naively", correct: "世間知らずに、うぶに", options: ["賢く", "世間知らずに、うぶに", "ずる賢く"] }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        const answers = [];
+
+        const startBtn = document.getElementById('start-btn');
+        const startScreen = document.getElementById('start-screen');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsScreen = document.getElementById('results-screen');
+        const questionNumberEl = document.querySelector('.question-number');
+        const questionWordEl = document.querySelector('.question-word');
+        const choicesContainer = document.querySelector('.choices');
+        const feedbackEl = document.querySelector('.feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreEl = document.getElementById('score');
+        const resultsListEl = document.getElementById('results-list');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startQuiz() {
+            shuffleArray(quizData);
+            startScreen.style.display = 'none';
+            quizContainer.style.display = 'block';
+            currentQuestionIndex = 0;
+            score = 0;
+            answers.length = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                showResults();
+                return;
+            }
+
+            const currentQuiz = quizData[currentQuestionIndex];
+            
+            questionNumberEl.textContent = `問題 ${currentQuestionIndex + 1} / ${quizData.length}`;
+            questionWordEl.textContent = currentQuiz.word;
+            choicesContainer.innerHTML = '';
+            feedbackEl.textContent = '';
+            nextBtn.style.display = 'none';
+            
+            shuffleArray(currentQuiz.options);
+
+            currentQuiz.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('choice-btn');
+                button.addEventListener('click', () => selectAnswer(option, currentQuiz.correct));
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedOption, correctAnswer) {
+            const isCorrect = selectedOption === correctAnswer;
+            const allChoices = choicesContainer.querySelectorAll('.choice-btn');
+
+            allChoices.forEach(button => {
+                button.disabled = true;
+                if (button.textContent === correctAnswer) {
+                    button.classList.add('correct');
+                }
+                if (button.textContent === selectedOption && !isCorrect) {
+                    button.classList.add('wrong');
+                }
+            });
+
+            feedbackEl.textContent = isCorrect ? '正解！' : `不正解... 正解は「${correctAnswer}」です。`;
+            feedbackEl.classList.remove('correct', 'wrong');
+            feedbackEl.classList.add(isCorrect ? 'correct' : 'wrong');
+            
+            answers.push({
+                word: quizData[currentQuestionIndex].word,
+                correct: isCorrect,
+                correctAnswer: correctAnswer,
+                userAnswer: selectedOption
+            });
+
+            if (isCorrect) {
+                score++;
+            }
+
+            nextBtn.style.display = 'block';
+        }
+
+        function showResults() {
+            quizContainer.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            
+            scoreEl.textContent = `${quizData.length}問中、${score}問正解しました！`;
+            resultsListEl.innerHTML = '';
+
+            answers.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('results-item');
+                
+                const wordSpan = document.createElement('span');
+                wordSpan.classList.add('results-word');
+                wordSpan.textContent = item.word;
+                
+                const resultSpan = document.createElement('span');
+                resultSpan.classList.add('results-status');
+                if (item.correct) {
+                    resultSpan.textContent = '○';
+                    resultSpan.classList.add('correct');
+                } else {
+                    resultSpan.textContent = `× (正解: ${item.correctAnswer})`;
+                    resultSpan.classList.add('wrong');
+                }
+                
+                listItem.appendChild(wordSpan);
+                listItem.appendChild(resultSpan);
+                resultsListEl.appendChild(listItem);
+            });
+        }
+
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            showQuestion();
+        });
+
+    </script>
+</body>
+</html>
