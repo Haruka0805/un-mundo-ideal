@@ -2,13 +2,27 @@
     -webkit-appearance: none;
 }
    body {
-  background: linear-gradient(to bottom, #4e0082, #6f3f8b, #db7093);
+  background: linear-gradient(to bottom, #1a0f4d, #4b1c77, #8b2b98);
   background-attachment: fixed;
-
+  position: relative;
   color: white;
-  font-family:'Papyrus', 'Fantasy', serif;
+  font-family: 'Papyrus', 'Fantasy', serif;
   margin: 0;
   padding: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
 }
   
   
@@ -20,11 +34,13 @@
   }
 
 .highlight {
-  background-color: #ffe066; 
+  background: linear-gradient(45deg, #FFD700, #FFA500);
   color: #000;               
   font-weight: bold;
   border-radius: 8px;
-  animation: glow 1.5s ease-in-out infinite; 
+  padding: 2px 8px;
+  animation: glow 1.5s ease-in-out infinite;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
     @keyframes glow {
        0%   { box-shadow: 0 0 5px #ffd700; }

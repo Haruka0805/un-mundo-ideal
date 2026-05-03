@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>編み物作品ギャラリー</title>
+    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- Firebase (no build tools needed) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+    <script src="./config.js"></script>
+    <script src="./firebase-init.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <strong>編み物作品ギャラリー</strong>
+          <span>写真投稿・一覧・詳細（MVP）</span>
+        </div>
+        <div class="nav">
+          <a class="btn" href="./upload.html">投稿する</a>
+        </div>
+      </div>
+
+      <div id="status" class="status">読み込み中…</div>
+      <div id="grid" class="grid" style="display: none"></div>
+    </div>
+
+    <script src="./gallery.js"></script>
+  </body>
+</html>
+

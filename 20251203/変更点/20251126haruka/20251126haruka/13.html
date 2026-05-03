@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>アラジンとジャスミンの冒険</title>
+    <style>
+        /* ... (動画固定、サイズ設定のCSSは省略) ... */
+        #player-container {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        #player {
+            height: 200px;
+            width: 355px;
+        }
+
+        /* 歌詞部分のスタイル */
+        #lyrics-content {
+            padding: 0px;
+            margin-top: 0px;
+            font-size: 1.2em;
+            line-height: 2.5; /* ルビと訳語の行間を確保 */
+        }
+
+        /* 訳語（<sub>タグ）のスタイル調整 */
+        #lyrics-content sub {
+            font-size: 0.7em;
+            vertical-align: top; /* 標準の下付き配置を調整 */
+            position: relative;
+            top: 0.5em; /* ルビの下に配置されるよう調整 */
+            margin-right: 1.5em; /* 単語間のスペース */
+            opacity: 0.8;
+            color: #444; /* 色を付けて視認性アップ */
+        }
+
+        /* ルビのフォントサイズを調整 */
+        rt {
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+<h1>アラジンとジャスミンの冒険</h1>
+<div id="lyrics-content">
+<ruby>Un<rt>ウン</rt></ruby><sub>一つの</sub> 
+<ruby>mundo<rt>ムンド</rt></ruby><sub>世界</sub> 
+<ruby>ideal<rt>イデアル</rt></ruby><sub>理想的な</sub><br>
+<ruby>Un<rt>ウン</rt></ruby><sub>一つの</sub> 
+<ruby>mundo<rt>ムンド</rt></ruby><sub>世界</sub> 
+<ruby>en<rt>エン</rt></ruby><sub>で</sub> 
+<ruby>que<rt>ケ</rt></ruby><sub>〜</sub> 
+<ruby>tu<rt>トゥ</rt></ruby><sub>きみ</sub> 
+<ruby>y<rt>イ</rt></ruby><sub>と</sub> 
+<ruby>yo<rt>ヨ</rt></ruby><sub>ぼく</sub><br>
+<ruby>Podamos<rt>ポダモス</rt></ruby><sub>できる</sub> 
+            <ruby>decidir<rt>デシディル</rt></ruby><sub>決める</sub><br>
+            <ruby>Donde<rt>ドンデ</rt></ruby><sub>どこに</sub> 
+            <ruby>ir<rt>イル</rt></ruby><sub>行く</sub> 
+            <ruby>y<rt>イ</rt></ruby><sub>そして</sub> 
+            <ruby>como<rt>コモ</rt></ruby><sub>どのように</sub> 
+            <ruby>no<rt>ノ</rt></ruby><sub>〜しない</sub>
+    </div>
+
+    <div id="player-container">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '_aAOTfOU4lA', 
+                playerVars: {
+                    'playsinline': 1,
+                    'autoplay': 1,
+                    'start': 31
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+        function onPlayerReady(event) { }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使い方</title>
+      <link rel="stylesheet" href="09style.css">
+        <script src="05player.js"></script>
+<style>
+button {
+  font-size: 0.9em; 
+}
+</style>
+</head>
+<body>
+<h2>クリック機能</h2>
+<ul>
+<li>重要：右下の動画の自動再生が始まらない時は、右下の動画の<b>中央をクリック</b>
+<li><b>文字のない背景をクリック</b>：<b>動画の停止・再生</b>
+<li><b>単語をクリック</b>：辞書を調べる</li>
+<li>
+<button>左番号</button> ハイライトの動画音声を再生</li>
+<li><button class="redX ctrBtnX">W01</button> 単語リストへ移動(Word)</li>
+<li><button class="ctrBtnX">表示</button> 発音・意味の表示切り替え</li>
+<li><button class="ctrBtnX"> 🎵</button> 合成音声を再生</li>
+<li><button class="redX ctrBtnX">1 ▶</button> 再生・ポーズ切り替え、合成音声解除</li>
+
+<li><button class="redX ctrBtnX">3 ⮐</button> 赤色行を再生、合成音声解除</li>
+<li><button class="ctrBtnX">？</button> 解説ページ</li>
+<li><button>国旗</button> 言語選択</li>
+<li><button>同一</button> リピートを「同一」作品、「数値」を選ぶと行数リピート</li>
+<li><button class="redX ctrBtnX">＊</button> 再生速度を遅くする、または動画を枠外に表示する</li>
+
+
+<hr>
+<li><button class="quiz2">試験1~10</button>1~10の単語試験実施</li>
+
+</ul>
+<h2>ショートカット</h2>
+<ul>
+<li>それぞれのボタンの左端1文字で、ボタンの機能が実行できる</li>
+<li><b>6</b> 画面をトップへスクロール</li>
+<li><b>H</b> 解説ヘルプページ</li>
+<li><b>O</b> 標準再生速度に戻す</li>
+<li><b>U</b> 再生速度を遅くする</li>
+<li><b>1</b> 再生・ポーズ切り替え</li>
+<li><b>2</b> ハイライト行の1行前に動画を移動</li>
+<li><b>3</b> 合成音声解除</li>
+<li><b>4</b> ハイライト行の1行後に動画を移動</li>
+<li><b>5</b> 発音・意味の表示切り替え</li>
+<li><b>6</b> 画面トップに移動・1行目を再生</li>
+<li><b>7</b> 次作品に移動</li>
+<li><b>8</b> 次言語に移動</li>
+<li><b>←</b> -60秒戻る</li>
+<li><b>,</b> -60秒戻る</li>
+<li><b>→</b> 60秒進む</li>
+<li><b>.</b> 60秒進む</li>
+<li><b>;</b> -300秒戻る</li>
+<li><b>↑</b> -300秒戻る</li>
+<li><b>↓</b> 300秒進む</li>
+<li><b>/</b> 300秒進む</li>
+<li><b>E</b> 英語を表示・再生</li>
+<li><b>S</b> スペイン語を表示・再生</li>
+<li><b>I</b> イタリア語を表示・再生</li>
+<li><b>F</b> フランス語を表示・再生</li>
+<li><b>G</b> ドイツ語を表示・再生</li>
+<li><b>B</b> 中国語を表示・再生</li>
+<li><b>K</b> 韓国語を表示・再生</li>
+<li><b>J</b> 日本語を表示・再生</li>
+</ul>
+
+
+
+<hr>
+<h2 id="copyrights">著作権・他</h2>
+ゼミで作成するアプリは、<u>埋め込み型YouTube プレーヤーに YouTube 動画を表示</u>している。YouTubeの利用規約[1]では、(1)のように、このような利用方法を認めている(下線はすべて筆者による)。<br>
+<ul>
+<li>(1) Terms of Service (利用規約)</li>
+<li>許可と制限事項</li>
+<li>お客様は、本契約および 適用される法律 を遵守する限り 、本サービスにアクセスして利用できます。お客様は個人的で、 非営利目的の用途でコンテンツを視聴できます。また、 <u>埋め込み型 YouTube プレーヤーにYouTube 動画を表示させることもできます</u>。</li>
+<li>元の英文：Permissions and Restrictions</li>
+<li>You may access and use the Service as made available to you, as long as you comply with this Agreement and applicable law. You may view or listen to Content for your personal, non-commercial use. <u>You may also show YouTube videos through the embeddable YouTube player.</u></li>
+</ul>
+
+ゼミで作成するアプリは 、大学の卒業研究という非営利目的の用途でYouTubeの公式の埋め込み型YouTubeプレーヤーにYouTube動画を表示させるため、YouTubeの利用規約 (1) に従っている。<br><br>
+
+ また、日本の著作権法[2]は学校の授業における複製またはインターネット送信について35条で規定している。以下はその抜粋である。 
+<ul>
+<li>(2)
+<u>学校その他の教育機関</u>（営利を目的として設置されているものを除く。）において教育を担任する者及び<u>授業を受ける者</u>は、その授業の過程における利用に供することを目的とする場合には、その必要と認められる限度において、公表された<u>著作物を複製</u>し、若しくは<u>公衆送信</u>（自動公衆送信の場合にあつては、送信可能化を含む。以下この条において同じ。）を行い、又は公表された著作物であつて公衆送信されるものを<u>受信装置を用いて公に伝達</u>することができる。  
+</li>
+</ul>
+ゼミで開発するアプリケーションは、専修大学という教育機関において、授業を受ける学生自身が、他人の著作物を卒業研究という授業の過程における利用に供することを目的としているため、著作権法には違反しない。 <br><br>
+
+ゼミ生の一部は、著作権が消滅した古いディズニー映画でアプリを作成している。この場合は、著作権が切れているため、無断使用が認められる。<br><br>
+出典<br>
+[1]YouTube利用規約, https://www.youtube.com/t/terms?hl=ja&override_hl=1<br>
+[2] 文化庁（2020）『改正著作権法第35条運用指針』． 
+https://www.bunka.go.jp/seisaku/chosakuken/pdf/92223601_11.pdf<br>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br>
+</body>
+</html>

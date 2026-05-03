@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己紹介 - 多言語対応</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+            padding-bottom: 100px;
+            margin: 0;
+        }
+
+        /* 言語切り替えボタンのスタイル */
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .lang-btn {
+            background: #fff;
+            border: 2px solid #007aff;
+            color: #007aff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #007aff;
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto 0; /* ボタン用の余白 */
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .line-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .line-item.highlight {
+            background-color: #fff9c4;
+            border-left: 5px solid #ffd600;
+        }
+
+        .play-btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .play-btn::before { content: "▶"; }
+
+        ruby rt {
+            font-size: 0.6em;
+            color: #666;
+        }
+
+        .audio-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        audio { height: 40px; width: 240px; }
+    </style>
+</head>
+<body>
+
+<div class="lang-switch">
+    <button class="lang-btn active" id="btn-ja" onclick="toggleLanguage('ja')">JP</button>
+    <button class="lang-btn" id="btn-en" onclick="toggleLanguage('en')">EN</button>
+</div>
+
+<div class="container">
+    <h2 id="title">自己紹介</h2>
+    <div id="lyrics-container">
+        </div>
+</div>
+
+<div class="audio-container">
+    <audio id="myAudio" controls src="71hello.wav"></audio>
+</div>
+
+<script>
+    // 1. 言語データの定義
+    const langData = {
+        ja: {
+            title: '<ruby>自己紹介<rt>じこしょうかい</rt></ruby>',
+            audio: '71hello.wav',
+            lines: [
+                { start: 0, text: 'こんにちは。<ruby>私<rt>わたし</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>青木<rt>あおき</rt></ruby> <ruby>遥<rt>はるか</rt></ruby>です。' },
+                { start: 4, text: '<ruby>第二言語<rt>だいにげんご</rt></ruby>はスペイン<ruby>語<rt>ご</rt></ruby>を<ruby>選択<rt>せんたく</rt></ruby>していました。<ruby>留学<rt>りゅうがく</rt></ruby>はカナダのバンクーバーにあるサイモンフレーザー<ruby>大学<rt>だいがく</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。' },
+                { start: 12, text: 'これまでのゼミの<ruby>活動<rt>かつどう</rt></ruby>では、<ruby>映画<rt>えいが</rt></ruby>『アラジン』の「A Whole New World」を<ruby>題材<rt>だいざい</rt></ruby>にして、<ruby>英語<rt>えいご</rt></ruby>を<ruby>楽<rt>たの</rt></ruby>しく<ruby>学<rt>まな</rt></ruby>べるアプリを<ruby>作成<rt>さいせい</rt></ruby>しました。<ruby>宜<rt>よろ</rt></ruby>しくお<ruby>願<rt>ねが</rt></ruby>いします。' }
+            ]
+        },
+        en: {
+            title: 'Self Introduction',
+            audio: '71hello_en.wav', // 英語音声ファイル名をここに設定
+            lines: [
+                { start: 0, text: 'Hello. My name is Haruka Aoki.' },
+                { start: 4, text: 'I chose Spanish as my second language. I studied abroad at Simon Fraser University in Vancouver, Canada.' },
+                { start: 12, text: 'In my seminar activities, I created an app to learn English through the movie "Aladdin" and its song "A Whole New World". Nice to meet you.' }
+            ]
+        }
+    };
+
+    let currentLang = 'ja';
+    const audio = document.getElementById('myAudio');
+    const container = document.getElementById('lyrics-container');
+    const title = document.getElementById('title');
+
+    // 2. 表示の更新関数
+    function updateDisplay() {
+        const data = langData[currentLang];
+        title.innerHTML = data.title;
+        audio.src = data.audio;
+        
+        container.innerHTML = data.lines.map(line => `
+            <div class="line-item" data-start="${line.start}">
+                <button class="play-btn" onclick="seekAudio(${line.start})"></button>
+                <span>${line.text}</span>
+            </div>
+        `).join('');
+    }
+
+    // 3. 言語切り替え
+    function toggleLanguage(lang) {
+        currentLang = lang;
+        
+        // ボタンの見た目更新
+        document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        updateDisplay();
+    }
+
+    function seekAudio(seconds) {
+        audio.currentTime = seconds;
+        audio.play();
+    }
+
+    // 4. ハイライト処理
+    audio.addEventListener('timeupdate', () => {
+        let currentTime = audio.currentTime;
+        let activeIndex = -1;
+        const lines = document.querySelectorAll('.line-item');
+
+        lines.forEach((line, index) => {
+            const startTime = parseFloat(line.getAttribute('data-start'));
+            if (currentTime >= startTime) {
+                activeIndex = index;
+            }
+        });
+
+        lines.forEach((line, index) => {
+            if (index === activeIndex) {
+                line.classList.add('highlight');
+            } else {
+                line.classList.remove('highlight');
+            }
+        });
+    });
+
+    // 初期表示
+    updateDisplay();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+* {
+    -webkit-appearance: none;
+}
+body {
+  background: linear-gradient(to bottom, #4e0082, #6f3f8b, #db7093);
+  background-attachment: fixed;
+
+  color: white;
+  font-family:'Papyrus', 'Fantasy', serif;
+  margin: 0;
+  padding: 0;
+}
+  
+.lyrics-line {
+  margin: 15px ;
+  font-size: 3%;
+}
+
+.lyric-text {
+  font-size: 3rem;
+}
+
+.lyric-translation {
+  font-size: 2%;
+}
+
+sub {
+   font-size: 60%;
+}
+
+.box {
+  background-color: rgb(250, 248, 149);
+    font-weight: bold;
+          color: #000;  
+        border-radius: 8px;
+    animation: glow 1.5s ease-in-out infinite; 
+}
+
+.highlight {
+  background-color: rgb(250, 248, 149); 
+    font-weight: bold;
+  color: #000;               
+  border-radius: 8px;
+  animation: glow 1.5s ease-in-out infinite; 
+}
+    @keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
+    }
+    h1 {
+      color: #FFD700;
+      margin: 20px 0;
+      text-align: center;
+    }
+    h2 {
+      color: #FFD700;
+      margin: 20px 0;
+    }
+
+.video-container {
+    position: fixed;
+    bottom: 110px;
+    right: 5px;
+    z-index: 900;
+}
+
+.mainButton {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+ a {
+    display: block;
+  margin: 0 auto 24px auto;
+  width: fit-content;
+  background: #663399;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+ }
+
+ /*文字おこしサイズ調整*/
+.subtitle {
+  font-size: 2em; 
+  line-height: 1.7;
+}
+
+button {
+    font-size: 22pt;
+      height: 40pt;
+    background-color: rgba(75, 48, 78, 0.336);
+    color: rgb(0, 0, 0);
+
+}
+
+.main-button {
+    padding: 0px 0px;
+    font-size: 22pt;
+    cursor: pointer;
+    background-color: rgb(254, 254, 255);
+}
+
+option {
+    font-size: 30pt;
+    background-color: rgb(255, 255, 255);
+}
+
+
+#selectX {
+  font-size: 1.8rem; 
+  width: 100%;
+  height: 100%;
+}
+
+
+#ctrDiv {
+    position: fixed;
+    bottom: 5px;
+    right: 0px;
+    width: 305px;
+    z-index: 801;
+}
+
+.ctrBtnX {
+     background-color: rgb(243, 241, 243);
+    font-size: 1.0rem;
+    width: 60px;
+    height: 52px;
+    
+}
+
+#playPauseButton{
+    background-color: rgb(243, 245, 243);
+    font-size: 1.0rem;
+    width: 60px;
+    height: 52px;
+}
+
+#bottomBtn {
+    position: fixed;
+    bottom: 5px;
+    height: 52px;
+    width: 60px;
+
+    right: 5px;
+    z-index: 999;
+  
+}
+
+.redX{
+    background-color: rgb(255, 255, 255);
+}
+
+/* 変更: 全aではなく CTA 用クラスに限定 */
+.cta-link {
+  display: block;
+  margin: 0 auto 24px auto;
+  width: fit-content;
+  background: #663399;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.2s;
+}
+
+/* --- Bottom Nav 専用 上書きパッチ --- */
+.bottom-nav{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  background: #f8f8f9;
+  border-top: 1px solid #eaeaf0;
+  box-shadow: 0 -2px 6px rgba(0,0,0,.08);
+  z-index: 1000;
+}
+.bottom-nav a{
+  all: unset;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 100%;
+  color: #a7a7b1;
+  cursor: pointer;
+}
+.bottom-nav a svg{ width:24px; height:24px; fill: currentColor; }
+.bottom-nav a.is-active{ color: #1746f9; }
+body{ padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+/* 必要に応じて .video-container の bottom を 110px から 調整してください */
+
+    :root{--fg:#ffffff;--muted:#ffffff;--line:#e5e7eb;--bg:#ffffff}
+    header{max-width:980px;margin:20px auto;padding:0 16px}
+    h1{font-size:28px;margin:8px 0}
+    p.lead{color:var(--muted)}
+
+    main{max-width:980px;margin:0 auto;padding:0 16px 60px}
+    #tabs{display:flex;gap:8px;margin:12px 0 16px}
+    .tab{padding:8px 12px;border:1px solid var(--line);border-radius:999px;cursor:pointer;user-select:none}
+    .tab.active{background:#000000;color:#fff;border-color:#111}
+    section.panel{display:none}
+    section.panel.active{display:block}
+
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .toolbar .btn, .btn{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .btn:hover{background:#f8fafc}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:780px){.grid{grid-template-columns:1fr 1fr}}
+
+    .card{border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+    .head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .phrase{font-weight:700;font-size:28px}
+
+    .ex{margin-top:8px;font-size:18px;line-height:1.7}
+    .jp{color:#ffffff;font-size:18px}
+    .note{margin-top:6px;font-size:16px;color:var(--muted)}
+
+
+    /* Shadow modal */
+    #shadow-modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.35);z-index:50}
+    #shadow-modal .box{background:#fff;border-radius:16px;padding:16px;max-width:520px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+    #shadow-modal .row{display:flex;align-items:center;gap:8px;margin:8px 0}
+    #shadow-modal .meter{height:8px;background:#eee;border-radius:999px;overflow:hidden}
+    #shadow-modal .bar{height:100%;width:0%;background:#60a5fa}
+
+    footer{max-width:980px;margin:24px auto;padding:0 16px;color:var(--muted);font-size:12px}
+
+    /* 意味セクション：背景色+パディングで強調 */
+.ex.jp {
+  background: rgba(255, 255, 255, 0.267);  /* 薄い紫 */
+  border-left: 4px solid #663399;
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 14px;
+}
+
+/* メモ：薄くしてサポーティング情報としての立場を明確に */
+.note {
+  color: #fffafa;
+  font-style: italic;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+}
+
+/* カード全体：バッジで視認性を上げる */
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #f0f0f0;
+  color: #070000;
+}
+
+/* フレーズを強調 */
+.phrase {
+  font-size: 28px;
+  color: #ffffff;
+}

@@ -1,0 +1,159 @@
+* {
+    -webkit-appearance: none;
+        font-size: clamp(20px, 2.5vw, 26px);
+}
+body {
+     background-color: gray;
+  -webkit-font-smoothing: antialiased; /* Macでの文字の輪郭をより滑らかに */
+  -moz-osx-font-smoothing: grayscale;
+}
+#ctrDiv {
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+    width: 300px;
+    z-index: 801;
+}
+.ctrBtnX {
+     background-color: chocolate;
+    font-size: 0.9rem;
+    width: 60px;
+}
+.redX{
+    background-color: coral;
+}
+.quiz1 {
+     background-color: darkgray;
+    color: black;
+    font-size: 1.2rem;
+    height: 45px;
+
+}
+
+.quiz2 {
+     background-color: green;
+      color: black;
+    font-size: 1.2rem;         
+    height: 45px;         
+}
+
+ruby, i, u {
+    font-size: 1.2rem;
+    color: black;
+
+}
+
+sub, .ger, .fre {
+    font-size: 0.9rem;
+}
+
+sup {
+    font-size: 0.6rem;
+}
+
+rt {
+    font-size: 0.6rem;
+}
+
+#quiz {
+      font-size: 1.2rem;
+
+}
+#notes {
+      font-size: 1.0rem;
+}
+
+.audio-container {
+    position: fixed;
+    bottom: -5px;
+    right: 300px;
+    z-index: 310;
+}
+
+.video-container {
+    position: fixed;
+    bottom: 100px;
+    right: 5px;
+    width: 213px;
+    z-index: 300;
+}
+video {
+    width: 100%;
+    height: 100%;
+}
+
+button {
+  font-size: 0.6em;
+  /* 縦横のサイズを「固定値」ではなく「内側の余白（padding）」で決める */
+  padding: 0.1em 0.1em;
+  height: 50px;
+    background-color: navy;
+    color: cyan;
+}
+
+.play-button{
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1rem;
+    position: relative;
+  padding: 0.2em 0.6em;
+}
+
+.main-button {
+  font-size: 1rem; 
+  padding: 0.1em 0.1em;
+    cursor: pointer;
+     background-color: RoyalBlue;
+}
+
+#bottomBtn {
+    position: fixed;
+    bottom: 10px;
+  padding: 0px;       /* 親要素自体の余白 */
+    right: 90px;
+      height: 45px;
+    width: 240px;
+    z-index: 999;
+}
+
+
+
+#repHanni, #repSec, #go2title, #go2gemini, #selectX {
+position: relative;
+  width: 25%;
+  height: 100%;
+  top: -5px;
+    color: black;
+}
+
+.subtitle{
+  margin-top: -3px;
+  margin-bottom: 0px;
+      font-size: 1.2rem;
+}
+
+.box {
+  background-color: darkgray;
+    animation: glow 1.5s ease-in-out infinite; 
+}
+
+small {
+    font-size: 0.7rem;
+}
+
+
+.modern-ruby {
+    font-size: 1.0rem !important;
+    font-family: sans-serif;
+    color: #333;
+  }
+.engetymo-ruby {
+    font-size: 0.9rem !important;
+    color: #222;
+  }
+  
+@keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
+}
+

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>A Whole New World Lyrics Study</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.8;
+      padding-bottom: 120px;
+    }
+    .line {
+      padding: 6px;
+      transition: background 0.3s;
+    }
+    .active {
+      background: #fff3a0;
+    }
+    button {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    ruby {
+      font-size: 1.1em;
+    }
+    rt {
+      font-size: 0.6em;
+      color: #555;
+    }
+    sub {
+      font-size: 0.7em;
+      color: #555;
+      margin-left: 2px;
+    }
+    .jp {
+      color: #444;
+      font-size: 0.9em;
+    }
+    audio {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>A Whole New World</h2>
+
+<div class="line" data-time="0">
+  <button onclick="playAt(0)">▶</button>
+  <ruby>A<rt>ア</rt></ruby>
+  <ruby>whole<rt>ホウル</rt></ruby>
+  <ruby>new<rt>ニュー</rt></ruby>
+  <ruby>world<rt>ワールド</rt></ruby>
+  <div class="jp">まったく新しい世界</div>
+</div>
+
+<div class="line" data-time="4">
+  <button onclick="playAt(4)">▶</button>
+  <ruby>A<rt>ア</rt></ruby>
+  <ruby>new<rt>ニュー</rt></ruby>
+  <ruby>fantastic<rt>ファンタスティック</rt></ruby><sub>素晴らしい</sub>
+  <ruby>point<rt>ポイント</rt></ruby>
+  <ruby>of<rt>オブ</rt></ruby>
+  <ruby>view<rt>ビュー</rt></ruby>
+  <div class="jp">新しい、素晴らしい視点</div>
+</div>
+
+<div class="line" data-time="8">
+  <button onclick="playAt(8)">▶</button>
+  <ruby>No<rt>ノウ</rt></ruby>
+  <ruby>one<rt>ワン</rt></ruby>
+  <ruby>to<rt>トゥ</rt></ruby>
+  <ruby>tell<rt>テル</rt></ruby>
+  <ruby>us<rt>アス</rt></ruby>,
+  <ruby>no<rt>ノウ</rt></ruby>
+  <div class="jp">僕たちに「ダメだ」と言う人はいない</div>
+</div>
+
+<div class="line" data-time="11">
+  <button onclick="playAt(11)">▶</button>
+  <ruby>Or<rt>オア</rt></ruby>
+  <ruby>where<rt>ウェア</rt></ruby>
+  <ruby>to<rt>トゥ</rt></ruby>
+  <ruby>go<rt>ゴウ</rt></ruby>
+  <div class="jp">どこへ行けとも指図されない</div>
+</div>
+
+<div class="line" data-time="13">
+  <button onclick="playAt(13)">▶</button>
+  <ruby>Or<rt>オア</rt></ruby>
+  <ruby>say<rt>セイ</rt></ruby>
+  <ruby>we're<rt>ウィア</rt></ruby>
+  <ruby>only<rt>オンリー</rt></ruby>
+  <ruby>dreaming<rt>ドリーミング</rt></ruby>
+  <div class="jp">「ただの夢だ」なんて言われない</div>
+</div>
+
+<div class="line" data-time="16">
+  <button onclick="playAt(16)">▶</button>
+  <ruby>A<rt>ア</rt></ruby>
+  <ruby>whole<rt>ホウル</rt></ruby>
+  <ruby>new<rt>ニュー</rt></ruby>
+  <ruby>world<rt>ワールド</rt></ruby>
+  <div class="jp">まったく新しい世界</div>
+</div>
+
+<div class="line" data-time="21">
+  <button onclick="playAt(21)">▶</button>
+  <ruby>A<rt>ア</rt></ruby>
+  <ruby>dazzling<rt>ダズリング</rt></ruby><sub>まばゆい</sub>
+  <ruby>place<rt>プレイス</rt></ruby>
+  <ruby>I<rt>アイ</rt></ruby>
+  <ruby>never<rt>ネヴァー</rt></ruby>
+  <ruby>knew<rt>ニュー</rt></ruby>
+  <div class="jp">見たこともなかった、輝く場所</div>
+</div>
+
+<div class="line" data-time="25">
+  <button onclick="playAt(25)">▶</button>
+  <ruby>But<rt>バット</rt></ruby>
+  <ruby>when<rt>ウェン</rt></ruby>
+  <ruby>I'm<rt>アイム</rt></ruby>
+  <ruby>way<rt>ウェイ</rt></ruby>
+  <ruby>up<rt>アップ</rt></ruby>
+  <ruby>here<rt>ヒア</rt></ruby>
+  <div class="jp">でも、ここまで来てみると</div>
+</div>
+
+<div class="line" data-time="27">
+  <button onclick="playAt(27)">▶</button>
+  <ruby>It's<rt>イッツ</rt></ruby>
+  <ruby>crystal<rt>クリスタル</rt></ruby><sub>透明な</sub>
+  <ruby>clear<rt>クリア</rt></ruby><sub>はっきり</sub>
+  <div class="jp">はっきり分かるんだ</div>
+</div>
+
+<div class="line" data-time="29">
+  <button onclick="playAt(29)">▶</button>
+  <ruby>That<rt>ザット</rt></ruby>
+  <ruby>now<rt>ナウ</rt></ruby>
+  <ruby>I'm<rt>アイム</rt></ruby>
+  <ruby>in<rt>イン</rt></ruby>
+  <ruby>a<rt>ア</rt></ruby>
+  <ruby>whole<rt>ホウル</rt></ruby>
+  <ruby>new<rt>ニュー</rt></ruby>
+  <ruby>world<rt>ワールド</rt></ruby>
+  <ruby>with<rt>ウィズ</rt></ruby>
+  <ruby>you<rt>ユー</rt></ruby>
+  <div class="jp">今、君と新しい世界にいるって</div>
+</div>
+
+<audio id="audio" controls src="11eng.m4a"></audio>
+
+<script>
+  const audio = document.getElementById("audio");
+  const lines = document.querySelectorAll(".line");
+
+  function playAt(time) {
+    audio.currentTime = time;
+    audio.play();
+  }
+
+  audio.addEventListener("timeupdate", () => {
+    const current = audio.currentTime;
+    lines.forEach(line => {
+      const time = Number(line.dataset.time);
+      line.classList.toggle(
+        "active",
+        current >= time && current < time + 3
+      );
+    });
+  });
+</script>
+
+</body>
+</html>

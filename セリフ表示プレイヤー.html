@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>セリフ表示プレイヤー</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* 灰色 */
+            font-family: -apple-system, "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+            padding: 20px;
+            padding-bottom: 100px; /* プレイヤー分の余白 */
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .subtitle-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        /* ハイライト表示 */
+        .active {
+            background-color: #fff9c4; /* 薄い黄色 */
+            border-left: 5px solid #ffd600;
+        }
+
+        .play-btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-right: 15px;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn:active {
+            opacity: 0.7;
+        }
+
+        .text-content {
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* 右下の音声プレイヤー */
+        #audio-player-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        audio {
+            height: 40px;
+        }
+
+        ruby rt {
+            font-size: 0.6em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="subtitles">
+        <div class="subtitle-row" data-start="0">
+            <button class="play-btn" onclick="seekAudio(0)">▶</button>
+            <div class="text-content">みなさんこんにちは。</div>
+        </div>
+
+        <div class="subtitle-row" data-start="2">
+            <button class="play-btn" onclick="seekAudio(2)">▶</button>
+            <div class="text-content">
+                <ruby>私<rt>わたし</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>佐藤<rt>さとう</rt></ruby><ruby>博明<rt>ひろあき</rt></ruby>です。
+            </div>
+        </div>
+
+        <div class="subtitle-row" data-start="5">
+            <button class="play-btn" onclick="seekAudio(5)">▶</button>
+            <div class="text-content">
+                <ruby>専修大学<rt>せんしゅうだいがく</rt></ruby>に<ruby>来<rt>き</rt></ruby>て37<ruby>年<rt>ねん</rt></ruby>です。
+            </div>
+        </div>
+
+        <div class="subtitle-row" data-start="8">
+            <button class="play-btn" onclick="seekAudio(8)">▶</button>
+            <div class="text-content">ゼミナールでは、</div>
+        </div>
+
+        <div class="subtitle-row" data-start="9">
+            <button class="play-btn" onclick="seekAudio(9)">▶</button>
+            <div class="text-content">ディズニー</div>
+        </div>
+
+        <div class="subtitle-row" data-start="10">
+            <button class="play-btn" onclick="seekAudio(10)">▶</button>
+            <div class="text-content">
+                <ruby>映画<rt>えいが</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>やセリフを<ruby>使<rt>つか</rt></ruby>って、
+            </div>
+        </div>
+
+        <div class="subtitle-row" data-start="12">
+            <button class="play-btn" onclick="seekAudio(12)">▶</button>
+            <div class="text-content">
+                <ruby>英語<rt>えいご</rt></ruby>とそれ<ruby>以外<rt>いがい</rt></ruby>の<ruby>外国語<rt>がいこくご</rt></ruby>を<ruby>学習<rt>がくしゅう</rt></ruby>できるアプリを<ruby>作成<rt>さくせい</rt></ruby>します。
+            </div>
+        </div>
+
+        <div class="subtitle-row" data-start="16">
+            <button class="play-btn" onclick="seekAudio(16)">▶</button>
+            <div class="text-content">みなさん、</div>
+        </div>
+
+        <div class="subtitle-row" data-start="17">
+            <button class="play-btn" onclick="seekAudio(17)">▶</button>
+            <div class="text-content">
+                <ruby>頑張<rt>がんば</rt></ruby>って<ruby>勉強<rt>べんきょう</rt></ruby>しましょう
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="audio-player-container">
+    <audio id="myAudio" controls>
+        <source src="81.wav" type="audio/wav">
+        お使いのブラウザは音声タグをサポートしていません。
+    </audio>
+</div>
+
+<script>
+    const audio = document.getElementById('myAudio');
+    const rows = document.querySelectorAll('.subtitle-row');
+
+    // 指定した秒数から再生
+    function seekAudio(seconds) {
+        audio.currentTime = seconds;
+        audio.play();
+    }
+
+    // 再生位置に合わせてハイライトを更新
+    audio.addEventListener('timeupdate', () => {
+        let currentTime = audio.currentTime;
+        
+        rows.forEach((row, index) => {
+            const startTime = parseFloat(row.getAttribute('data-start'));
+            const nextRow = rows[index + 1];
+            const endTime = nextRow ? parseFloat(nextRow.getAttribute('data-start')) : Infinity;
+
+            if (currentTime >= startTime && currentTime < endTime) {
+                row.classList.add('active');
+            } else {
+                row.classList.remove('active');
+            }
+        });
+    });
+</script>
+
+</body><a href="90.html" title="90"></a>
+</html>

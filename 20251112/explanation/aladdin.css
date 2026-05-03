@@ -1,0 +1,105 @@
+* {
+    -webkit-appearance: none;
+}
+   body {
+  background: linear-gradient(to bottom, #1a0f4d, #4b1c77, #8b2b98);
+  background-attachment: fixed;
+  position: relative;
+  color: white;
+  font-family: 'Papyrus', 'Fantasy', serif;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+}
+  
+  
+
+
+.lyrics-line {
+  margin: 15px auto;
+  font-size: 2rem;
+  }
+
+.highlight {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #000;               
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 2px 8px;
+  animation: glow 1.5s ease-in-out infinite;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+    @keyframes glow {
+       0%   { box-shadow: 0 0 5px #ffd700; }
+      50%  { box-shadow: 0 0 20px #fffa90; }
+     100% { box-shadow: 0 0 5px #ffd700; }
+    }
+    h1 {
+      color: #FFD700;
+      margin: 20px 0;
+      text-align: center;
+    }
+    h2 {
+      color: #FFD700;
+      margin: 20px 0;
+    }
+
+.video-container {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 900;
+}
+#bottomBtn {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 999;
+}
+.mainButton {
+    padding: 0px 0px;
+    font-size: 28pt;
+    cursor: pointer;
+    background-color: darkgray;
+}
+ a {
+    display: block;
+    margin: 0 auto 24px auto;
+    width: fit-content;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    border: 2px solid #FFD700;
+}
+.subtitle {
+  font-size: 1.5em; 
+  line-height: 1.7;
+}
+

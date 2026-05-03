@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Intro Voice App</title>
+    <!-- Tailwind CSS 4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel for JSX -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #FFF9F0;
+            color: #1A1A1A;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+        .vibrant-card {
+            background: white;
+            border: 4px solid #1A1A1A;
+            box-shadow: 8px 8px 0px #1A1A1A;
+        }
+        .pill {
+            border: 2px solid #1A1A1A;
+            box-shadow: 3px 3px 0px #1A1A1A;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Google Maps を Contact カード幅にフィットさせる */
+        .map-embed {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+        }
+        .map-embed iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useCallback, useEffect } = React;
+
+        const CONTENT = {
+            ja: {
+                name: "青木 遥",
+                role: "専修大学 4年生",
+                bio: "こんにちは！私は青木遥です。第二言語はスペイン語を選択していました。留学はカナダのバンクーバーにあるサイモンフレーザー大学に行きました。これまでのゼミの活動では、映画「アラジン」の「ホール・ニュー・ワールド」を題材にして、英語を楽しく学べるアプリを作成しました。よろしくお願いします。",
+                skills: ["HTML", "CSS", "JavaScript", "TOEIC915"],
+                MBTI:"ENFP",
+                location: "東京, 日本",
+                email: "gc231116@senshu-u.jp",
+                playVoice: "声を聴く",
+                changeLang: "English",
+                title: "自己紹介",
+                playing: "再生中...",
+                playBtn: "再生"
+            },
+            en: {
+                name: "Haruka Aoki",
+                role: "Senshu University Senior",
+                bio: "Hello. My name is Haruka Aoki.I chose Spanish as my second language. For my study abroad program, I went to Simon Fraser University in Vancouver, Canada.In my seminar, I developed an English learning app using the song 'A Whole New World' from the movie Aladdin to make learning more fun.Thank you.",
+                skills: ["HTML", "CSS", "JavaScript", "TOEIC915"],
+                MBTI:"ENFP",
+                location: "Tokyo, Japan",
+                email: "gc231116@senshu-u.jp",
+                playVoice: "Listen to Voice",
+                changeLang: "日本語",
+                title: "About Me",
+                playing: "Playing...",
+                playBtn: "PLAY"
+            }
+        };
+
+        function App() {
+            const [lang, setLang] = useState('ja');
+            const [isPlaying, setIsPlaying] = useState(false);
+            const t = CONTENT[lang];
+            const initials = t.name.split(' ').map(part => part[0]).join('').toUpperCase();
+
+            const handlePlayVoice = () => {
+                if (isPlaying) return;
+                
+                const audioFile = lang === 'en' ? './71hello_en.wav' : './71hello.wav';
+                const audio = new Audio(audioFile);
+                setIsPlaying(true);
+                
+                audio.play().catch(err => {
+                    console.error("Playback failed:", err);
+                    alert(`${audioFile} が見つからないか、再生できませんでした。同じフォルダにファイルを置いてください。`);
+                    setIsPlaying(false);
+                });
+
+                audio.onended = () => setIsPlaying(false);
+            };
+
+            return (
+                <div className="min-h-screen p-4 md:p-8">
+                    <div className="max-w-6xl mx-auto flex flex-col gap-8">
+                        
+                        {/* Header */}
+                        <header id="top" className="flex justify-between items-center w-full">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-[#FF6B6B] border-2 border-black rounded-full flex items-center justify-center font-black text-xl shadow-[2px_2px_0px_#1A1A1A]">
+                                    {initials}
+                                </div>
+                                <span className="text-xl md:text-2xl font-black italic tracking-tighter uppercase">
+                                    HELLO. / {lang === 'ja' ? 'こんにちは。' : 'Hi.'}
+                                </span>
+                            </div>
+                            <div className="flex border-4 border-black rounded-full overflow-hidden shadow-[4px_4px_0px_#1A1A1A]">
+                                <button 
+                                    onClick={() => setLang('ja')}
+                                    className={`px-4 md:px-6 py-2 font-bold transition-colors ${lang === 'ja' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}
+                                >
+                                    JP
+                                </button>
+                                <button 
+                                    onClick={() => setLang('en')}
+                                    className={`px-4 md:px-6 py-2 font-bold transition-colors ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}
+                                >
+                                    EN
+                                </button>
+                            </div>
+                        </header>
+
+                        <main className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            {/* Left Column */}
+                            <div className="lg:col-span-5 flex flex-col gap-8">
+                                <div className="vibrant-card p-8 flex flex-col items-center justify-center text-center">
+                                    <div className="w-60 h-60 rounded-full border-4 border-black overflow-hidden bg-[#FFE66D] mb-6 shadow-[4px_4px_0px_#1A1A1A] flex items-center justify-center">
+                                        <img src="./myphoto.jpg" alt="Profile" className="w-full h-full object-cover rounded-full" title="やっほー（￣︶￣）↗　" />
+                                    </div>
+
+                                    <h1  className="text-4xl font-black mb-1 uppercase tracking-tight">{t.name}</h1>
+                                    <p className="text-xl font-bold text-gray-500 mb-8 lowercase italic">{t.role}</p>
+
+                                    <div className="w-full flex flex-col gap-4 bg-gray-50 border-4 border-black rounded-3xl p-6 shadow-[4px_4px_0px_#1A1A1A]">
+                                        <div className="flex items-center gap-2 mb-1 justify-center">
+                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Voice Introduction</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <button 
+                                                onClick={handlePlayVoice}
+                                                className={`w-14 h-14 bg-[#4ECDC4] rounded-full border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_#1A1A1A] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1A1A1A] ${isPlaying ? 'opacity-50' : ''}`}
+                                            >
+                                                <i data-lucide="play" fill="currentColor"></i>
+                                            </button>
+                                            <div className="flex-1 flex items-end gap-[2px] h-10 px-2">
+                                                {[0.6, 1.0, 0.7, 0.9, 0.4, 0.8, 1.0, 0.5, 0.7, 0.9, 0.3, 0.8, 1.0, 0.5, 0.6, 0.9, 0.7].map((h, i) => (
+                                                    <div 
+                                                        key={i} 
+                                                        style={{ height: `${h * 100}%` }}
+                                                        className="w-full bg-[#FF6B6B] border border-black rounded-full"
+                                                    ></div>
+                                                ))}
+                                            </div>
+                                            <span className="font-bold text-xs uppercase mono">{t.playBtn}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Column */}
+                            <div className="lg:col-span-7 flex flex-col gap-8">
+                                <div className="vibrant-card p-8 bg-[#4ECDC4] bg-opacity-10">
+                                    <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+                                        <span className="w-2 h-8 bg-[#FF6B6B] border-2 border-black block"></span>
+                                        Bio / 自己紹介
+                                    </h3>
+                                    <p className="text-lg md:text-xl leading-relaxed font-bold text-gray-700">{t.bio}</p>
+                                </div>
+
+                                <div className="vibrant-card p-8 bg-[#1A1A1A] text-white">
+  <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+    <span className="w-2 h-8 bg-[#4ECDC4] border-2 border-black block"></span>
+    Video / 動画
+  </h3>
+  <div className="aspect-video w-full bg-gray-900 border-4 border-black shadow-[4px_4px_0px_#4ECDC4] overflow-hidden rounded-xl">
+    <video 
+      controls 
+      className="w-full h-full object-cover"
+        title="留学体験記ダネ（￣︶￣）↗　"
+    >
+      <source src="notebooklm.mp4" type="video/mp4" />
+      お使いのブラウザは動画タグをサポートしていません。
+    </video>
+  </div>
+</div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="vibrant-card p-8 bg-[#FFE66D]">
+                                        <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+                                            <span className="w-2 h-8 bg-black block"></span>
+                                            Skills / スキル
+                                        </h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {t.skills.map(s => (
+                                                <span key={s} className="pill bg-white px-4 py-2 text-sm font-black uppercase">{s}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="vibrant-card p-8 bg-[#4ECDC4]">
+                                        <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+                                            <span className="w-2 h-8 bg-[#FF6B6B] border-2 border-black block"></span>
+                                            MBTI
+                                        </h3>
+                                        <div className="flex items-center gap-4">
+                                            <div className=" border-4 border-black  px-4 py-2 text-sm font-black uppercase overflow-hidden bg-[#FF6B6B] flex items-center justify-center font-bold text-lg shadow-[4px_4px_0px_#1A1A1A]">
+                                                {t.MBTI}
+                                            </div>
+                                    </div>
+                                    </div>
+                                    <div className="vibrant-card p-8 bg-[#FF6B6B] bg-opacity-10 min-w-0">
+                                        <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+                                            <span className="w-2 h-8 bg-[#4ECDC4] border-2 border-black block"></span>
+                                            Contact / 連絡
+                                        </h3>
+                                        <div className="space-y-4">
+                                            <div>
+                                                <div className="text-[10px] font-black uppercase text-[#FF6B6B]">Location</div>
+                                                <div className="font-bold">{t.location}</div>
+                                                <div
+                                                    className="map-embed mt-3 rounded-xl border-4 border-black shadow-[4px_4px_0px_#1A1A1A]"
+                                                    title="Google Maps"
+                                                >
+                                                    <iframe
+                                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.193856760994!2d139.74927858751485!3d35.69684685843398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c14e6b94efd%3A0xf4081c42ef28c78!2z5bCC5L-u5aSn5a2mIOelnueUsOOCreODo-ODs-ODkeOCuQ!5e0!3m2!1sja!2sjp!4v1777510776106!5m2!1sja!2sjp"
+                                                        allowFullScreen
+                                                        loading="lazy"
+                                                        referrerPolicy="no-referrer-when-downgrade"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="text-[10px] font-black uppercase text-[#FF6B6B]">Email</div>
+                                                <div className="font-bold underline break-all">{t.email}</div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+        // Initialize Lucide icons
+        setTimeout(() => lucide.createIcons(), 100);
+    </script>
+    <p><a href="#top">ページトップへ</a></p>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aladdin / Tonight Show — Idioms & Expressions Learning</title>
+  <link rel="stylesheet" href="31aladdin.css">
+  
+</head>
+<body>
+  <header>
+    <h1>Tonight Show × Aladdin — Idioms &amp; Expressions</h1>
+    <p class="lead">ウィル・スミスの出演回（アラジン談義）の字幕から、英語学習に役立つ表現だけを抽出。<br>音声（TTS）とシャドーイング、そして自動クイズでインプット→アウトプットを一気通貫！</p>
+  </header>
+
+  <main>
+    <!-- ▼ 変更点1：tabsを閉じ、初期activeを付与 -->
+    <div id="tabs">
+      <div class="tab active" data-target="#p-idioms">Idioms &amp; Phrases</div>
+      <div class="tab" data-target="#p-quiz">Quiz</div>
+    </div>
+
+    <section id="p-idioms" class="panel active">
+      <div class="grid" id="cards">
+        <!-- （初期表示の見た目用ダミー。JSで上書きレンダリングされます） -->
+        <div class="card">
+          <div class="head">
+            <div>
+              <div class="phrase">big shoes to fill <span class="badge">idiom</span></div>
+            </div>
+            <div class="toolbar">
+              <button class="btn act-say">🔊 </button>
+              <button class="btn act-shadow">🎤 </button>
+            </div>
+          </div>
+          <div class="ex"><b>Line:</b> you left some big shoes to fill.</div>
+          <div class="ex jp">意味：（前任者が偉大すぎて）後任は荷が重い</div>
+          <div class="note">メモ：謙遜にも称賛にも使える定番の言い回し。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="p-quiz" class="panel">
+      <div id="quiz-area"></div>
+      <div style="margin-top:10px; display:flex; gap:8px;">
+        <button class="btn" id="btn-check-quiz">採点</button>
+        <button class="btn" id="btn-new-quiz-2">新しい問題</button>
+      </div>
+    </section>
+  </main>
+
+ 
+
+  <!-- Shadow/Recording Modal Root -->
+  <div id="shadow-modal" style="display:none;"><div class="box"></div></div>
+
+  <script>
+  // =====================
+  // Data (from transcript)
+  // =====================
+  const items = [
+    {phrase:'big shoes to fill', badge:'idiom',
+      ex:'you left some big shoes to fill.',
+      jp:'（前任者が偉大すぎて）後任は荷が重い',
+      note:'謙遜にも称賛にも使える定番の言い回し。'},
+    {phrase:'Hell no.', badge:'slang',
+      ex:'the first thing is, “Hell no.”',
+      jp:'絶対ムリ／ありえない（強い否定）',
+      note:'かなりカジュアル。フォーマル場面は Absolutely not. / No way.'},
+    {phrase:'old school', badge:'vibe',
+      ex:'Yeah, standard old school.',
+      jp:'昔ながらの／クラシックな',
+      note:'ヒップホップ文脈で「オールドスクール」。良い意味のレトロ感。'},
+    {phrase:'No spoilers.', badge:'set phrase',
+      ex:'No spoilers.',
+      jp:'ネタバレ禁止ね',
+      note:'作品トーク前の決まり文句。SNSでも頻出（#NoSpoilers）。'},
+    {phrase:"y'all", badge:'dialect',
+      ex:"Yo, y'all see my palace?",
+      jp:'（米南部・黒人英語で）あなたたち／みんな',
+      note:'you all の短縮。親しげ・くだけたトーン。'},
+    {phrase:'Be specific with your words.', badge:'useful line',
+      ex:'Be specific with your words.',
+      jp:'言葉は具体的にしろ',
+      note:'授業・会議でそのまま使える指示文。具体例や数値が “specific”。'},
+    {phrase:'The deal is in the detail.', badge:'wordplay',
+      ex:'The deal is in the detail. Got it.',
+      jp:'取引は細部に宿る（＝細部が肝心）',
+      note:'本来の慣用句 The devil is in the details を “deal” にもじった言葉遊び。'},
+    {phrase:'snuggle up (with ~)', badge:'verb phrase',
+      ex:"you'd be snuggled up with that dude",
+      jp:'（～と）ぴったり寄り添う／くっつく',
+      note:'snuggle up to/with 〜。比喩で「ベッタリ」。'},
+    {phrase:'fan art', badge:'noun',
+      ex:'That must have been fan art.',
+      jp:'ファンが描いた作品',
+      note:'番組・映画ファンダムで一般的な表現。'},
+    {phrase:'smash (a role)', badge:'slang',
+      ex:'Robin Williams smashed that role.',
+      jp:'（役を）完璧に演じる／大成功する',
+      note:'口語で「打ち砕く」→「圧勝／大成功」の比喩。'},
+    {phrase:'live action', badge:'film',
+      ex:'It is — Live action.',
+      jp:'実写（版）',
+      note:'アニメの実写化に絡む頻出語。'}
+  ];
+
+  // =====================
+  // Render cards
+  // =====================
+  const cardsHost = document.getElementById('cards');
+  function renderCards(list = items){
+    cardsHost.innerHTML = '';
+    list.forEach(it => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="head">
+          <div>
+            <div class="phrase">${it.phrase} <span class="badge">${it.badge}</span></div>
+          </div>
+          <div class="toolbar">
+            <button class="btn act-say">🔊</button>
+            <button class="btn act-shadow">🎤</button>
+          </div>
+        </div>
+        <div class="ex"><b>Line:</b> ${it.ex}</div>
+        <div class="ex jp">意味：${it.jp}</div>
+        <div class="note">メモ：${it.note}</div>
+      `;
+      card.querySelector('.act-say')?.addEventListener('click', () => speak(it.ex));
+      card.querySelector('.act-shadow')?.addEventListener('click', () => openShadow(it.ex));
+      cardsHost.appendChild(card);
+    });
+  }
+  renderCards();
+
+  // =====================
+  // TABS
+  // =====================
+  document.querySelectorAll('#tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      const tgt = document.querySelector(tab.dataset.target);
+      if(tgt) tgt.classList.add('active');
+    });
+  });
+
+  // =====================
+  // Web Speech API (TTS)
+  // =====================
+  function speak(text, lang='en-US'){
+    try{
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang; u.rate = 1.0; u.pitch = 1.0;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }catch(e){ alert('TTSがこのブラウザで無効か、権限が必要です。'); }
+  }
+
+  // =====================
+  // Shadowing: record & playback (local only)
+  // =====================
+  const modalRoot = document.getElementById('shadow-modal');
+  async function openShadow(text){
+    modalRoot.style.display='grid';
+    const box = modalRoot.querySelector('.box');
+    box.innerHTML = `
+      <div class="head"><div class="phrase">Shadowing</div><button class="btn" id="sh-close">×</button></div>
+      <div class="ex" style="margin:6px 0 12px; color:#475569;">フレーズを聞いて→真似して→自分の声を再生</div>
+      <div class="row"><button class="btn" id="sh-play">🔊 再生</button><button class="btn" id="sh-rec">● 録音</button><button class="btn" id="sh-stop" disabled>■ 停止</button><button class="btn" id="sh-pb" disabled>▶ 録音再生</button></div>
+      <div class="meter"><div class="bar"></div></div>
+      <div class="note" style="margin-top:8px;">録音は端末内のみで保存されません（学習用途）。</div>
+    `;
+    box.querySelector('#sh-close')?.addEventListener('click', () => modalRoot.style.display='none');
+    box.querySelector('#sh-play')?.addEventListener('click', () => speak(text));
+
+    let mediaRecorder, audioChunks=[]; let raf, stream, analyser, data, ctx; const bar = box.querySelector('.bar');
+
+    box.querySelector('#sh-rec')?.addEventListener('click', async () => {
+      try{
+        stream = await navigator.mediaDevices.getUserMedia({audio:true});
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, {type:'audio/webm'});
+          const url = URL.createObjectURL(blob);
+          const pb = box.querySelector('#sh-pb');
+          pb?.addEventListener('click', () => new Audio(url).play());
+          box.querySelector('#sh-pb').disabled = false;
+          box.querySelector('#sh-stop').disabled = true;
+          box.querySelector('#sh-rec').disabled = false;
+          if(stream) stream.getTracks().forEach(t=>t.stop());
+          cancelAnimationFrame(raf);
+        };
+        mediaRecorder.start();
+        box.querySelector('#sh-rec').disabled = true;
+        box.querySelector('#sh-stop').disabled = false;
+        box.querySelector('#sh-pb').disabled = true;
+
+        // level meter
+        ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const src = ctx.createMediaStreamSource(stream); analyser = ctx.createAnalyser();
+        analyser.fftSize = 256; src.connect(analyser); data = new Uint8Array(analyser.frequencyBinCount);
+        (function draw(){ analyser.getByteTimeDomainData(data); const max = Math.max(...data); const amp = Math.abs(max-128)/128; if(bar) bar.style.width = Math.min(100, Math.floor(amp*200))+'%'; raf=requestAnimationFrame(draw); })();
+
+        box.querySelector('#sh-stop')?.addEventListener('click', () => { mediaRecorder.stop(); });
+      }catch(err){ alert('マイクが使えませんでした: '+err.message); }
+    });
+  }
+  modalRoot.addEventListener('click', (e)=>{ if(e.target===modalRoot) modalRoot.style.display='none'; });
+
+  // =====================
+  // Quiz generator
+  // =====================
+  function choiceDef(item){
+    const correct = item.jp;
+    const wrong = items.filter(x=>x!==item).slice(0,3).map(x=>x.jp);
+    const choices = [correct, ...wrong].sort(()=>Math.random()-0.5);
+    return {type:'def', q:`「${item.phrase}」の意味は？`, choices, correctIndex: choices.indexOf(correct)};
+  }
+  function cloze(item){
+    const safe = item.phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const sentence = item.ex.replace(new RegExp(safe, 'i'), '_____');
+    return {type:'cloze', q:`空所補充：${sentence}`, answer:item.phrase};
+  }
+  function makeQuiz(){
+    const ks = [...items].sort(()=>Math.random()-0.5).slice(0,5);
+    return ks.map(k => Math.random()<0.5 ? choiceDef(k) : cloze(k));
+  }
+  function renderQuiz(){
+    const area = document.getElementById('quiz-area');
+    area.innerHTML = '';
+    const qs = makeQuiz();
+    qs.forEach((q, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'card';
+      if(q.type==='def'){
+        wrap.innerHTML = `<div class="head"><div class="meta">Q${idx+1}</div></div>
+          <div style="margin-top:6px;">${q.q}</div>
+          <div style="margin-top:8px; display:grid; gap:6px;">
+            ${q.choices.map((c,i)=>`<label class="btn" style="display:block; color: black;"><input type="radio" name="q${idx}" value="${i}"> ${c}</label>`).join('')}
+          </div>`;
+        wrap.dataset.type = 'def';
+        wrap.dataset.correct = String(q.correctIndex);
+      } else {
+        wrap.innerHTML = `<div class="head"><div class="meta">Q${idx+1}</div></div>
+          <div style="margin-top:6px;">${q.q}</div>
+          <input class="btn" style="width:100%; margin-top:8px;" placeholder="英語で入力" />`;
+        wrap.dataset.type = 'cloze';
+        wrap.dataset.answer = q.answer;
+      }
+      area.appendChild(wrap);
+    });
+  }
+  function checkQuiz(){
+    const area = document.getElementById('quiz-area');
+    const cards = area.querySelectorAll('.card'); let score = 0;
+    cards.forEach(card => {
+      if(card.dataset.type==='def'){
+        const val = card.querySelector('input[type="radio"]:checked');
+        const ok = val && Number(val.value)===Number(card.dataset.correct);
+        if(ok) score++;
+        card.style.borderColor = ok ? '#22c55e' : '#ef4444';
+      } else {
+        const val = card.querySelector('input').value.trim();
+        const ok = val.toLowerCase()===card.dataset.answer.toLowerCase();
+        if(ok) score++;
+        card.style.borderColor = ok ? '#22c55e' : '#ef4444';
+      }
+    });
+    alert(`Score: ${score} / ${cards.length}`);
+  }
+
+  // ▼ 変更点2：存在しないIDでも落ちないように ?.
+  document.getElementById('btn-new-quiz')?.addEventListener('click', renderQuiz);
+  document.getElementById('btn-new-quiz-2')?.addEventListener('click', renderQuiz);
+  document.getElementById('btn-check-quiz')?.addEventListener('click', checkQuiz);
+
+  // 初回クイズ表示
+  renderQuiz();
+  </script>
+  <a href="thetonightshow.html">戻る</a>
+</body>
+</html>

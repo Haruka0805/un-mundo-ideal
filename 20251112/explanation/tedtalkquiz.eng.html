@@ -1,0 +1,105 @@
+<!DOCTYPE>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/21.css">
+<title>60quiz</title>
+
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/12main.js">
+</script>
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/11ytbDb/01js/13others.js">
+</script>
+<script>
+/*
+23行目の変数 _lexList = `...`に単語リストを入れる
+アクセントは<u>...</u>
+単語リストは、「単語: .... <b>意味</b> ....; 言語名1文字; カタカナ」という形式となる
+単語は、活用形・変化形ではなく、辞書の見出し語（基本形）とする
+試験問題の選択肢として表示する「意味」を<b>...</b>でくくる
+34行目の_shikenName = "..."に「1文字言語名:文字:歌（タイトル）」を入れる
+*/
+
+let _lexList = `
+ac<u>quire</u>: 習得する: 英: : 
+ad<u>van</u>tage: 利点: 英: : 
+af<u>fect</u>: 影響を与える: 英: : 
+<u>as</u>pect: 側面、観点: 英: : 
+<u>bal</u>ance: バランスを取る: 英: : 
+<u>ben</u>efit: 利益、恩恵: 英: : 
+<u>chal</u>lenge: 挑戦、課題: 英: : 
+<u>clas</u>sify: 分類する: 英: : 
+<u>con</u>cept: 概念: 英: : 
+<u>con</u>text: 文脈、状況: 英: : 
+<u>crit</u>ical: 重大な、批判的な: 英: : 
+de<u>gree</u>: 程度、学位: 英: : 
+dis<u>tin</u>guish: 区別する: 英: : 
+<u>func</u>tion: 機能、役割: 英: : 
+<u>mea</u>sure: 測る、評価する: 英: : 
+pro<u>fi</u>cient: 熟達した、堪能な: 英: : 
+pro<u>nun</u>ciation: 発音: 英: : 
+pro<u>por</u>tion: 割合、比率: 英: : 
+re<u>ac</u>tion: 反応: 英: : 
+re<u>gard</u>less: ～に関係なく: 英: : 
+re<u>mark</u>able: 注目すべき、驚くべき: 英: : 
+spe<u>cif</u>ic: 特定の、明確な: 英: : 
+<u>the</u>ory: 理論: 英: : 
+<u>vis</u>ible: 目に見える、明白な: 英: : 
+`;
+
+_shikenName = "英:字:TEDed1";
+
+</script>
+
+</head>
+<body onload="initX()">
+<button class="largeX4" id="dispListX" onclick="dispList(this)" style="background-color: fuchsia;">リスト</button>
+<button class="largeX4" onclick="startQuiz(&quot;moji&quot;,this,0)">文字試</button>
+<button class="largeX4" onclick="startQuiz(&quot;oto&quot;,this,0)">音試験</button>
+<button class="largeX4" id="dlbtn" title="ファイルをダウンロード" onclick="downloadX()">ダ↓</button>
+<button class="largeX4" onclick="window.open(&quot;55umekomi.html&quot;,&quot;_blank&quot;)">歌</button>
+<br>
+<div id="quizX2">
+
+</div>
+<iframe src="./tedtalkquiz_files/saved_resource.html" id="kekkaX" name="kekka" height="200" width="600">
+</iframe>
+
+<audio autoplay="" id="audioX" controls="" src="">
+<source src="" type="audio/mp4">
+</audio>
+<br><br><br><br>
+<textarea id="textX" name="comment" cols="10%" rows="2" style="height: 20px; width: 20px;"></textarea><br>
+
+
+<mark id="messageX"></mark>
+<br>
+
+<form name="kikuScore" action="http://sato.fm.senshu-u.ac.jp/cgi-bin/public/04kikuScore.py" method="post">
+<input type="hidden" name="petName" value="">
+<input type="hidden" name="quizTypeNumb" value="">
+<input type="hidden" name="quizName" value="">
+<input type="hidden" name="score" value="">
+<input type="hidden" name="cntTry" value="">
+<input type="hidden" name="startQuizTime" value="">
+<input type="hidden" name="timeSpent" value="">
+<input type="hidden" name="sndPlayCnt" value="">
+<input type="hidden" name="jugyoCode" value="99">
+<input type="hidden" name="sebango" value="88">
+<input type="hidden" name="startSection" value="">
+<input type="hidden" name="cntWrong" value="999">
+<input type="hidden" name="cheatCheck" value="moo">
+<input type="hidden" name="fakeIdCheck" value="hey">
+<input type="hidden" name="nausicaa" value="hoge">
+</form>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<button class="largeX4" onclick="startQuiz(&quot;review&quot;,this,1)">復習</button>
+<button class="largeX4" onclick="resetAll(this)">履歴削除</button>
+<button class="largeX4" onclick="enlargeEditList(this)">単語編集</button>
+
+
+
+
+</body></html>

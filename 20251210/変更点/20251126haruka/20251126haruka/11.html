@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>アラジンとジャスミンの冒険</title>
+    <style>
+        /* 動画を画面右下に固定するCSS設定 */
+        #player-container {
+            position: fixed; /* 画面に対して位置を固定 */
+            bottom: 0;      /* 画面下端に配置 */
+            right: 0;       /* 画面右端に配置 */
+            z-index: 1000;  /* 他の要素より手前に表示 */
+        }
+        /* 動画の大きさを指定（縦200px）*/
+        #player {
+            height: 200px;
+            /* 16:9の標準アスペクト比に基づき、幅を約355pxに設定 */
+            width: 355px;
+        }
+    </style>
+</head>
+<body>
+    <h1>アラジンとジャスミンの冒険</h1>
+    <div id="player-container">
+        <div id="player"></div>
+    </div>
+    <script>
+        // APIを非同期で読み込むための標準的なコード
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        
+        // APIの読み込みが完了したときに実行される関数
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '_aAOTfOU4lA', // (i)のYouTube動画ID
+                playerVars: {
+                    'playsinline': 1,
+                    'autoplay': 1,     // 自動再生を有効化
+                    'start': 4         // 4秒から再生を開始
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // プレイヤーが準備完了した際の処理（ここでは特に不要）
+            // 自動再生と開始秒数はplayerVarsで設定済み
+        }
+    </script>
+
+</body>
+</html>

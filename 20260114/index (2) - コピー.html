@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+eng.I See The Light
+
+</title>
+<link rel="stylesheet" href="http://sato.fm.senshu-u.ac.jp/zkiku/202508/31wholeNW/09style.css">
+<style>
+.clicked {
+    background-color: lightgreen;
+    cursor: pointer;
+}
+.subtitle {
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="video-container">
+<div id="player"></div>
+</div>
+
+<progress id="progress" value="0" max="20" style="width: 100%; height: 20px;"></progress>
+<div id="badge" style="display:none; font-size: 24px; color: gold; text-align: center;">🎉 完璧！すべての歌詞をクリックしました！</div>
+
+<button id="quizModeBtn">クイズモード開始</button>
+<div id="score" style="font-size: 18px; margin: 10px;">スコア: 0</div>
+
+<div class="subtitle" data-timestamp="10">
+<button class="play-button">1</button>
+All those 
+<ruby>days</ruby>
+<ruby>watching</ruby>
+from the 
+<ruby>windows</ruby>
+</div>
+窓から眺めていたあの日々
+
+<div class="subtitle" data-timestamp="15.1">
+<button class="play-button">2</button>
+All those 
+<ruby>years</ruby>
+
+<ruby>outside</ruby>
+looking in
+</div>
+外から中を覗き込んでいた何年もの月日
+
+
+<div class="subtitle" data-timestamp="19.5">
+<button class="play-button">3</button>
+All that 
+<ruby>time</ruby>
+<ruby>never</ruby>
+<ruby>even</ruby><sub>〜さえ</sub>
+<ruby>knowing</ruby>
+
+</div>
+気づきもしないでずっと過ごしてきた
+
+
+
+<div class="subtitle" data-timestamp="24.5">
+<button class="play-button">4</button>
+<ruby>Just</ruby>
+
+<ruby>how</ruby> 
+<ruby>blind</ruby>
+I've 
+<ruby>been</ruby>.
+</div>
+自分がどれほど何も見えていなかったのか、
+
+
+
+<div class="subtitle" data-timestamp="29.7">
+<button class="play-button">5</button>
+<ruby>Now</ruby> I'm 
+<ruby>here</ruby>,
+</div>
+今、私はここにいる
+
+
+<div class="subtitle" data-timestamp="31.9">
+<button class="play-button">6</button>
+<ruby>blinking</ruby><sub>まばたきする</sub>
+in the 
+<ruby>starlight</ruby><sub>星明かり</sub>.
+</div>
+星明かりの中で目を細めて
+
+
+<div class="subtitle" data-timestamp="34.5">
+<button class="play-button">6</button>
+<ruby>Now</ruby> I'm 
+<ruby>here</ruby>,
+<ruby>suddenly</ruby>
+I 
+<ruby>see</ruby>.
+</div>
+今、私はここにいる 突然 わかったの
+
+<div class="subtitle" data-timestamp="39.5">
+<button class="play-button">7</button>
+<ruby>Standing</ruby>
+
+<ruby>here</ruby>,
+it's oh so 
+<ruby>clear</ruby>
+</div>
+ここに立っていると とてもはっきりと見える
+
+
+<div class="subtitle" data-timestamp="43.5">
+<button class="play-button">8</button>
+I'm 
+<ruby>where</ruby>
+<i>I'm meant to</i><sub>運命付けられている</sub>
+<ruby>be</ruby>.
+</div>
+私は茨の冠を被っている あるべき姿に
+
+
+<div class="subtitle" data-timestamp="48.5">
+<button class="play-button">9</button>
+And 
+<i>at last</i>
+I 
+<ruby>see</ruby> the 
+<ruby>light</ruby>
+</div>
+そしてついに光が見える
+
+
+<div class="subtitle" data-timestamp="53.5">
+<button class="play-button">10</button>
+and it's 
+<ruby>like</ruby> the 
+<ruby>fog</ruby><sub>霧</sub>
+
+<ruby>has</ruby> 
+<ruby>lifted</ruby><sub>晴れた</sub>.
+</div>
+まるで霧が晴れたみたいに
+
+
+<div class="subtitle" data-timestamp="57.9">
+<button class="play-button">11</button>
+And 
+<i>at last</i>
+I 
+<ruby>see</ruby> the 
+<ruby>light</ruby>
+</div>
+そしてついに光が見える
+
+
+<div class="subtitle" data-timestamp="62.5">
+<button class="play-button">12</button>
+and it's 
+<ruby>like</ruby> the 
+<ruby>sky</ruby>
+is 
+<ruby>new</ruby>.
+</div>
+まるで空が新しくなったみたい
+
+
+<div class="subtitle" data-timestamp="67.5">
+<button class="play-button">13</button>
+And it's 
+<ruby>warm</ruby>
+and 
+<ruby>real</ruby>
+and 
+<ruby>bright</ruby><sub>輝かしい</sub>,
+</div>
+暖かくて、真実で、輝いている
+
+
+<div class="subtitle" data-timestamp="71.5">
+<button class="play-button">14</button>
+<ruby>when</ruby> the 
+<ruby>world</ruby>
+
+<ruby>has</ruby> 
+<ruby>somehow</ruby>
+<ruby>shifted</ruby><sub>変化した</sub>
+</div>
+世界がどういうわけか（変わったとき）
+
+
+<div class="subtitle" data-timestamp="80.5">
+<button class="play-button">15</button>
+<i>All at once</i><sub>一瞬で</sub>
+<ruby>everything</ruby>
+<ruby>looks</ruby> 
+<ruby>different</ruby>
+</div>
+一瞬ですべてが違って見える
+
+
+<div class="subtitle" data-timestamp="85.5">
+<button class="play-button">16</button>
+<ruby>Now</ruby> 
+<ruby>that</ruby>
+I 
+<ruby>see</ruby> 
+<ruby>you</ruby> 
+</div>
+今やあなたが見えるから
+
+<div class="subtitle" data-timestamp="120.5">
+<button class="play-button">17</button>
+All those 
+<ruby>days</ruby> 
+<ruby>chasing</ruby><sub>追いかける</sub>
+
+<ruby>down</ruby> a 
+<ruby>daydream</ruby><sub>白昼夢</sub>
+</div>
+空想を追い求めていたあの日々
+
+
+<div class="subtitle" data-timestamp="125.5">
+<button class="play-button">18</button>
+All those 
+<ruby>years</ruby> 
+<ruby>living</ruby>
+in a 
+<ruby>blur</ruby><sub>ぼやけた状態</sub>.
+</div>
+ぼんやりと生きていた何年もの月日
+
+
+<div class="subtitle" data-timestamp="129.9">
+<button class="play-button">19</button>
+All that 
+<ruby>time</ruby> 
+<ruby>never</ruby> 
+<ruby>truly</ruby>
+
+<ruby>seeing</ruby> 
+</div>
+常に本当には見ていなかった
+
+
+<div class="subtitle" data-timestamp="134.2">
+<button class="play-button">20</button>
+<ruby>Things</ruby>
+the 
+<ruby>way</ruby> 
+<ruby>they</ruby> 
+<ruby>were</ruby>.
+</div>
+ありのままの物事を
+
+
+<div class="subtitle" data-timestamp="139.5">
+<button class="play-button">21</button>
+<ruby>Now</ruby> 
+<ruby>she's</ruby> 
+<ruby>here</ruby> 
+<ruby>shining</ruby>
+in the 
+<ruby>starlight</ruby>.
+</div>
+今、彼女はここにいて星明かりの中に輝いている
+
+
+<div class="subtitle" data-timestamp="144.5">
+<button class="play-button">22</button>
+<ruby>Now</ruby> 
+<ruby>she's</ruby> 
+<ruby>here</ruby> 
+<ruby>suddenly</ruby>
+I 
+<ruby>know</ruby>
+</div>
+今、彼女がここにいて、突然わかったんだ
+
+
+<div class="subtitle" data-timestamp="148.5">
+<button class="play-button">23</button>
+If 
+<ruby>she's</ruby> 
+<ruby>here</ruby> it's 
+<i>crystal clear</i><sub>明白な</sub>.
+</div>
+彼女がここにいるなら、それはとても明白だ
+
+
+<div class="subtitle" data-timestamp="153.0">
+<button class="play-button">24</button>
+I'm 
+<ruby>where</ruby> I'm 
+<ruby>meant</ruby> 
+<ruby>to</ruby> 
+<ruby>go</ruby>.
+</div>
+僕は僕が行くべき場所にいる
+
+
+<div class="subtitle" data-timestamp="157.5">
+<button class="play-button">25</button>
+And 
+<i>at last</i>
+I 
+<ruby>see</ruby> the 
+<ruby>light</ruby>,
+</div>
+そしてついに光が見える
+
+
+<div class="subtitle" data-timestamp="161.5">
+<button class="play-button">26</button>
+and it's 
+<ruby>like</ruby> the 
+<ruby>fog</ruby> is 
+<ruby>lifted</ruby>.
+</div>
+まるで霧が晴れたみたいに
+
+
+<div class="subtitle" data-timestamp="166.5">
+<button class="play-button">27</button>
+And 
+<i>at last</i>
+I 
+<ruby>see</ruby> the 
+<ruby>light</ruby>.
+</div>
+そしてついに光が見える
+
+
+<div class="subtitle" data-timestamp="170.5">
+<button class="play-button">28</button>
+And it's 
+<ruby>like</ruby> the 
+<ruby>sky</ruby> is 
+<ruby>new</ruby>,
+</div>
+まるで空が新しくなったみたいだ
+
+
+<div class="subtitle" data-timestamp="175.5">
+<button class="play-button">29</button>
+And it's 
+<ruby>warm</ruby> and 
+<ruby>real</ruby> and 
+<ruby>bright</ruby>.
+</div>
+暖かくて、真実で、輝いている
+
+
+<div class="subtitle" data-timestamp="179.5">
+<button class="play-button">30</button>
+And the 
+<ruby>world</ruby> 
+<ruby>has</ruby> 
+<ruby>somehow</ruby> 
+<ruby>shifted</ruby><sub>変化した</sub>.
+</div>
+そして世界がどういうわけか変わったんだ
+
+
+<div class="subtitle" data-timestamp="188.2">
+<button class="play-button">31</button>
+<ruby>Oh</ruby>,
+I 
+<ruby>know</ruby> 
+<ruby>everything</ruby> is 
+<ruby>different</ruby>.
+</div>
+ああ すべてが違っているのがわかる
+
+
+<div class="subtitle" data-timestamp="193.5">
+<button class="play-button">32</button>
+<ruby>Now</ruby> 
+<ruby>that</ruby>
+I 
+<ruby>see</ruby> 
+<ruby>you</ruby>.
+</div>
+今やあなたが見えるから
+
+
+<div class="subtitle" data-timestamp="202.5">
+<button class="play-button">33</button>
+<ruby>Now</ruby> 
+<ruby>that</ruby>
+I 
+<ruby>see</ruby> 
+<ruby>you</ruby>.
+</div>
+今やあなたが見えるから
+
+
+<div id="bottomBtn">
+</div>
+<h1 id="words">単語リスト</h1>
+<div id="wordList">
+</div>
+<div id="info">
+
+
+Mandy Moore & Zachary Levi (Ost.Tangled/Rapunzel) - I See The Light
+
+</div>
+<script>
+var _startX = 9;
+var _endX = 220;
+var _videoId = "hYbHzzWmKUs";
+var _lang4dic = "eng";
+var _dicY;
+</script>
+</script>
+<script>
+// プログレスバーとバッジの実装
+let clickedCount = 0;
+const totalSubtitles = 20;
+const progressBar = document.getElementById('progress');
+const badge = document.getElementById('badge');
+
+document.querySelectorAll('.subtitle').forEach(subtitle => {
+    subtitle.addEventListener('click', () => {
+        if (!subtitle.classList.contains('clicked')) {
+            subtitle.classList.add('clicked');
+            clickedCount++;
+            progressBar.value = clickedCount;
+            if (clickedCount === totalSubtitles) {
+                badge.style.display = 'block';
+            }
+        }
+    });
+});
+
+// 穴埋めクイズの実装
+let quizMode = false;
+let score = 0;
+const quizBtn = document.getElementById('quizModeBtn');
+const scoreDiv = document.getElementById('score');
+
+quizBtn.addEventListener('click', () => {
+    quizMode = !quizMode;
+    if (quizMode) {
+        quizBtn.textContent = 'クイズモード終了';
+        startQuiz();
+    } else {
+        quizBtn.textContent = 'クイズモード開始';
+        endQuiz();
+    }
+});
+
+function startQuiz() {
+    document.querySelectorAll('.subtitle').forEach((subtitle, index) => {
+        const rubies = subtitle.querySelectorAll('ruby');
+        if (rubies.length > 0) {
+            const firstRuby = rubies[0];
+            const word = firstRuby.textContent.trim();
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = '単語を入力';
+            input.dataset.correct = word;
+            input.style.width = '100px';
+            const submitBtn = document.createElement('button');
+            submitBtn.textContent = 'チェック';
+            submitBtn.addEventListener('click', () => checkAnswer(input, submitBtn));
+            firstRuby.style.display = 'none';
+            firstRuby.parentNode.insertBefore(input, firstRuby);
+            firstRuby.parentNode.insertBefore(submitBtn, firstRuby.nextSibling);
+        }
+    });
+}
+
+function endQuiz() {
+    document.querySelectorAll('.subtitle').forEach(subtitle => {
+        const inputs = subtitle.querySelectorAll('input');
+        const buttons = subtitle.querySelectorAll('button:not(.play-button)');
+        inputs.forEach(input => input.remove());
+        buttons.forEach(btn => {
+            if (btn.textContent === 'チェック') btn.remove();
+        });
+        const rubies = subtitle.querySelectorAll('ruby');
+        rubies.forEach(ruby => ruby.style.display = '');
+    });
+    score = 0;
+    scoreDiv.textContent = 'スコア: 0';
+}
+
+function checkAnswer(input, btn) {
+    const correct = input.dataset.correct;
+    if (input.value.trim().toLowerCase() === correct.toLowerCase()) {
+        score++;
+        scoreDiv.textContent = 'スコア: ' + score;
+        input.style.backgroundColor = 'lightgreen';
+        btn.disabled = true;
+    } else {
+        input.style.backgroundColor = 'lightcoral';
+        setTimeout(() => input.style.backgroundColor = '', 1000);
+    }
+}
+</script>
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/202508/31wholeNW/06short.js"></script>
+<script src="http://sato.fm.senshu-u.ac.jp/zkiku/202508/31wholeNW/08.js"></script>
+</body>
+</html>

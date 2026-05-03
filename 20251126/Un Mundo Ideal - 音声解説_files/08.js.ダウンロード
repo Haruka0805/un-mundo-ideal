@@ -1,0 +1,998 @@
+'use strict'
+const _base = "http://sato.fm.senshu-u.ac.jp/zkiku/202508/";
+
+let _audioContext
+
+let _tm4GouseiRep
+let _loopSec = 10000
+let _prevHilite = -1
+const date = new Date()
+date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000)
+// date.setTime(date.getTime() + (60 * 60 * 1000));
+const _expires = 'expires=' + date.toUTCString()
+const _viewportHeight = window.innerHeight
+const _viewportWidth = window.innerWidth
+let _pbRate = 1
+let _tm4skip13sec, _prevButton, _prevBgColor
+let _mode4np = 'natural'
+let _elemLineOto = '01'
+let _prevExec = 'speak("Hello")'
+let _videoSize = 1
+
+//setTimeout("enlargeVideo()", 1000);
+if (_lang4dic.includes('kor')) {
+  const elements = document.querySelectorAll('ruby')
+  // 各要素のフォントサイズを変更します
+  elements.forEach(element => {
+    element.style.fontSize = '1.8rem'
+  })
+} else if (_lang4dic.includes('cn') || _lang4dic.includes('rus')) {
+  const elements = document.querySelectorAll('ruby')
+
+  // 各要素のフォントサイズを変更します
+  elements.forEach(element => {
+    element.style.fontSize = '1.4rem'
+  })
+}
+
+const _subtitleLen = document.getElementsByClassName('subtitle').length
+const _path = window.location.pathname
+const startX = location.href.lastIndexOf('/') - 5
+const _fileName4cookie = location.href.substr(startX).replace('.html', '')
+const filename = _path.substring(_path.lastIndexOf('/') + 1)
+const _isPofTW = _path.includes('35pOfYourWorld')
+
+let ctrButtons = `
+<button class="ctrBtnX redX" id="go2wd9" title="単語リストへ移動(Word)" onClick="go2wordX9(this)">W01</button>
+<button class="ctrBtnX" title="再生速度を下げる" onClick="setPlaybackRateSlower()">U 遅</button>
+<button class="ctrBtnX" title="動画の拡大(Big)" onClick="enlargeVideo()">B 大</button>
+<button class="ctrBtnX" title="翻訳" onClick="transX()">6 訳</button>
+
+<button title="再生・ポーズ切り替え" onClick="togglePlayback()" id="playPauseButton">1 ▶</button>
+<button class="ctrBtnX" title="合成音声を再生" onClick="playGouseiOto()">5 🎵</button>
+
+<button class="ctrBtnX" title="前の行へ" onClick="go2prevLine()">2 ↑▲</button>
+<button class="redX ctrBtnX" title="赤色行再生" 
+onClick="_loopSec=10000;playElemLineOtoNatural()">3 |⮐</button>
+<button class="ctrBtnX" title="次の行へ" onClick="go2nextLine()">4 ↓▼</button>
+`
+
+const div = document.createElement('div')
+div.id = 'ctrDiv'
+div.innerHTML = ctrButtons.replace(/\n/g, '')
+document.body.appendChild(div)
+
+bottomBtn.innerHTML = buttonX.replace(/\n/g, '')
+let _tm4hiLite = -1
+const words = document.querySelectorAll('ruby')
+
+words.forEach(function (rubyX) {
+  rubyX.addEventListener('click', function () {
+    dictX(this)
+  })}
+)
+
+if (!_lang4dic.includes('jap') && !_path.includes('IloveYou')) {
+  writeWdList()
+}
+let _currHilitedOtoLine
+
+
+
+document
+  .getElementById('info')
+  .insertAdjacentHTML(
+    'afterend',
+    '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>'
+  )
+
+const playButtons = document.querySelectorAll('.play-button')
+let btnCnt = 1
+playButtons.forEach(function (buttonX) {
+  let btnCnt2 = btnCnt
+  if (btnCnt < 10) {
+    btnCnt2 = '0' + btnCnt
+  }
+  buttonX.innerText = btnCnt2
+  buttonX.setAttribute('id', 'L' + btnCnt2)
+  btnCnt += 1
+})
+
+function resetLoopSecAndPlay () {
+  _loopSec = 10000
+  playElemLineOtoNatural()
+}
+
+function loopX () {
+  if (_mode4np == 'natural') {
+    _loopSec = parseInt(player.getCurrentTime())
+  } else {
+    _loopSec = 10000
+  }
+  const self = document.getElementById('L' + _elemLineOto)
+  self.style.backgroundColor = 'blue'
+  playElemLineOtoNatural()
+}
+
+function scroll2top () {
+  clearTimeoutAll()
+  window.scrollTo(0, 0)
+}
+
+function setAnchorAndPlay () {
+  cancelGousei()
+  _elemLineOto = _currHilitedOtoLine
+  _loopSec = 10000
+  saveCookieElemLineOto()
+  setElemLineOto(_elemLineOto)
+  setRed2BtnAndPrevButton()
+  if (_mode4np != 'natural') {
+    player.playVideo()
+    playElemLineOtoNatural()
+    _mode4np = 'natural'
+  }
+}
+
+function playElemLineOtoNatural () {
+  cancelGousei()
+  prevHilite2normal()
+  const elemX = document.getElementById('L' + _elemLineOto)
+  elemX.click()
+}
+
+function playGouseiOto () {
+  clearTimeoutAll()
+  _mode4np = 'gousei'
+  _loopSec = 10000
+  setElemLineOto(_currHilitedOtoLine)
+  const elemX = addOL2lineNumb(_currHilitedOtoLine)
+  elemX.click()
+  setRed2BtnAndPrevButton()
+}
+function addOL2lineNumb (tempX) {
+  let exeAbcNumb = 'L' + _elemLineOto
+  if (_mode4np != 'natural') {
+    exeAbcNumb = 'o' + _elemLineOto
+  }
+  const element = document.getElementById(exeAbcNumb)
+  return element
+}
+
+function setElemLineOto (tempX) {
+  _elemLineOto = zeroPudded(tempX)
+  saveCookieElemLineOto()
+}
+
+function transX () {
+  _loopSec = 10000
+  setElemLineOto(_currHilitedOtoLine)
+  setRed2BtnAndPrevButton()
+  const elemX = document.getElementById('t' + _elemLineOto)
+  elemX.click()
+}
+
+function saveCookieElemLineOto () {
+  document.cookie =
+    _fileName4cookie + '=' + _elemLineOto + ';' + _expires + ';path=/'
+}
+
+function skip13sec () {
+  const tempX = parseInt(_currHilitedOtoLine) + 1
+  setElemLineOto(tempX)
+  const elemX = addOL2lineNumb(tempX)
+  clickAndCheckVisible(elemX)
+}
+
+function clickAndCheckVisible (self) {
+  self.click()
+  checkVisible(self)
+}
+
+function zeroPudded (tempX) {
+  tempX = parseInt(tempX)
+  if (tempX < 10) {
+    tempX = '0' + tempX
+  }
+  return tempX
+}
+
+function go2nextLine () {
+  let tempX = parseInt(_currHilitedOtoLine)
+  _loopSec = 10000
+  prevHilite2normal()
+  if (tempX < _subtitleLen) {
+    tempX = parseInt(_currHilitedOtoLine)
+  } else {
+    //		clearTimeout(_tm4GouseiRep);
+    tempX = 0
+  }
+  setElemLineOto(tempX)
+  clickAndRemoveColor(tempX, 1)
+}
+
+function setRed2BtnAndPrevButton () {
+  const self = document.getElementById('L' + _elemLineOto)
+  setPrevButton(self)
+  self.style.backgroundColor = 'red'
+  self.parentNode.classList.add('box')
+}
+
+function clickAndRemoveColor (lineNumb, cntX) {
+  curr2normal()
+  let tempX = parseInt(lineNumb) + cntX
+  _currHilitedOtoLine = tempX
+  setElemLineOto(tempX)
+  const elemX = addOL2lineNumb(tempX)
+  clickAndCheckVisible(elemX)
+  setRed2BtnAndPrevButton()
+}
+function go2prevLine () {
+  _loopSec = 10000
+  prevHilite2normal()
+
+  if (_currHilitedOtoLine > 1) {
+    clickAndRemoveColor(_currHilitedOtoLine, -1)
+  }
+}
+
+function prevHilite2normal () {
+  if (_prevHilite != -1) {
+    _prevHilite.classList.remove('box')
+    _prevHilite.classList.remove('highlight')
+  }
+}
+function go2lineCnt8 (self) {
+  _loopSec = 10000
+  prevHilite2normal()
+  const lnId = self.innerText
+  const element = document.getElementById(lnId)
+  _elemLineOto = lnId.replace('L', '')
+  saveCookieElemLineOto()
+  go2lineXX(element)
+
+  let wdId = lnId.replace('L', 'W')
+  let element3 = document.getElementById('go2wd9')
+  element3.innerText = wdId
+}
+
+function go2lineXX (elemX) {
+  elemX.scrollIntoView({
+    behavior: 'instant'
+  })
+  elemX.click()
+  clearTimeoutAll()
+  _tm4hiLite = setTimeout(highlightSubtitles, 10)
+  setPrevButton(elemX)
+  elemX.style.backgroundColor = 'red'
+}
+
+function curr2normal () {
+  let tempX = parseInt(_currHilitedOtoLine)
+  const elemXPrev = addOL2lineNumb(tempX)
+  if (elemXPrev != undefined) {
+    elemXPrev.parentNode.classList.remove('box')
+    elemXPrev.parentNode.classList.remove('highlight')
+  }
+}
+
+function go2wordX9 (self) {
+  //alert(self);
+  prevHilite2normal()
+  curr2normal()
+  let origId = self.innerText
+  let lnId = origId.replace('W', 'L')
+  player.pauseVideo()
+  clearTimeoutAll()
+  const element2 = document.getElementById(self.innerText)
+  element2.scrollIntoView({
+    behavior: 'instant'
+  })
+  element2.style.backgroundColor = 'red'
+}
+
+function openHtml (htmlName) {
+  window.open(htmlName + '.html', '_self')
+}
+
+function clearTimeoutAll () {
+  clearTimeout(_tm4hiLite)
+  clearTimeout(_tm4skip13sec)
+  clearTimeout(_tm4GouseiRep)
+}
+
+function execQuizLink (self, urlX) {
+  setPrevButton(self)
+  self.style.backgroundColor = 'red'
+  player.pauseVideo()
+  clearTimeoutAll()
+  
+cancelGousei()
+
+  
+  window.open(urlX, '_blank')
+}
+
+function makeQuizLink (buffX, hanni) {
+  buffX = encodeURIComponent(buffX)
+  const hanniX = hanni - 9 + '~' + hanni
+  const titleX = encodeURIComponent(document.title)
+
+  let baseX = 'http://sato.fm.senshu-u.ac.jp/zkiku/202508/12quiz/'
+
+  if (_path.includes('/Library/WebServer/Documents/')) {
+    baseX = '../12quiz/'
+  }
+
+  const urlX =
+    baseX +
+    'index.html?langX=' +
+    _lang4dic +
+    '&titleX=' +
+    titleX +
+    '&hanniX=' +
+    hanniX +
+    '&buffX=' +
+    buffX
+  const buttonX =
+    '<button class="quiz2" onClick=execQuizLink(this,"' +
+    urlX +
+    '")>' +
+    '試験' +
+    hanniX +
+    '</button>'
+  return buttonX
+}
+
+function writeWdList () {
+  let checkedList = ';'
+  let cntX = 0
+  let buffX2 = ''
+  let buffX = ''
+  let cnt4subt = 0
+  let isFirst = 1
+  let urlX
+  let reallyFirst = 1
+  document.querySelectorAll('.subtitle').forEach(function (line) {
+    cnt4subt += 1
+    let cnt4subt2 = cnt4subt
+    if (cnt4subt < 10) {
+      cnt4subt2 = '0' + cnt4subt
+    }
+    let line2html = line.innerHTML.replace(/ <ruby/g, "\n<ruby").replace(/\+<ruby/g, "\n+\n<ruby")
+    let buff = line2html.split('\n')
+    if (reallyFirst &&  isFirst) {
+        reallyFirst = 0
+      buffX += '<button onClick=go2lineCnt8(this) id="W01">L01</button>'
+      isFirst = 0
+    }
+    const regex = /<rt>(.*?)<\/rt>/i
+    //        let yomi = "";
+    buff.forEach(function (line2) {
+      if (line2.includes('<sub>')) {
+        if (isFirst) {
+          buffX +=
+            '<button  class="quiz1" onClick=go2lineCnt8(this) id="W' +
+            cnt4subt2 +
+            '">L' +
+            cnt4subt2 +
+            '</button> '
+          isFirst = 0
+        }
+        line2 = line2.split("</sub>")[0]
+          .replace(/<u><ruby.*?>/, '')
+          .replace('</u>', '')
+
+        let wordSense = line2.split('<sub>')
+        const word = wordSense[0].replace("¿", "").replace("¡", "")
+          .toLowerCase()
+          .replace(/<rt>.*<\/rt>/g, '')
+          .replace(/<ruby.*?>/, '')
+          .replace('</ruby>', '')
+          .trim()
+          .replace(/\s/g, '_')
+
+        let sense = wordSense[1].replace(/[.?!,]/g, '')
+
+        const match = line2.match(regex)
+        if (match) {
+          sense += '<small>' + match[1] + '</small>'
+        }
+
+        const wordSpell = word.replace(/_/g, ' ')
+        if (!checkedList.includes(';' + word + ';')) {
+          buffX +=
+            '<button class="quiz1" onClick=speak2("' +
+            word +
+            '",this,0)>' +
+            wordSpell +
+            '</button>' +
+            sense +
+            '&nbsp;\n'
+          buffX2 += word + ': ' + sense + '\n'
+          checkedList += word + ';'
+          cntX += 1
+          if (cntX % 10 == 0 && (!_path.includes('31wholeNW/index.html')
+          && !_path.includes('11students/index.html'))
+          ) {
+            urlX = makeQuizLink(buffX2, cntX)
+            buffX += '<br>\n' + urlX + '\n<hr>\n'
+            buffX2 = ''
+            isFirst = 1
+          }
+        }
+      }
+    })
+  })
+//残りの書き出し試験
+	urlX = makeQuizLink(buffX2, cntX)
+	buffX += '<br>\n' + urlX + '\n<hr>\n'
+  buffX += '\n<hr><br>\n'
+  document.getElementById('wordList').innerHTML = buffX
+}
+
+function enlargeVideo () {
+  _videoSize += 1
+  _videoSize = _videoSize % 6
+// alert(_videoSize);
+  if (_videoSize == 0) {
+    //        _videoSize = 1;
+  }
+  const heightX = 100 * _videoSize
+  const widthX = parseInt(heightX * 1.333)
+  document.getElementById('player').style.height = heightX + 'px'
+  document.getElementById('player').style.width = widthX + 'px'
+  document.getElementsByClassName('video-container')[0].style.height =
+    heightX + 'px'
+  document.getElementsByClassName('video-container')[0].style.width =
+    widthX + 'px'
+}
+
+function setPrevButton (self) {
+  if (_prevButton != undefined) {
+    _prevButton.style.backgroundColor = _prevBgColor
+  }
+  if (self != undefined) {
+    _prevButton = self
+    _prevBgColor = self.style.backgroundColor
+  }
+}
+
+function dictX (self) {
+  const word = self.childNodes[0].nodeValue
+  let escLemma = word.replace(/[.,?!'\-]/g, '')
+  escLemma = encodeURI(escLemma.toLowerCase())
+
+  setPrevButton(self)
+  self.style.fontStyle = 'italic'
+  self.style.backgroundColor = 'green'
+
+  player.pauseVideo()
+  clearTimeoutAll()
+
+  let url = 'https://en.wiktionary.org/wiki/'
+  if (_dicY === undefined) {
+    if (_lang4dic.includes('eng')) {
+      //	        url = "http://dictionary.goo.ne.jp/srch/ej/" + escLemma + "/m0u/";
+      url = 'https://eow.alc.co.jp/search?q=' + escLemma
+    } else if (_lang4dic.includes('kor')) {
+      url = 'https://korean.dict.naver.com/kojadict/#/search?range=word&query='
+      url += escLemma
+    } else if (_lang4dic.includes('fre')) {
+      //            url = "https://kotobank.jp/frjaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=fj&q=' + escLemma
+    } else if (_lang4dic.includes('spa')) {
+      url = 'https://kotobank.jp/search?t=sj&q=' + escLemma
+    } else if (_lang4dic.includes('ita')) {
+      //            url = "https://kotobank.jp/itjaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=ij&q=' + escLemma
+    } else if (_lang4dic.includes('ger')) {
+      //            url = "https://kotobank.jp/dejaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=dj&q=' + escLemma
+    } else if (_lang4dic.includes('cn')) {
+      //            url = "http://www.ctrans.org/search.php?word=" + escLemma + "&opts=fw&optext=中国語前方一致";
+      //            url = "https://kotobank.jp/zhjaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=zj&q=' + escLemma
+    } else if (_lang4dic.includes('por')) {
+      //            url = "https://kotobank.jp/ptjaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=pj&q=' + escLemma
+    } else if (_lang4dic.includes('rus')) {
+      //            url = "https://kotobank.jp/rujaword/" + escLemma;
+      url = 'https://kotobank.jp/search?t=rj&q=' + escLemma
+    } else if (_lang4dic.includes('jap')) {
+      //            url = "https://kotobank.jp/rujaword/" + escLemma;
+      //            url = "https://kotobank.jp/search?t=rj&q=" + escLemma;
+      url = 'https://kotobank.jp/search?t=ja&q=' + escLemma
+    } else {
+      url += escLemma
+    }
+    window.open(url, '_blank')
+  }
+}
+
+function go2html (self) {
+  window.open(self.value, '_self')
+}
+
+let player
+
+function onYouTubeIframeAPIReady () {
+  player = new YT.Player('player', {
+    height: '130',
+    width: '213',
+    videoId: _videoId,
+    playerVars: { start: _startX, controls: 0, autoplay: 1 },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
+    }
+  }) 
+}
+
+function go2l01 () {
+  clearTimeoutAll()
+  window.scrollTo(0, 0)
+  _elemLineOto = '01'
+  playElemLineOtoNatural()
+  saveCookieElemLineOto()
+  setRed2BtnAndPrevButton()
+}
+function checkRep (currentTime) {
+  if (currentTime > _loopSec) {
+    const elemX = document.getElementById('L' + _elemLineOto)
+    elemX.click()
+  } else if (currentTime > _endX) {
+    go2l01()
+  }
+}
+
+function cancelGousei () {
+  speechSynthesis.cancel()
+  clearTimeout(_tm4GouseiRep)
+}
+
+function togglePlayback () {
+  _mode4np = 'natural'
+  cancelGousei()
+  clickAndRemoveColor(_currHilitedOtoLine, 0)
+
+  if (player.getPlayerState() != 1) {
+    player.playVideo()
+  } else {
+    player.pauseVideo()
+    clearTimeoutAll()
+  }
+}
+
+function onPlayerReady (event) {
+
+
+
+  event.target.playVideo()
+  if (langX.includes('vie') || langX.includes('ara') || langX.includes('rus')) {
+    player.setVolume(100)
+  } else {
+    player.setVolume(100)
+  }
+  clearTimeoutAll()
+  _tm4hiLite = setTimeout(highlightSubtitles, 10)
+  window.scrollTo(0, 0)
+    initX()
+//  getTcText()
+}
+
+function getTcText () {
+    let arrayX = document.getElementsByClassName("subtitle")
+    let buffX = ""
+    for (const self of arrayX) {
+        let timeCode = self.getAttribute("data-timestamp")
+//        timeCode -= -0.5
+        let bareText = self.innerHTML
+        bareText = bareText.replace(/<b.*?<\/b>/g, '').replace(/\+/g, "").split("<br>")[0]
+        bareText = bareText.replace(/<span class="play-button".*?>/, '')
+        bareText = bareText.replace("</span>", "; ");
+	bareText = bareText.replace(/<small>*?<\/small>/g, '')
+
+        bareText = bareText
+            .replace(/<rt>[^>]*?<\/rt>/g, '')
+            .replace(/<sub.*?>[^>]*?<\/sub>/g, '')
+        bareText = bareText.replace(/<u>/g, '').replace(/<\/u>/g, '')
+        bareText = bareText
+            .replace(/<ruby.*?>/g, '')
+            .replace(/<\/ruby>/g, '')
+            .replace(/\s+/g, ' ')
+        buffX += timeCode + "; " + bareText + "\n"
+    }
+    console.log(buffX)
+}
+
+function initX () {
+  const cookies = document.cookie.split(';')
+  let tempX = ''
+  // 配列をループして、目的のCookieを探す
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim() // 前後の空白を削除
+    // Cookieのキーが指定された名前と一致するかチェック
+    if (cookie.startsWith(_fileName4cookie + '=')) {
+      tempX = cookie.substring(_fileName4cookie.length + 1)
+      if (tempX.length > 1) {
+        _elemLineOto = tempX
+      }
+    }
+  }
+  if (
+    tempX == null ||
+    tempX == 'undefined' ||
+    tempX == undefined ||
+    tempX == '01' ||
+    tempX.length < 1
+  ) {
+    _elemLineOto = '01'
+    playElemLineOtoNatural()
+    setRed2BtnAndPrevButton()
+  } else {
+    player.pauseVideo()
+    setTimeout('go2lastSession()', 2000)
+  }
+  _currHilitedOtoLine = _elemLineOto
+  
+}
+
+function go2lastSession () {
+  playElemLineOtoNatural()
+  saveCookieElemLineOto()
+  setRed2BtnAndPrevButton()
+}
+
+function replaceOLofElemLine (idX) {
+  if (idX != undefined) {
+    if (idX.length < 1) {
+      alert('22: ' + idX.length)
+    } else {
+      _elemLineOto = idX.replace('L', '').replace('o', '')
+    }
+  }
+}
+
+function clickSeek (seconds, self) {
+  prevHilite2normal()
+  curr2normal()
+  cancelGousei()
+
+  clearTimeoutAll()
+  const elemX = self.parentNode
+  elemX.classList.add('box')
+  _prevHilite = elemX
+  _mode4np = 'natural'
+  player.seekTo(seconds, true)
+  player.playVideo()
+}
+
+function resetPlaybackRate () {
+  _pbRate = 1
+  player.setPlaybackRate(_pbRate)
+}
+
+function setPlaybackRateSlower () {
+  _pbRate -= 0.1
+	if(_pbRate < 0.4){
+		  _pbRate = 1
+	}
+  player.setPlaybackRate(_pbRate)
+}
+
+function onPlayerStateChange (event) {
+  if (event.data == YT.PlayerState.PLAYING) {
+    clearTimeoutAll()
+    _tm4hiLite = setTimeout(highlightSubtitles, 10)
+  } else if (event.data == YT.PlayerState.ENDED) {
+    go2l01()
+  }
+}
+
+function highlightSubtitles () {
+  let currentTime = parseInt(player.getCurrentTime())
+  let subtitles = document.querySelectorAll('.subtitle')
+  subtitles.forEach(function (subtitle) {
+    let start = parseInt(subtitle.getAttribute('data-start'))
+    let end = parseInt(subtitle.getAttribute('data-end'))
+
+    if (isNaN(start)) {
+      start = parseInt(subtitle.getAttribute('data-timestamp'))
+      end = start + 1
+    }
+    if (currentTime == start - 1) {
+      prevHilite2normal();
+      subtitle.classList.add('box');
+      subtitle.classList.add('highlight');
+      _prevHilite = subtitle;
+
+    } else if (currentTime == start) {
+      clearTimeout(_tm4skip13sec);
+      if (_isPofTW) {
+        _tm4skip13sec = setTimeout('skip13sec()', 11 * 1000)
+      }
+      checkVisible(subtitle)
+      let child
+      for (child of subtitle.childNodes) {
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          break
+        }
+      }
+      if (child == undefined) {
+        alert('999' + subtitle.firstChild.innerHTML)
+      } else {
+        _currHilitedOtoLine = child.id.replace('L', '').replace('o', '')
+      }
+//      checkVisible(subtitle)
+    } else if (currentTime >= start - 2 && currentTime < end) {
+      subtitle.classList.add('highlight')
+    } else {
+      subtitle.classList.remove('highlight')
+    }
+  })
+  checkRep(currentTime)
+  clearTimeout(_tm4hiLite)
+  _tm4hiLite = setTimeout(highlightSubtitles, 200)
+}
+
+function scrollX (scrollPosition) {
+  window.scrollBy({
+    top: scrollPosition,
+    behavior: 'smooth'
+  })
+}
+
+function checkVisible (self) {
+  const elementRect = self.getBoundingClientRect()
+  const topPosition = elementRect.top
+  if (_viewportHeight < 480) {
+    if (topPosition >= _viewportHeight / 3 || topPosition <= -10) {
+      const scrollPosition = topPosition - 20
+      scrollX(scrollPosition)
+    }
+  } else {
+    //250 = video height + ctrl height
+    if (topPosition >= _viewportHeight - 250 || topPosition <= 10) {
+      //            const scrollPosition = topPosition - _viewportHeight / 4;
+      const scrollPosition = topPosition - 20
+      scrollX(scrollPosition)
+    }
+  }
+}
+
+function speak2 (bareText, self, repCnt) {
+  setPrevButton(self)
+  self.style.backgroundColor = 'green'
+  player.pauseVideo()
+  speak(bareText, repCnt)
+}
+
+function getLangCode () {
+    let  langCode;
+  if (_lang4dic.includes('eng')) {
+    langCode = "en-US";
+  } else if (_lang4dic.includes('kor')) {
+    langCode = "ko-KR";
+  } else if (_lang4dic.includes('fre')) {
+    langCode = "fr-FR";
+  } else if (_lang4dic.includes('spa')) {
+    langCode = "es-MX";
+  } else if (_lang4dic.includes('ita')) {
+    langCode = "it-IT";
+  } else if (_lang4dic.includes('ger')) {
+      langCode = "de-DE";
+  } else if (_lang4dic.includes('cn')) {
+      langCode = "zh-TW";
+  } else if (_lang4dic.includes('por')) {
+    langCode = "pt-BR";
+  } else if (_lang4dic.includes('rus')) {
+    langCode = "ru-RU";
+  } else if (_lang4dic.includes('jap')) {
+    langCode = "ja-JP";
+  }
+    return(langCode);
+}
+
+function getVoiceX () {
+    let voiceX;
+  if (_lang4dic.includes('eng')) {
+      voiceX = 'Samantha'
+  } else if (_lang4dic.includes('kor')) {
+    if (
+      _userAgent.includes('safari') &&
+      !_userAgent.includes('chrome') &&
+      !_userAgent.includes('android')
+    ) {
+      voiceX = 'Yuna'
+    } else {
+      voiceX = 'Yuna (韓国語（韓国）)'
+    }
+  } else if (_lang4dic.includes('fre')) {
+    voiceX = 'Thomas'
+  } else if (_lang4dic.includes('spa')) {
+    voiceX = 'Paulina'
+  } else if (_lang4dic.includes('ita')) {
+    voiceX = 'Alice'
+  } else if (_lang4dic.includes('ger')) {
+    if (
+      _userAgent.includes('safari') &&
+      !_userAgent.includes('chrome') &&
+      !_userAgent.includes('android')
+    ) {
+      voiceX = 'Anna'
+    } else if (navigator.brave && typeof navigator.brave.isBrave) {
+      voiceX = 'Anna'
+    } else {
+      //            voiceX =  "Martin";
+      voiceX = 'Google Deutsch'
+    }
+  } else if (_lang4dic.includes('cn')) {
+    voiceX = 'Meijia'
+  } else if (_lang4dic.includes('por')) {
+    //        utterance.lang = "pt-BR";
+    voiceX = 'Luciana'
+  } else if (_lang4dic.includes('rus')) {
+    voiceX = 'Milena'
+  } else if (_lang4dic.includes('jap')) {
+    voiceX = 'Kyoko'
+  }
+    return(voiceX);
+}
+
+function speak (bareText, repCnt) {
+  _mode4np = 'gousei'
+  _prevExec = 'speak("' + bareText + '")'
+  const utterance = new SpeechSynthesisUtterance(bareText)
+    const voices = speechSynthesis.getVoices();
+    let  voiceX;
+    if (_osX.includes("iOS") || _osX.includes("macOS")){
+        const voiceTemp = getVoiceX()
+        voiceX = voices.find(voice => voice.name === voiceTemp)
+        utterance.rate = _pbRate * 0.4
+    }else{
+        const langCode = getLangCode();
+        voiceX = voices.find(voice => voice.lang === langCode);
+        utterance.rate = _pbRate * 0.8
+    }
+    if (voiceX) {
+        speechSynthesis.cancel()
+        utterance.voice = voiceX;
+        speechSynthesis.speak(utterance)
+        utterance.addEventListener('end', event => {
+            if (_mode4np != 'natural' && repCnt > 0) {
+                _tm4GouseiRep = setTimeout('go2nextLine()', 3500)
+            }
+        })
+    } else {
+        alert('音声ファイル用意中: ' + voiceX + '. 数秒後に再度クリック!')
+    }
+//  console.log(voices)
+}
+
+function getBareText (self) {
+  let parent = self.parentNode
+  getBareText2(parent, self)
+}
+
+function getBareText2 (self, childX) {
+  let bareText = self.innerHTML
+  bareText = bareText.replace(/<b.*?<\/b>/g, '').replace(/\+/g, "")
+  bareText = bareText.replace(/<span class="play-button".*?<\/span>/, '')
+  bareText = bareText.replace(`<span class="lyric-text">`, '')
+  bareText = bareText.replace('</span>', '')
+  bareText = bareText
+    .replace(/<rt>[^>]*?<\/rt>/g, '')
+    .replace(/<sub.*?>[^>]*?<\/sub>/g, '')
+  bareText = bareText.replace(/<u>/g, '').replace(/<\/u>/g, '')
+  bareText = bareText
+    .replace(/<ruby.*?>/g, '')
+    .replace(/<\/ruby>/g, '')
+    .replace(/\s+/g, ' ')
+  if (_lang4dic.includes('kor')) {
+    bareText = bareText.replace(/\-/g, '').replace(/\+/g, '')
+  }
+  player.pauseVideo()
+  clearTimeoutAll()
+  //音
+  if (childX.id.includes('o')) {
+    replaceOLofElemLine(childX.id)
+    speak(bareText, 100)
+  } else {
+    let targetLang = 'ja'
+    const escBuff = encodeURI(bareText)
+    if (_lang4dic.includes('jap')) {
+      targetLang = 'en'
+    }
+    let url =
+      'https://translate.google.com/#view=home&op=translate&sl=auto&tl=' +
+      targetLang +
+      '&text='
+    url += escBuff
+    window.open(url, '_blank')
+  }
+}
+
+function getOS () {
+  const userAgent = window.navigator.userAgent,
+    platform =
+      window.navigator?.userAgentData?.platform || window.navigator.platform,
+    macosPlatforms = ['macOS', 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+    windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+    iosPlatforms = ['iPhone', 'iPad', 'iPod']
+  let os = null
+  if (/iPad|Macintosh/.test(userAgent) && 'ontouchend' in document) {
+    os = 'iOS'
+  } else if (macosPlatforms.indexOf(platform) !== -1) {
+    os = 'macOS'
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = 'iOS'
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = 'Windows'
+  } else if (/Android/.test(userAgent)) {
+    os = 'Android'
+  } else if (/Linux/.test(platform)) {
+    os = 'Linux'
+  }
+  return os
+}
+
+const _osX = getOS()
+const _userAgent = navigator.userAgent.toLowerCase()
+ const platform = navigator.platform.toLowerCase();
+if (platform.includes('win') || _userAgent.includes('windows')){
+    window.speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.getVoices();
+    }
+}
+
+
+let tag = document.createElement('script')
+tag.src = 'https://www.youtube.com/iframe_api'
+let firstScriptTag = document.getElementsByTagName('script')[0]
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+
+const listX = document.getElementById('selectX')
+let langX = ''
+for (const optX of listX.options) {
+  if (filename.includes(optX.value)) {
+    optX.selected = true
+    langX = optX.value
+    break
+  }
+}
+
+btnCnt = 1
+document.querySelectorAll('.play-button').forEach(function (button) {
+  let btnCnt2 = btnCnt
+  if (btnCnt < 10) {
+    btnCnt2 = '0' + btnCnt
+  }
+  btnCnt += 1
+  button.insertAdjacentHTML(
+    'afterend',
+    '<b  onClick="getBareText(this)" ' + 'id="t' + btnCnt2 + '"></b>'
+  )
+  let otoBuff = '<b onClick="getBareText(this)" ' + 'id="o' + btnCnt2 + '"></b>'
+  button.insertAdjacentHTML('afterend', otoBuff)
+
+  button.addEventListener('click', function () {
+    let start = parseFloat(this.parentElement.getAttribute('data-start'))
+    if (isNaN(start)) {
+      start = parseFloat(this.parentElement.getAttribute('data-timestamp'))
+    }
+    clickSeek(start, this)
+  })
+})
+ if (_viewportHeight < _viewportWidth) {
+     _videoSize = parseInt(_viewportWidth / 400) - 1
+ } else {
+     _videoSize = parseInt(_viewportHeight / 500) - 1
+ }
+
+
+enlargeVideo();
+//let tempX = document.getElementsByTagName('body')[0]
+//tempX.innerHTML = tempX.innerHTML.replace(/<\/sub>\n\+\n<ruby/, "</sub>+<ruby")
+
+
+

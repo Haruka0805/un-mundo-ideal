@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>作品詳細 - 編み物作品ギャラリー</title>
+    <link rel="stylesheet" href="./styles.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+    <script src="./config.js"></script>
+    <script src="./firebase-init.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <strong>編み物作品ギャラリー</strong>
+          <span>作品詳細</span>
+        </div>
+        <div class="nav">
+          <a class="btn" href="./index.html">一覧へ</a>
+        </div>
+      </div>
+
+      <div id="status" class="status">読み込み中…</div>
+      <div id="panel" style="display: none">
+        <img id="hero" class="post-hero" src="" alt="cover" />
+        <div class="post-body panel">
+          <h1 id="title" class="post-title"></h1>
+          <div id="date" class="date"></div>
+          <p id="desc" class="post-desc"></p>
+          <div id="photos" class="photo-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./post-view.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,6 @@
+{
+  "name": "Self-Intro Voice App",
+  "description": "A polished self-introduction application featuring multi-language support and AI-powered voice playback using Gemini TTS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
