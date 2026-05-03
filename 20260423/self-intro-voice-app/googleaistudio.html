@@ -70,7 +70,10 @@
                 changeLang: "English",
                 title: "自己紹介",
                 playing: "再生中...",
-                playBtn: "再生"
+                playBtn: "再生",
+                backToTop: "ページトップへ",
+                videoTitle: "留学体験記ダネ（￣︶￣）↗　",
+                videoFile: "notebooklm.mp4"
             },
             en: {
                 name: "Haruka Aoki",
@@ -84,13 +87,173 @@
                 changeLang: "日本語",
                 title: "About Me",
                 playing: "Playing...",
-                playBtn: "PLAY"
+                playBtn: "PLAY",
+                backToTop: "Back to top",
+                videoTitle: "Introduction video",
+                videoFile: "eng_ai.mp4",
+                quizTitle: "Vocabulary & idioms quiz",
+                quizIntro: "Pre-1 / ~TOEIC 800 level: choose the best meaning or paraphrase. Words and phrases appear in the explainer video script.",
+                quizCheck: "See results",
+                quizRetry: "Try again",
+                quizNeedAll: "Please answer every question.",
+                quizScorePrefix: "Score:",
+                quizCorrect: "Correct",
+                quizYourAnswer: "Your answer"
             }
         };
+
+        /** English-only: 3-choice items from eng_ai explainer script (word / idiom meaning) */
+        const VIDEO_EN_VOCAB_QUIZ = [
+            {
+                id: 'vUnpack',
+                question: 'In “we’re unpacking … the college adventure”, unpack is closest to:',
+                choices: [
+                    'Put clothes into a suitcase',
+                    'Stop talking about the topic forever',
+                    'Explain or go through something carefully, step by step'
+                ],
+                correctIndex: 2
+            },
+            {
+                id: 'vCurveball',
+                question: 'When “life throws a massive curveball”, it suggests:',
+                choices: [
+                    'Everything becomes boring and slow',
+                    'Something difficult and unexpected happens although you felt prepared',
+                    'You receive a prize for sportsmanship'
+                ],
+                correctIndex: 1
+            },
+            {
+                id: 'vResource',
+                question: '"Resourcefulness" in the narration refers to:',
+                choices: [
+                    'Owning mines or underground fuel',
+                    'Relying only on institutional support',
+                    'Using clever practical ways to cope with limited options'
+                ],
+                correctIndex: 2
+            },
+            {
+                id: 'vUnadulterated',
+                question: '"Pure, unadulterated creativity" means creativity that is:',
+                choices: [
+                    'Barely noticeable',
+                    'Complete and undiluted—not mixed or weakened',
+                    'Strictly forbidden on campus'
+                ],
+                correctIndex: 1
+            },
+            {
+                id: 'vPristine',
+                question: 'A “misty … mountaintop … pristine nature” paints nature as:',
+                choices: [
+                    'Fresh, clean, and little spoiled by humans',
+                    'Polluted because of factories',
+                    'Totally imaginary, not real'
+                ],
+                correctIndex: 0
+            },
+            {
+                id: 'vMetro',
+                question: '"Metropolitan energy" describes the mood of:',
+                choices: [
+                    'A large city downtown area',
+                    'An isolated lighthouse',
+                    'A quiet suburban library only'
+                ],
+                correctIndex: 0
+            },
+            {
+                id: 'vAxe',
+                question: 'If Haruka’s program “gets the axe”, the program has been:',
+                choices: ['Promoted nationally', 'Cut and discontinued', 'Merged with medicine'],
+                correctIndex: 1
+            },
+            {
+                id: 'vRug',
+                question: '"Pull the rug out from under” her academic track means to:',
+                choices: [
+                    'Suddenly remove support or ruin a stable situation',
+                    'Offer scholarships unexpectedly',
+                    'Rebuild the campus quietly'
+                ],
+                correctIndex: 0
+            },
+            {
+                id: 'vCollateral',
+                question: '"Collateral damage” of the restructuring points to:',
+                choices: [
+                    'Planned bonuses for admins',
+                    'People harmed unintentionally by a bigger decision—e.g., professors caught in chaos',
+                    'Extra parking spaces gained'
+                ],
+                correctIndex: 1
+            },
+            {
+                id: 'vLifeline',
+                question: 'Her Spanish study became a “lifeline”, so it acted as:',
+                choices: [
+                    'Crucial help that keeps you going in a crisis',
+                    'A nautical rope unrelated to academics',
+                    'A typo in the subtitles'
+                ],
+                correctIndex: 0
+            },
+            {
+                id: 'vBarter',
+                question: 'The “ultimate barter system” (Japanese ⇄ Spanish lessons) means exchanging:',
+                choices: [
+                    'Services without paying money—trade of skills',
+                    'Only cryptocurrencies',
+                    'Textbooks owned by the library'
+                ],
+                correctIndex: 0
+            },
+            {
+                id: 'vMeticulously',
+                question: '"Meticulously” crafting the CSS design suggests Haruka:',
+                choices: [
+                    'Did it carelessly overnight',
+                    'Worked with extremely careful attention to detail',
+                    'Let someone else code everything blindly'
+                ],
+                correctIndex: 1
+            },
+            {
+                id: 'vEncapsulates',
+                question: 'If her motto “encapsulates” her blend of skills, encapsulates means:',
+                choices: [
+                    'Deletes all earlier memories',
+                    'Captures or sums up the whole idea neatly',
+                    'Postpones the conclusion forever'
+                ],
+                correctIndex: 1
+            },
+            {
+                id: 'vRuthless',
+                question: '"Ruthlessly cut their budget” shows the cuts were:',
+                choices: ['Optional and reversible', 'Harsh, no mercy—a strong tone', 'Secretly imaginary'],
+                correctIndex: 1
+            },
+            {
+                id: 'vWorkaround',
+                question: 'A clever “workaround” is:',
+                choices: [
+                    'A practical solution that bypasses obstacles',
+                    'A formal rule you must memorize',
+                    'Refusing every form of teamwork'
+                ],
+                correctIndex: 0
+            }
+        ];
 
         function App() {
             const [lang, setLang] = useState('ja');
             const [isPlaying, setIsPlaying] = useState(false);
+            const [quizPick, setQuizPick] = useState({});
+            const [quizGraded, setQuizGraded] = useState(false);
+            const [quizHint, setQuizHint] = useState('');
             const t = CONTENT[lang];
             const initials = t.name.split(' ').map(part => part[0]).join('').toUpperCase();
 
@@ -109,6 +272,44 @@
 
                 audio.onended = () => setIsPlaying(false);
             };
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [lang]);
+
+            useEffect(() => {
+                if (lang !== 'en') {
+                    setQuizPick({});
+                    setQuizGraded(false);
+                    setQuizHint('');
+                }
+            }, [lang]);
+
+            const quizSelect = (questionId, choiceIdx) => {
+                if (lang !== 'en' || quizGraded) return;
+                setQuizPick((prev) => ({ ...prev, [questionId]: choiceIdx }));
+                setQuizHint('');
+            };
+
+            const quizGrade = () => {
+                if (!VIDEO_EN_VOCAB_QUIZ.every((q) => quizPick[q.id] !== undefined)) {
+                    setQuizHint(CONTENT.en.quizNeedAll);
+                    return;
+                }
+                setQuizGraded(true);
+                setQuizHint('');
+            };
+
+            const quizReset = () => {
+                setQuizPick({});
+                setQuizGraded(false);
+                setQuizHint('');
+            };
+
+            const quizScore = VIDEO_EN_VOCAB_QUIZ.reduce(
+                (n, q) => n + (quizPick[q.id] === q.correctIndex ? 1 : 0),
+                0
+            );
 
             return (
                 <div className="min-h-screen p-4 md:p-8">
@@ -193,15 +394,104 @@
     Video / 動画
   </h3>
   <div className="aspect-video w-full bg-gray-900 border-4 border-black shadow-[4px_4px_0px_#4ECDC4] overflow-hidden rounded-xl">
-    <video 
-      controls 
+    <video
+      key={t.videoFile}
+      controls
       className="w-full h-full object-cover"
-        title="留学体験記ダネ（￣︶￣）↗　"
+      title={t.videoTitle}
     >
-      <source src="notebooklm.mp4" type="video/mp4" />
-      お使いのブラウザは動画タグをサポートしていません。
+      <source src={t.videoFile} type="video/mp4" />
+      {lang === 'ja'
+        ? 'お使いのブラウザは動画タグをサポートしていません。'
+        : 'Your browser does not support the video tag.'}
     </video>
   </div>
+  {lang === 'en' && (
+    <div className="vibrant-card mt-8 p-6 md:p-8 bg-white text-black border-black">
+      <div className="flex items-start gap-3 mb-6">
+        <span className="w-2 h-10 bg-[#FF6B6B] border-2 border-black shrink-0" />
+        <div>
+          <h4 className="text-lg font-black uppercase tracking-tight mono">{CONTENT.en.quizTitle}</h4>
+          <p className="text-sm md:text-base font-bold text-gray-700 mt-2 leading-snug">{CONTENT.en.quizIntro}</p>
+        </div>
+      </div>
+      <div className="space-y-8">
+        {VIDEO_EN_VOCAB_QUIZ.map((q, qi) => (
+          <fieldset key={q.id} className="border-0 p-0 m-0 min-w-0">
+            <legend className="font-black text-base mb-3 w-full">
+              <span className="inline-block mono text-xs opacity-70 mr-2">{qi + 1}.</span>
+              {q.question}
+            </legend>
+            <div className="flex flex-col gap-2">
+              {q.choices.map((label, ci) => {
+                const picked = quizPick[q.id] === ci;
+                const graded = quizGraded;
+                const isCorrectChoice = ci === q.correctIndex;
+                let ring = '';
+                let bg = 'bg-[#FFE66D]';
+                if (graded) {
+                  if (isCorrectChoice) {
+                    bg = 'bg-[#4ECDC4]';
+                  } else if (picked && !isCorrectChoice) {
+                    bg = 'bg-[#FFB4B4]';
+                  }
+                } else if (picked) {
+                  ring = 'ring-4 ring-black';
+                }
+                return (
+                  <button
+                    type="button"
+                    key={ci}
+                    disabled={graded}
+                    onClick={() => quizSelect(q.id, ci)}
+                    className={`w-full text-left pill px-4 py-3 font-bold text-sm border-black transition-opacity ${bg} ${ring} disabled:opacity-100 ${graded ? '' : 'hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px]'}`}
+                  >
+                    {label}
+                    {graded && picked && (
+                      <span className="block text-[10px] font-black uppercase mt-1 opacity-90">
+                        {isCorrectChoice ? `✓ ${CONTENT.en.quizCorrect}` : `✗ ${CONTENT.en.quizYourAnswer}`}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+        ))}
+      </div>
+      {quizHint && (
+        <p className="mt-6 text-sm font-black uppercase text-[#FF6B6B]" role="status">
+          {quizHint}
+        </p>
+      )}
+      <div className="mt-8 flex flex-wrap items-center gap-4">
+        {!quizGraded ? (
+          <button
+            type="button"
+            onClick={quizGrade}
+            className="pill bg-black text-white px-8 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_#4ECDC4] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#4ECDC4]"
+          >
+            {CONTENT.en.quizCheck}
+          </button>
+        ) : (
+          <>
+            <p className="font-black text-lg mono">
+              {CONTENT.en.quizScorePrefix}{' '}
+              <span className="text-[#FF6B6B]">{quizScore}</span>
+              {' '}/ {VIDEO_EN_VOCAB_QUIZ.length}
+            </p>
+            <button
+              type="button"
+              onClick={quizReset}
+              className="pill bg-[#FFE66D] px-8 py-3 font-black uppercase text-sm"
+            >
+              {CONTENT.en.quizRetry}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  )}
 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-w-0">
@@ -260,6 +550,16 @@
                                 
                             </div>
                         </main>
+
+                        <footer className="flex justify-center w-full mt-4">
+                            <a
+                                href="#top"
+                                className="inline-flex items-center gap-3 pill bg-[#FFE66D] px-8 py-3.5 rounded-full font-black uppercase text-sm tracking-wide text-black no-underline shadow-[4px_4px_0px_#1A1A1A] transition-transform hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#1A1A1A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF9F0]"
+                            >
+                                <i data-lucide="chevron-up" className="w-5 h-5 shrink-0" strokeWidth={2.5} />
+                                <span>{t.backToTop}</span>
+                            </a>
+                        </footer>
                     </div>
                 </div>
             );
@@ -268,9 +568,7 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
 
-        // Initialize Lucide icons
         setTimeout(() => lucide.createIcons(), 100);
     </script>
-    <p><a href="#top">ページトップへ</a></p>
 </body>
 </html>
