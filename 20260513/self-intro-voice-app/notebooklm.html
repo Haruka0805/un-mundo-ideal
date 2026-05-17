@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Transcript Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FFF9F0;
+            color: #1A1A1A;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.75;
+        }
+        .vibrant-card {
+            background: white;
+            border: 4px solid #1A1A1A;
+            box-shadow: 8px 8px 0px #1A1A1A;
+        }
+        .pill {
+            border: 2px solid #1A1A1A;
+            box-shadow: 3px 3px 0px #1A1A1A;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .transcript-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            border: 2px solid #1A1A1A;
+            background: #ffffff;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .transcript-line.active {
+            background-color: #FFE66D;
+            box-shadow: 4px 4px 0px #1A1A1A;
+        }
+        .play-btn {
+            background: #4ECDC4;
+            color: #1A1A1A;
+            border: 2px solid #1A1A1A;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            box-shadow: 4px 4px 0px #1A1A1A;
+        }
+        .play-btn:hover {
+            filter: brightness(1.05);
+        }
+        .play-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #1A1A1A;
+        }
+        .content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        .japanese {
+            font-weight: 700;
+            display: block;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+        .english {
+            display: block;
+            color: #1A1A1A;
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1.85;
+            letter-spacing: 0.01em;
+        }
+        .english.mono {
+            font-weight: 600;
+        }
+        .learning-hint {
+            font-size: 0.8rem;
+            color: #4b5563;
+            margin-bottom: 1rem;
+            padding: 10px 12px;
+            background: #FFE66D;
+            border: 2px solid #1A1A1A;
+            border-radius: 10px;
+        }
+        .word {
+            cursor: help;
+            border-bottom: 2px dotted #4ECDC4;
+            border-radius: 2px;
+            transition: background-color 0.15s;
+        }
+        .word:hover,
+        .word.word-active {
+            background-color: #FFE66D;
+        }
+        #dict-tooltip {
+            position: fixed;
+            z-index: 2000;
+            max-width: min(320px, calc(100vw - 24px));
+            padding: 10px 12px;
+            background: #1A1A1A;
+            color: #fff;
+            border: 3px solid #4ECDC4;
+            border-radius: 10px;
+            box-shadow: 6px 6px 0px #4ECDC4;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s;
+        }
+        #dict-tooltip.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #dict-tooltip .tt-word {
+            font-weight: 800;
+            color: #4ECDC4;
+            font-size: 1rem;
+        }
+        #dict-tooltip .tt-ja {
+            margin-top: 4px;
+            font-weight: 700;
+        }
+        #dict-tooltip .tt-en {
+            margin-top: 4px;
+            color: #d1d5db;
+            font-size: 0.8rem;
+        }
+        #dict-tooltip .tt-loading {
+            color: #9ca3af;
+        }
+        #dict-tooltip .tt-hint {
+            margin-top: 6px;
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+        #video-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            max-width: calc(100vw - 40px);
+            border: 4px solid #1A1A1A;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 8px 8px 0px #1A1A1A, 4px 4px 0px #4ECDC4 inset;
+            z-index: 1000;
+            background: #111827;
+        }
+        video {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body class="pb-80 md:pb-72">
+
+<div class="min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="vibrant-card p-6 md:p-8 bg-[#4ECDC4]/10">
+            <h1 class="text-2xl md:text-4xl font-black uppercase mb-8 md:mb-10 flex flex-wrap items-center gap-3 tracking-tight leading-tight">
+                <span class="w-2 h-10 md:h-12 bg-[#FF6B6B] border-2 border-black shrink-0"></span>
+                Documentary: Haruka's Survival Story
+            </h1>
+
+            <p class="learning-hint">
+                英文の単語にカーソルを当てると意味が表示されます。クリックすると Weblio で詳しく調べられます。
+            </p>
+
+            <div id="transcript">
+                <!-- JavaScriptでここにセリフが挿入されます -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="video-container">
+    <video id="audio-video" controls>
+        <source src="eng_ai.mp4" type="video/mp4">
+        お使いのブラウザは動画再生に対応していません。
+    </video>
+</div>
+
+<div id="dict-tooltip" role="tooltip" aria-hidden="true"></div>
+
+<script>
+    const transcriptData = [
+        { start: 0, text: "さあ、コーヒーを片手に落ち着いて。今日掘り下げる解説動画の内容は、共有せずにはいられないほどワイルドなものです。", en: "All right, grab a coffee and settle in because the explainer we're diving into today is just it's too wild not to share." },
+        { start: 8, text: "人生ですべてを理解したと思った矢先、大きな変化球が投げられる瞬間ってありますよね？", en: "You know those moments where life throws a massive curveball right when you think you've got it all figured out?" },
+        { start: 11, text: "ええ、誰にでもあります。でも正直、その変化球をどう打つかが重要なんです。今日は、ハルカ・アオキの伝説的で全く予想外の大学アドベンチャーを紐解きます。", en: "Yeah, we've all been there. But honestly, it's how we hit that curveball that really matters. Today, we're unpacking the legendary, completely unexpected college adventure of Haruka Aoki." },
+        { start: 19, text: "彼女がどのように組織の崩壊を経験し、純粋な機転でそれを乗り越えたかを見ていきましょう。これは苦難を克服する究極のサバイバルストーリーです。", en: "We're going to see exactly how she took a literal institutional collapse and just hacked your way through it with pure resourcefulness. It's basically the ultimate survival story of overcoming hardship." },
+        { start: 27, text: "メモを取りたくなるでしょうし、きっと途中で笑ってしまうはず。そして、この引用がこれから始まることを完璧に表しています。", en: "You're going to want to take notes and you'll definitely be laughing along the way. And well, this quote right here, it perfectly sets up what we're in for." },
+        { start: 36, text: "私の学生生活を一言で言えば、カオスと魔法の融合。真面目な話、なんて素晴らしいフックでしょう。", en: "My student life in a single phrase. A fusion of chaos and magic. Seriously, what an opening hook." },
+        { start: 43, text: "これは「一生懸命勉強して学位を取りました」という退屈な話ではありません。とんでもない。これは本格的なコメディ調の英雄の旅です。", en: "This isn't your standard boring I studied hard and got my degree kind of tale. No way. This is a full-on comedic hero's journey." },
+        { start: 51, text: "周囲の構造が崩れ去り、生き残るために純粋な創造性に頼らざるを得なくなった時のマスタークラスのようなものです。", en: "It's pretty much a master class in what happens when the very structures around you just fall apart and you're forced to rely on pure unadulterated creativity just to survive." },
+        { start: 58, text: "それでは始めましょう。パート1：カオスと魔法の始まり。", en: "So, let's get into it. Part one, the beginning of chaos and magic." },
+        { start: 64, text: "良い物語は夢から始まります。ハルカはバンクーバーのサイモンフレーザー大学（SFU）へ留学に出発します。", en: "Because, you know, every good story has to start with a dream. Heruka sets off to study abroad at Simon Frasier University in Vancouver." },
+        { start: 74, text: "カナダのSFUと聞くと、霧に包まれた人里離れた山頂のキャンパス、大自然に囲まれた場所を想像するでしょう？", en: "Now, when you hear Simon Frasier University in Canada, you probably picture this misty remote mountaintop campus totally surrounded by pristine nature, right?" },
+        { start: 81, text: "しかし、ハルカの現実はウォーターフロント駅のすぐ近くにある超都会的なダウンタウンのキャンパスでした。まさに街の中心です。", en: "But actually, Heruka's reality was this ultra urban downtown campus located right near Waterfront Station. I mean, dead center of the city." },
+        { start: 89, text: "でも、彼女は全く不満はありませんでした。大喜びでした。都会のエネルギーを吸収し、最高な学生生活を送っていると信じて疑いませんでした。", en: "But hey, she wasn't complaining at all. She was absolutely thrilled. She was living that peak city college girl life, soaking up all that metropolitan energy, really thinking she'd hit the absolute jackpot." },
+        { start: 96, text: "そしてパート2：突然のリストラ祭り。最高潮に達した瞬間、夢のシナリオは突如悪夢へと変わります。", en: "Which brings us to part two, sudden restructuring festival. So, right when she's at the absolute peak of her excitement, the dream scenario just abruptly turns into a total nightmare." },
+        { start: 104, text: "どこからともなく、大学が大規模な予算削減を発表します。そして、ハルカのプログラムが廃止されることになったのです。終了です。ドカン。", en: "Out of nowhere, the university announces these massive budget cuts. And guess what? Heruka's specific program gets the axe. It's officially terminated. Boom." },
+        { start: 119, text: "彼女の学年がそのプログラムの最後の卒業生となります。キャンパスは一晩で、彼女が面白おかしく呼ぶところの「リストラ祭り」へと変貌しました。", en: "Her cohort becomes the final class to ever go through it. The entire campus basically transforms overnight into what she hilariously calls a restructuring festival." },
+        { start: 127, text: "夢の学校に入り、都会生活に慣れた途端、大学側が学問の道を根こそぎ奪っていくのを想像してみてください。狂っていますよね？", en: "I mean, imagine finally getting to your dream school, settling into the city life, and then the administration just completely pulls the rug out from under your entire academic track. Crazy, right?" },
+        { start: 136, text: "そして、この混乱の二次被害を受けたのは誰か？教授たちです。", en: "And you know who became the collateral damage of all this administrative chaos? The professors." },
+        { start: 143, text: "かつて素晴らしく、刺激的だった教師たちが、魂の抜けた死んだような目で最後の授業を行うという、美しくも悲劇的な喜劇をハルカは語っています。", en: "Haruka describes this beautiful kind of tragic comedy where her once great, totally inspiring teachers end up teaching their final classes with just completely soulless dead eyes." },
+        { start: 156, text: "それが彼女のカナダでの一番の思い出です。美しいウォーターフロントではなく、予算削減で精神が崩壊し、虚空を見つめながら授業を進める教授の姿です。", en: "Like that is her standout memory of Canada. Not the beautiful waterfront, but her professors standing at the front of the lecture hall, spirits totally broken by the budget cuts, just staring blankly into the void while trying to get through the lesson." },
+        { start: 172, text: "さて、パート3：0円言語サバイバル。環境が目の前で崩壊しているとき、あなたならどうしますか？ 適応するしかありません。", en: "Okay, moving right along to part three. Zero yen language survival. So, what do you actually do when your environment is literally collapsing around you? Well, you adapt." },
+        { start: 176, text: "ハルカは絶望から即座にサバイバルモードへと切り替えました。彼女は命綱を必要とし、第二言語であるスペイン語の習得にそれを見出しました。", en: "Haruka shifted right from despair into pure survival mode. She needed a lifeline, and she actually found it in learning a second language, Spanish." },
+        { start: 184, text: "彼女はキャンパスでペルー人の学生と友人になり、究極の物ブツ交換システムを交渉しました。ハルカが日本語を教え、代わりにスペイン語を教えてもらう。", en: "She befriends a Peruvian student on campus and negotiates the ultimate barter system. Here's how it worked. Heruka provides Japanese lessons and in exchange, her new friend provides Spanish lessons." },
+        { start: 192, text: "費用は、きっかり0円。正直、天才的な発想です。SFUが容赦なく予算を削るなら、ハルカも自分の語学学習予算を削り返したのです。", en: "The total cost, exactly 0 yen. Honestly, it's an absolute stroke of genius. SFU decided to ruthlessly cut their budget. So, Heruka stepped up and hilariously cut her own language learning budget right back." },
+        { start: 201, text: "大学が提供できなくなった教育を、彼女は自らの手でコントロールしたのです。そして、非常に重要な質問に繋がります。", en: "She completely took control of her education when the institution couldn't provide it anymore. Which of course naturally leads us to a very very important question." },
+        { start: 214, text: "その素晴らしいハッスル、0円サバイバルシステム、そして危機の中での自己研鑽への献身。今の彼女のスペイン語はどうでしょうか？", en: "With all that incredible hustle, you know, that zero yen survival system and that intense dedication to self-improvement during a crisis, how is her Spanish now?" },
+        { start: 222, text: "ええ、彼女は完全に、100%きれいに諦めました。", en: "Yeah, she has completely 100% cleanly given up on it." },
+        { start: 228, text: "これが大好きなんです。最高のオチです。天才的で費用対効果の高いシステムを構築したにもかかわらず、結局スペイン語はやめてしまった。", en: "I just love this so much. It is the absolute perfect punchline. Despite building this genius, cost-effective system to survive the academic apocalypse, she eventually just dropped Spanish altogether." },
+        { start: 237, text: "でも、なぜこれが重要なのか。スペイン語そのものが目的ではなかったからです。主導権を握り、次のレベルを解禁する賢い回避策を見つけたという行動が重要だったのです。", en: "But here's why this actually matters. The Spanish itself wasn't really the point. It was the action of taking control, of finding a clever workaround that unlocked her next level." },
+        { start: 248, text: "それがパート4：魔法のアプリ開発へと繋がります。サバイバルエネルギーは消えませんでした。それは、カオスが魔法へと変わる場所へと向けられたのです。", en: "And that takes us to part four, magic app development. See, all that survival energy, it didn't just disappear. It got redirected into where the chaos finally transforms into magic." },
+        { start: 258, text: "ハルカはゼミで英語学習アプリの作成に心血を注ぎました。テーマは映画『アラジン』。でも、ただの単語帳アプリではありません。", en: "Heruka poured her absolute soul into creating an English learning app in her seminar, and she themed it entirely around the movie Aladdin." },
+        { start: 265, text: "彼女は世界観の構築に命を懸けました。CSSを駆使して、画面を開いた瞬間にアグラバーの熱気がデバイスから伝わってくるようなデザインを作り上げたのです。", en: "But listen, she didn't just make some basic flashcard app. No, she staked her life on the world building. She used CSS to meticulously craft the design so that the second you open the screen, you can practically feel the intense heat of Agribar radiating right off your device." },
+        { start: 279, text: "これこそが、彼女の大学生活の究極の対比です。片方にはカオスと絶望（リストラ祭りの犠牲者となり死んだ目をした教授たち）。", en: "And really, this is the ultimate contrast of her entire college experience. On one hand, you've got the chaos and despair, right? Her SFU teachers totally victims of the restructuring festival, just staring with those dead eyes." },
+        { start: 295, text: "もう片方には魔法と希望（彼女がコードした鮮やかなアラジン風のUI）。彼女は崩壊する環境の中で、自らの光をプログラミングしたのです。かっこいいですよね？", en: "And on the other hand, the magic and hope, her sparkling, vibrant, meticulously coded Aladdin Hop UI. She literally coded her own light in the middle of a collapsing academic environment. How cool is that?" },
+        { start: 309, text: "そして彼女の究極のモットー。正直、これは私たち全員が指針にすべき言葉です。", en: "Which brings us right to her ultimate takeaway motto. And honestly, these are words we should all probably live by." },
+        { start: 315, text: "「プログラムが消えても、私はアラジンの魔法とペルー人の友情で生き残る」。", en: "Even if the program disappears, I will survive with Aladdin's magic and Peruvian friendship." },
+        { start: 324, text: "サバイバルスキルとデザインへの執着が見事に融合しています。足元が崩れても、クリエイティブになり、周囲の人を頼り、情熱を注げば乗り越えられることを彼女は証明しました。", en: "It just perfectly encapsulates her totally unique blend of survival skills and design obsession. She proved that even if the ground beneath you gives way, you can conquer that collapse environment." },
+        { start: 335, text: "最後に問いかけたいと思います。あなたの環境が崩壊したとき（人生は予期せぬ展開が大好きですから）、", en: "So, as we wrap up this explainer, I want to leave you with a question. When your environment collapses, because let's face it, life loves throwing us a crazy plot twist." },
+        { start: 339, text: "あなたはどうやってサバイバルスキルと情熱を使い、新しい世界を切り拓きますか？ ハルカは新しい現実へとハックしました。あなたにできない理由はありません。", en: "How are you going to use your survival skills and your passions to open up a whole new world? Aruka hacked her way to a sparkling new reality, and there is absolutely no reason you can't, too." },
+        { start: 353, text: "次に大きな壁にぶつかったとき、ぜひ考えてみてください。今日はありがとうございました。楽しんでいただけたら幸いです。また次回。", en: "Definitely think about that the next time you face a major roadblock. Anyway, thanks for hanging out with me today. I really hope you found this as inspiring and frankly as hilarious as I did. Catch you next time." }
+    ];
+
+    const transcriptContainer = document.getElementById('transcript');
+    const video = document.getElementById('audio-video');
+    const tooltip = document.getElementById('dict-tooltip');
+    const dictCache = new Map();
+    let hideTooltipTimer = null;
+    let activeWordEl = null;
+
+    function wrapEnglishText(text) {
+        return text.replace(/\b([a-zA-Z]+(?:'[a-zA-Z]+)?)\b/g, (match, word) => {
+            const key = word.toLowerCase();
+            return `<span class="word" data-word="${key}" tabindex="0">${match}</span>`;
+        });
+    }
+
+    async function lookupWord(word) {
+        if (dictCache.has(word)) return dictCache.get(word);
+
+        const result = { ja: '', en: '' };
+
+        try {
+            const jishoRes = await fetch(`https://jisho.org/api/v1/search/words?keyword=${encodeURIComponent(word)}`);
+            const jishoJson = await jishoRes.json();
+            const entry = jishoJson.data?.find((d) =>
+                d.japanese?.length && d.senses?.[0]?.english_definitions?.length
+            ) || jishoJson.data?.[0];
+
+            if (entry) {
+                const jaParts = (entry.japanese || [])
+                    .map((j) => j.word || j.reading)
+                    .filter(Boolean);
+                if (jaParts.length) result.ja = jaParts.slice(0, 3).join('、');
+                result.en = entry.senses?.[0]?.english_definitions?.slice(0, 2).join('; ') || '';
+            }
+        } catch (_) { /* Jisho 失敗時は英辞書へ */ }
+
+        if (!result.en) {
+            try {
+                const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+                if (dictRes.ok) {
+                    const dictJson = await dictRes.json();
+                    const meaning = dictJson[0]?.meanings?.[0]?.definitions?.[0]?.definition;
+                    if (meaning) result.en = meaning;
+                }
+            } catch (_) { /* オフライン等 */ }
+        }
+
+        if (!result.ja && !result.en) {
+            result.en = '意味を取得できませんでした';
+        }
+
+        dictCache.set(word, result);
+        return result;
+    }
+
+    function positionTooltip(el) {
+        const rect = el.getBoundingClientRect();
+        const gap = 10;
+        let top = rect.top - tooltip.offsetHeight - gap;
+        let left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+
+        if (top < 8) top = rect.bottom + gap;
+        left = Math.max(12, Math.min(left, window.innerWidth - tooltip.offsetWidth - 12));
+
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`;
+    }
+
+    function showTooltipLoading(word, el) {
+        activeWordEl = el;
+        el.classList.add('word-active');
+        tooltip.innerHTML = `
+            <div class="tt-word">${word}</div>
+            <div class="tt-loading">読み込み中…</div>
+            <div class="tt-hint">クリックで Weblio を開く</div>
+        `;
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+        positionTooltip(el);
+    }
+
+    function showTooltipContent(word, data, el) {
+        activeWordEl = el;
+        el.classList.add('word-active');
+        tooltip.innerHTML = `
+            <div class="tt-word">${word}</div>
+            ${data.ja ? `<div class="tt-ja">${data.ja}</div>` : ''}
+            ${data.en ? `<div class="tt-en">${data.en}</div>` : ''}
+            <div class="tt-hint">クリックで Weblio を開く</div>
+        `;
+        tooltip.classList.add('visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+        positionTooltip(el);
+    }
+
+    function hideTooltip() {
+        if (activeWordEl) {
+            activeWordEl.classList.remove('word-active');
+            activeWordEl = null;
+        }
+        tooltip.classList.remove('visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+    }
+
+    async function onWordEnter(el) {
+        clearTimeout(hideTooltipTimer);
+        const word = el.dataset.word;
+        if (!word) return;
+
+        showTooltipLoading(word, el);
+        const data = await lookupWord(word);
+        if (activeWordEl === el) {
+            showTooltipContent(word, data, el);
+        }
+    }
+
+    function onWordLeave() {
+        hideTooltipTimer = setTimeout(hideTooltip, 120);
+    }
+
+    function openWeblio(word) {
+        window.open(`https://ejje.weblio.jp/content/${encodeURIComponent(word)}`, '_blank', 'noopener,noreferrer');
+    }
+
+    transcriptData.forEach((item, index) => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'transcript-line';
+        lineDiv.id = `line-${index}`;
+
+        lineDiv.innerHTML = `
+            <button type="button" class="play-btn" onclick="playFrom(${item.start})" aria-label="この位置から再生">▶</button>
+            <div class="content">
+                <span class="english mono">${wrapEnglishText(item.en)}</span>
+                <span class="japanese">${item.text}</span>
+            </div>
+        `;
+        transcriptContainer.appendChild(lineDiv);
+    });
+
+    transcriptContainer.addEventListener('mouseover', (e) => {
+        const el = e.target.closest('.word');
+        if (el) onWordEnter(el);
+    });
+    transcriptContainer.addEventListener('mouseout', (e) => {
+        const el = e.target.closest('.word');
+        if (el && !e.relatedTarget?.closest?.('.word')) onWordLeave();
+    });
+    transcriptContainer.addEventListener('click', (e) => {
+        const el = e.target.closest('.word');
+        if (el?.dataset.word) {
+            e.preventDefault();
+            openWeblio(el.dataset.word);
+        }
+    });
+    transcriptContainer.addEventListener('focusin', (e) => {
+        const el = e.target.closest('.word');
+        if (el) onWordEnter(el);
+    });
+    transcriptContainer.addEventListener('focusout', () => {
+        onWordLeave();
+    });
+
+    window.playFrom = function(seconds) {
+        video.currentTime = seconds;
+        video.play();
+    };
+
+    video.addEventListener('timeupdate', () => {
+        const currentTime = video.currentTime;
+
+        transcriptData.forEach((item, index) => {
+            const lineElement = document.getElementById(`line-${index}`);
+            const nextItem = transcriptData[index + 1];
+
+            if (currentTime >= item.start && (!nextItem || currentTime < nextItem.start)) {
+                lineElement.classList.add('active');
+            } else {
+                lineElement.classList.remove('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
