@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Self-Intro Voice App</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- React -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel (JSX) -->
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.10/babel.min.js"></script>
+
+    <style>
+        /* ===== Reset / Base ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #FFF9F0;
+            color: #1A1A1A;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== Layout ===== */
+        .page-wrap   { min-height: 100vh; padding: 1rem; }
+        .inner       { max-width: 72rem; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
+
+        /* ===== Header ===== */
+        .site-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .header-left { display: flex; align-items: center; gap: 0.75rem; }
+        .avatar-badge {
+            width: 3rem; height: 3rem;
+            background: #FF6B6B;
+            border: 2px solid black;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.1rem;
+            box-shadow: 2px 2px 0 #1A1A1A;
+            flex-shrink: 0;
+        }
+        .site-title  { font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.05em; }
+        .lang-switcher {
+            display: flex;
+            border: 4px solid black;
+            border-radius: 9999px;
+            overflow: hidden;
+            box-shadow: 4px 4px 0 #1A1A1A;
+        }
+        .lang-switcher button {
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s, color 0.15s;
+        }
+        .lang-switcher button.active  { background: black; color: white; }
+        .lang-switcher button.inactive { background: white; color: black; }
+        .lang-switcher button.inactive:hover { background: #f3f4f6; }
+
+        /* ===== Main Grid ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .main-grid { grid-template-columns: 5fr 7fr; }
+        }
+        @media (max-width: 640px) {
+            .page-wrap { padding: 0.75rem; }
+            .inner { gap: 1.5rem; }
+            .site-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding-bottom: 0.5rem;
+            }
+            .header-left { gap: 0.75rem; }
+            .lang-switcher { width: 100%; justify-content: stretch; }
+            .lang-switcher button { flex: 1; padding: 0.75rem 0.75rem; }
+            .card { padding: 1.4rem; }
+            .profile-card { gap: 1rem; }
+            .photo-wrap { width: 12rem; height: 12rem; }
+            .voice-box { padding: 1rem 1.1rem; }
+            .voice-controls { flex-wrap: wrap; gap: 0.75rem; }
+            .waveform { height: 2rem; }
+            .play-label { width: 100%; text-align: center; }
+            .video-wrap { border-width: 3px; }
+            .transcript-btn { padding: 0.9rem 1rem; gap: 0.65rem; font-size: 0.8rem; }
+            .video-modal { max-width: 100%; width: 100%; margin: 0 0.5rem; }
+            .video-modal header { padding: 0.85rem 1rem; }
+            .video-modal video { min-height: 220px; }
+            .sub-grid { gap: 1.25rem; }
+            .skills-list { gap: 0.35rem; }
+            .skill-pill { padding: 0.35rem 0.85rem; font-size: 0.75rem; }
+            .map-wrap { aspect-ratio: 4/3; }
+            .back-top-btn { width: 100%; justify-content: center; padding: 0.85rem 1rem; }
+        }
+        @media (max-width: 480px) {
+            .site-title { font-size: 1rem; }
+            .profile-name { font-size: 1.7rem; }
+            .profile-role { font-size: 1rem; margin-bottom: 1.25rem; }
+            .section-heading { font-size: 1rem; gap: 0.55rem; margin-bottom: 1rem; }
+            .heading-bar { height: 1.6rem; }
+            .bio-text { font-size: 0.95rem; line-height: 1.7; }
+            .transcript-btn { flex-direction: column; }
+            .project-intro, .project-item { font-size: 0.9rem; }
+            .project-list { padding-left: 1rem; }
+        }
+        .col-left, .col-right { display: flex; flex-direction: column; gap: 2rem; min-width: 0; }
+
+        /* ===== Cards ===== */
+        .card {
+            background: white;
+            border: 4px solid #1A1A1A;
+            box-shadow: 8px 8px 0 #1A1A1A;
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+        }
+        .card-teal   { background: rgba(78,205,196,0.12); }
+        .card-dark   { background: #1A1A1A; color: white; }
+        .card-yellow { background: #FFE66D; }
+        .card-cyan   { background: #4ECDC4; }
+        .card-salmon { background: rgba(255,107,107,0.10); }
+
+        /* ===== Profile Card ===== */
+        .profile-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .photo-wrap {
+            width: 15rem; height: 15rem;
+            border-radius: 50%;
+            border: 4px solid black;
+            overflow: hidden;
+            background: #FFE66D;
+            margin-bottom: 1.5rem;
+            box-shadow: 4px 4px 0 #1A1A1A;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .photo-wrap:hover { transform: scale(1.03); }
+        .photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 2.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 0.25rem; }
+        .profile-role { font-size: 1.1rem; font-weight: 700; color: #6b7280; font-style: italic; margin-bottom: 2rem; }
+        .video-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 1000;
+        }
+        .video-modal {
+            width: min(100%, 90rem);
+            max-width: 48rem;
+            background: #111827;
+            border: 4px solid black;
+            border-radius: 1rem;
+            box-shadow: 0 0 0 6px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+        .video-modal header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: #1a1a1a;
+            color: white;
+        }
+        .video-modal h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+        .video-modal button.close-modal {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            background: white;
+            color: black;
+            border-radius: 9999px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 #000;
+        }
+        .video-modal video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: black;
+        }
+
+        /* ===== Voice Player ===== */
+        .voice-box {
+            width: 100%;
+            background: #f9fafb;
+            border: 4px solid black;
+            border-radius: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 4px 4px 0 #1A1A1A;
+        }
+        .voice-label { font-size: 0.625rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #9ca3af; text-align: center; margin-bottom: 0.75rem; }
+        .voice-controls { display: flex; align-items: center; gap: 1rem; }
+        .play-btn {
+            width: 3.5rem; height: 3.5rem;
+            background: #4ECDC4;
+            border: 2px solid black;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #1A1A1A;
+            transition: opacity 0.15s, transform 0.1s, box-shadow 0.1s;
+            flex-shrink: 0;
+        }
+        .play-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #1A1A1A; }
+        .play-btn.disabled { opacity: 0.5; cursor: default; }
+        .play-btn svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+        .waveform { flex: 1; display: flex; align-items: flex-end; gap: 2px; height: 2.5rem; padding: 0 0.5rem; }
+        .wave-bar { flex: 1; background: #FF6B6B; border: 1px solid black; border-radius: 9999px; }
+        .play-label { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; }
+
+        /* ===== Section Heading ===== */
+        .section-heading {
+            font-size: 1.1rem; font-weight: 900; text-transform: uppercase;
+            display: flex; align-items: center; gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .heading-bar { width: 0.375rem; height: 2rem; border: 2px solid black; display: block; flex-shrink: 0; }
+        .bar-red    { background: #FF6B6B; }
+        .bar-teal   { background: #4ECDC4; }
+        .bar-black  { background: #1A1A1A; border-color: #1A1A1A; }
+
+        /* ===== Bio ===== */
+        .bio-text { font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.8; font-weight: 700; color: #374151; }
+
+        /* ===== Video ===== */
+        .video-wrap {
+            aspect-ratio: 16/9;
+            background: #111827;
+            border: 4px solid black;
+            box-shadow: 4px 4px 0 #4ECDC4;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .transcript-btn {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border: 4px solid black;
+            border-radius: 0.75rem;
+            background: #FFE66D;
+            color: black;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            text-decoration: none;
+            box-shadow: 4px 4px 0 #4ECDC4;
+            transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+        }
+        .transcript-btn:hover  { background: #f5db00; }
+        .transcript-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #4ECDC4; }
+        .transcript-btn svg    { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
+        .transcript-sub { font-size: 0.625rem; font-weight: 700; text-transform: none; color: #374151; }
+
+        /* ===== Sub-grid ===== */
+        .sub-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 640px) {
+            .sub-grid { grid-template-columns: 1fr 1fr; }
+            .sub-grid .span-2 { grid-column: 1 / -1; }
+        }
+
+        /* ===== Skills ===== */
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .skill-pill {
+            background: white;
+            border: 2px solid black;
+            box-shadow: 3px 3px 0 #1A1A1A;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 0.375rem;
+        }
+
+        /* ===== My Project ===== */
+        .project-intro {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            padding-left: 1.2rem;
+        }
+        .project-item {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.6;
+            color: #1A1A1A;
+        }
+
+        /* ===== MBTI ===== */
+        .mbti-badge {
+            display: inline-block;
+            background: #FF6B6B;
+            border: 4px solid black;
+            box-shadow: 4px 4px 0 #1A1A1A;
+            padding: 0.5rem 1.25rem;
+            font-weight: 900;
+            font-size: 1.rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== Contact ===== */
+        .contact-label { font-size: 0.625rem; font-weight: 900; text-transform: uppercase; color: #FF6B6B; margin-bottom: 0.25rem; }
+        .contact-value { font-weight: 700; word-break: break-all; }
+        .map-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border: 4px solid black;
+            border-radius: 0.75rem;
+            box-shadow: 4px 4px 0 #1A1A1A;
+            margin-top: 0.75rem;
+        }
+        .map-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ===== Footer ===== */
+        .site-footer { display: flex; justify-content: center; margin-top: 1rem; }
+        .back-top-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #FFE66D;
+            border: 2px solid black;
+            box-shadow: 4px 4px 0 #1A1A1A;
+            padding: 0.875rem 2rem;
+            border-radius: 9999px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: black;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .back-top-btn:hover  { transform: translateY(-2px); }
+        .back-top-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #1A1A1A; }
+        .back-top-btn svg    { width: 1.25rem; height: 1.25rem; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── inline SVG icons ── */
+const IconPlay = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="5,3 19,12 5,21"/>
+    </svg>
+);
+const IconFileText = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+    </svg>
+);
+const IconExternalLink = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+    </svg>
+);
+const IconChevronUp = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+    </svg>
+);
+const IconClose = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+);
+
+/* ── content ── */
+const CONTENT = {
+    ja: {
+        name: "青木 ",
+        role: "専修大学 4年生",
+        bio: "こんにちは！私は青木です。第二言語はスペイン語を選択していました。留学はカナダのバンクーバーにあるサイモンフレーザー大学に行きました。これまでのゼミの活動では、映画「アラジン」の「ホール・ニュー・ワールド」を題材にして、英語を楽しく学べるアプリを作成しました。よろしくお願いします。",
+        skills: ["HTML", "CSS", "JavaScript", "TOEIC 915"],
+        MBTI: "ENFP",
+        location: "東京, 日本",
+        email: "gc231116@senshu-u.jp",
+        playBtn: "再生",
+        backToTop: "ページトップへ",
+        videoTitle: "留学体験記ダネ（￣︶￣）↗",
+        videoFile: "notebooklm.mp4",
+        transcriptTabLink: "字幕ページへ",
+        transcriptTabLinkSub: "notebooklm.html を開く",
+        myProjectTitle: "My Project / マイプロジェクト",
+        myProjectIntro: "これまで佐藤ゼミで制作したwebアプリの紹介",
+        myProjectItems: ["アラジンで学ぶ英語", "アナ雪で学ぶ英語", ],
+        audioFile: "./71hello.wav",
+        noVideoSupport: "お使いのブラウザは動画タグをサポートしていません。"
+    },
+    en: {
+        name: "Aoki",
+        role: "Senshu University Senior",
+        bio: "Hello. My name is  Aoki. I chose Spanish as my second language. For my study abroad program, I went to Simon Fraser University in Vancouver, Canada. In my seminar, I developed an English learning app using the song 'A Whole New World' from the movie Aladdin to make learning more fun. Thank you.",
+        skills: ["HTML", "CSS", "JavaScript", "TOEIC 915"],
+        MBTI: "ENFP",
+        location: "Tokyo, Japan",
+        email: "gc231116@senshu-u.jp",
+        playBtn: "PLAY",
+        backToTop: "Back to top",
+        videoTitle: "Introduction video",
+        videoFile: "eng_ai.mp4",
+        transcriptTabLink: "Transcript page",
+        transcriptTabLinkSub: "Open notebooklm.html",
+        myProjectTitle: "My Project",
+        myProjectIntro: "Introduction to web apps created in Sato Seminar",
+        myProjectItems: ["Aladdin Web App ", "Frozen Web App",],
+        audioFile: "./71hello_en.wav",
+        noVideoSupport: "Your browser does not support the video tag."
+    }
+};
+
+const WAVE_HEIGHTS = [0.6, 1.0, 0.7, 0.9, 0.4, 0.8, 1.0, 0.5, 0.7, 0.9, 0.3, 0.8, 1.0, 0.5, 0.6, 0.9, 0.7];
+
+function App() {
+    const [lang, setLang] = useState('ja');
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [showVideoModal, setShowVideoModal] = useState(false);
+    const audioRef = useRef(null);
+    const t = CONTENT[lang];
+    const initials = t.name.split(' ').map(p => p[0]).join('').toUpperCase();
+
+    /* 言語切替時に再生中の音声を止める */
+    const switchLang = (l) => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current = null;
+        }
+        setIsPlaying(false);
+        setShowVideoModal(false);
+        setLang(l);
+    };
+    const openIntroVideo = () => setShowVideoModal(true);
+    const closeIntroVideo = () => setShowVideoModal(false);
+
+    const handlePlayVoice = () => {
+        if (isPlaying) return;
+        const audio = new Audio(t.audioFile);
+        audioRef.current = audio;
+        setIsPlaying(true);
+        audio.play().catch(err => {
+            console.error("Playback failed:", err);
+            alert(`${t.audioFile} が見つからないか再生できませんでした。同じフォルダにファイルを置いてください。`);
+            setIsPlaying(false);
+        });
+        audio.onended = () => setIsPlaying(false);
+    };
+
+    return (
+        <div className="page-wrap">
+            <div className="inner">
+
+                {/* ── Header ── */}
+                <header id="top" className="site-header">
+                    <div className="header-left">
+                        <div className="avatar-badge">{initials}</div>
+                        <span className="site-title">
+                            HELLO. / {lang === 'ja' ? 'こんにちは。' : 'Hi.'}
+                        </span>
+                    </div>
+                    <div className="lang-switcher">
+                        <button onClick={() => switchLang('ja')} className={lang === 'ja' ? 'active' : 'inactive'}>JP</button>
+                        <button onClick={() => switchLang('en')} className={lang === 'en' ? 'active' : 'inactive'}>EN</button>
+                    </div>
+                </header>
+
+                {/* ── Main ── */}
+                <main className="main-grid">
+
+                    {/* Left */}
+                    <div className="col-left">
+                        <div className="card profile-card">
+                            <div
+                                className="photo-wrap"
+                                role="button"
+                                tabIndex="0"
+                                title={lang === 'ja' ? 'クリックして！' : 'Click here!'}
+                                aria-label={lang === 'ja' ? '自己紹介動画を再生' : 'Open introduction video'}
+                                onClick={openIntroVideo}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter' || event.key === ' ') {
+                                        event.preventDefault();
+                                        openIntroVideo();
+                                    }
+                                }}
+                            >
+                                <img src="./myphoto.jpg" alt="Profile photo" />
+                            </div>
+                            <h1 className="profile-name">{t.name}</h1>
+                            <p className="profile-role">{t.role}</p>
+
+                            <div className="voice-box">
+                                <p className="voice-label">Voice Introduction</p>
+                                <div className="voice-controls">
+                                    <button
+                                        onClick={handlePlayVoice}
+                                        className={`play-btn${isPlaying ? ' disabled' : ''}`}
+                                        aria-label={lang === 'ja' ? '音声を再生' : 'Play voice'}
+                                        disabled={isPlaying}
+                                    >
+                                        <IconPlay />
+                                    </button>
+                                    <div className="waveform" aria-hidden="true">
+                                        {WAVE_HEIGHTS.map((h, i) => (
+                                            <div key={i} className="wave-bar" style={{ height: `${h * 100}%` }} />
+                                        ))}
+                                    </div>
+                                    <span className="play-label">{t.playBtn}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right */}
+                    <div className="col-right">
+
+                        {/* Bio */}
+                        <div className="card card-teal">
+                            <h2 className="section-heading">
+                                <span className="heading-bar bar-red"></span>
+                                Bio / 自己紹介
+                            </h2>
+                            <p className="bio-text">{t.bio}</p>
+                        </div>
+
+                        {/* Video */}
+                        <div className="card card-dark">
+                            <h2 className="section-heading" style={{color:'white'}}>
+                                <span className="heading-bar bar-teal"></span>
+                                Video / 動画
+                            </h2>
+                            <div className="video-wrap">
+                                <video key={t.videoFile} controls title={t.videoTitle}>
+                                    <source src={t.videoFile} type="video/mp4" />
+                                    {t.noVideoSupport}
+                                </video>
+                            </div>
+                            <a
+                                href="notebooklm.html"
+                                className="transcript-btn"
+                                aria-label={lang === 'ja' ? '字幕ページ notebooklm.html を開く' : 'Open transcript page notebooklm.html'}
+                            >
+                                <IconFileText />
+                                <span style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'2px', textAlign:'center'}}>
+                                    <span>{t.transcriptTabLink}</span>
+                                    <span className="transcript-sub">{t.transcriptTabLinkSub}</span>
+                                </span>
+                                <IconExternalLink />
+                            </a>
+                        </div>
+
+                        {/* Sub grid */}
+                        <div className="sub-grid">
+
+                            {/* My Project */}
+                            <div className="card card-salmon span-2">
+                                <h2 className="section-heading">
+                                    <span className="heading-bar bar-red"></span>
+                                    {t.myProjectTitle}
+                                </h2>
+                                <p className="project-intro">{t.myProjectIntro}</p>
+                                <ul className="project-list">
+                                    {t.myProjectItems.map(item => (
+                                        <li key={item} className="project-item">
+                                            {item === 'アラジンで学ぶ英語' ? (
+                                                <a href="../explanation/52umekomi.html">{item}</a>
+                                            ) : item === 'アナ雪で学ぶ英語' ? (
+                                                <a href="frozon.html">{item}</a>
+                                            ) : (
+                                                item
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Skills */}
+                            <div className="card card-yellow">
+                                <h2 className="section-heading">
+                                    <span className="heading-bar bar-black"></span>
+                                    Skills / スキル
+                                </h2>
+                                <div className="skills-list">
+                                    {t.skills.map(s => <span key={s} className="skill-pill">{s}</span>)}
+                                </div>
+                            </div>
+
+                            {/* MBTI */}
+                            <div className="card card-cyan">
+                                <h2 className="section-heading">
+                                    <span className="heading-bar bar-red"></span>
+                                    MBTI
+                                </h2>
+                                <div className="mbti-badge">{t.MBTI}</div>
+                            </div>
+
+                            {/* Contact */}
+                            <div className="card card-salmon span-2">
+                                <h2 className="section-heading">
+                                    <span className="heading-bar bar-teal"></span>
+                                    Contact / 連絡
+                                </h2>
+                                <div style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+                                    <div>
+                                        <p className="contact-label">Location</p>
+                                        <p className="contact-value">{t.location}</p>
+                                        <div className="map-wrap">
+                                            <iframe
+                                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.194030903937!2d139.75157457578837!3d35.696842572582234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c14e6b94efd%3A0xf4081c42ef28c78!2z5bCC5L-u5aSn5a2mIOelnueUsOOCreODo-ODs-ODkeOCuQ!5e0!3m2!1sja!2sjp!4v1784105476104!5m2!1sja!2sjp"
+                                                allowFullScreen
+                                                loading="lazy"
+                                                referrerPolicy="no-referrer-when-downgrade"
+                                                title="Google Maps"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="contact-label">Email</p>
+                                        <p className="contact-value" style={{textDecoration:'underline'}}>{t.email}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>{/* /sub-grid */}
+                    </div>{/* /col-right */}
+                </main>
+
+                {showVideoModal && (
+                    <div className="video-modal-backdrop" onClick={closeIntroVideo}>
+                        <div className="video-modal" onClick={(event) => event.stopPropagation()}>
+                            <header>
+                                <h3>{lang === 'ja' ? 'プロフィール動画' : 'Profile introduction'}</h3>
+                                <button className="close-modal" onClick={closeIntroVideo} aria-label={lang === 'ja' ? '閉じる' : 'Close'}>
+                                    <IconClose />
+                                </button>
+                            </header>
+                            <video controls autoPlay src="introduce.mp4" type="video/mp4">
+                                {t.noVideoSupport}
+                            </video>
+                        </div>
+                    </div>
+                )}
+                {/* ── Footer ── */}
+                <footer className="site-footer">
+                    <a href="#top" className="back-top-btn">
+                        <IconChevronUp />
+                        <span>{t.backToTop}</span>
+                    </a>
+                </footer>
+
+            </div>
+        </div>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>❄️ Frozen English — アレンデール英語学習</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 雪 Canvas -->
+  <canvas id="snowCanvas"></canvas>
+
+  <!-- ===== ヘッダー ===== -->
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <i class="fas fa-snowflake logo-icon"></i>
+        <h1 class="logo-text">Frozen English</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== メインコンテンツ ===== -->
+  <main id="main-content">
+
+    <!-- 使い方ヒント -->
+    <div id="hint-bar">
+      <i class="fas fa-hand-pointer"></i>
+      <span>単語をクリックすると意味が表示されます。</span>
+    </div>
+
+    <!-- 進捗バー -->
+    <div id="progress-wrap">
+      <div id="progress-track">
+        <div id="progress-fill"></div>
+      </div>
+      <span id="progress-label">0 / 6</span>
+    </div>
+
+    <!-- 文章カードリスト -->
+    <section id="sentence-area">
+      <!-- JS で生成 -->
+    </section>
+
+    <!-- 単語ポップアップ -->
+    <div id="word-popup" class="hidden" role="dialog" aria-modal="true">
+      <div class="popup-box">
+        <button id="popup-close" aria-label="閉じる"><i class="fas fa-times"></i></button>
+        <p id="popup-word"></p>
+        <p id="popup-phonetic"></p>
+        <span id="popup-pos"></span>
+        <p id="popup-meaning"></p>
+        <p id="popup-example"></p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== 下部固定ツールバー ===== -->
+  <footer id="toolbar">
+    <div class="toolbar-inner">
+
+      <!-- 左：再生中テキスト表示 -->
+      <div class="toolbar-now-playing" id="nowPlayingWrap">
+        <div class="now-playing-bars" id="nowPlayingBars">
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+          <span class="eq-bar"></span>
+        </div>
+        <span id="nowPlayingText">— 文章を選んで再生してください —</span>
+      </div>
+
+      <!-- 中央：主要ボタン -->
+      <div class="toolbar-main-btns">
+        <button id="btnStop" class="btn-main" aria-label="再生">
+          <i class="fas fa-play"></i>
+        </button>
+        <button id="btnReplay" class="btn-main" disabled aria-label="再再生">
+          <i class="fas fa-rotate-left"></i>
+        </button>
+      </div>
+
+      <!-- 右：設定ボタン -->
+      <button id="btnSettings" class="btn-settings">
+        <i class="fas fa-cog"></i>
+      </button>
+    </div>
+
+    <!-- 設定パネル（ポップアップ）-->
+    <div id="settings-panel" class="settings-panel hidden">
+      <div class="settings-content">
+        <!-- 速度 -->
+        <div class="tb-group">
+          <label for="speedRange"><i class="fas fa-gauge-high"></i> 速度</label>
+          <div class="slider-row">
+            <input type="range" id="speedRange" min="0.5" max="1.5" step="0.1" value="0.9" />
+            <span id="speedVal" class="tb-val">0.9x</span>
+          </div>
+        </div>
+        <!-- 音声 -->
+        <div class="tb-group">
+          <label for="voiceSelect"><i class="fas fa-microphone"></i> 音声</label>
+          <select id="voiceSelect"></select>
+        </div>
+        <!-- 自動進行 -->
+        <div class="tb-group tb-group--toggle">
+          <label><i class="fas fa-forward-step"></i> 自動進行</label>
+          <label class="toggle">
+            <input type="checkbox" id="autoToggle" checked />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <!-- 待機時間 -->
+        <div class="tb-group" id="delayGroup">
+          <label for="delayRange"><i class="fas fa-hourglass-half"></i> 待機</label>
+          <div class="slider-row">
+            <input type="range" id="delayRange" min="1" max="8" step="0.5" value="3" />
+            <span id="delayVal" class="tb-val">3.0秒</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
